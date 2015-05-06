@@ -3,6 +3,7 @@ package com.intrafab.cartomoneya;
 import android.content.Context;
 import android.support.multidex.MultiDexApplication;
 
+import com.intrafab.cartomoneya.data.User;
 import com.intrafab.cartomoneya.utils.Logger;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
@@ -11,6 +12,17 @@ import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
  * Created by Artemiy Terekhov on 06.05.2015.
  */
 public class AppApplication extends MultiDexApplication {
+
+    private User userInfo;
+
+    public User getUserInfo() {
+        return userInfo;
+    }
+
+    public void setUserInfo(User userInfo) {
+        this.userInfo = userInfo;
+    }
+
     @Override
     public void onCreate() {
         initCalligraphy();
