@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Rest Examples</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="get_request">Get request</string>
+    <string name="responce">Responce</string>
+</resources>
