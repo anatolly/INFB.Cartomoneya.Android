@@ -14,7 +14,7 @@ import retrofit.http.GET;
 public interface HttpRestService {
 
     @GET("/user")
-    public User getUserInfo();
+    public List<User> getUsers();
 
     @GET("/shopcard")
     public List<ShopCard> getShopCards();
