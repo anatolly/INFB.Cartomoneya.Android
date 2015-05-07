@@ -33,6 +33,12 @@
         <activity
             android:name=".ShopCardDetailActivity"
             android:screenOrientation="sensorPortrait"></activity>
+        <activity
+            android:name=".OffersActivity"
+            android:screenOrientation="sensorPortrait"></activity>
+        <activity
+            android:name=".ShoppingListActivity"
+            android:screenOrientation="sensorPortrait"></activity>
 
         <service android:name="com.telly.groundy.GroundyService" />
     </application>

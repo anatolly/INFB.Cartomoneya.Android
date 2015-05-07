@@ -199,7 +199,14 @@ public class ShoppingCardsActivity extends BaseActivity
 
     @Override
     public void onClick(View v) {
-
+        switch (v.getId()) {
+            case R.id.btnOffers:
+                OffersActivity.launch(this);
+                break;
+            case R.id.btnShoppingList:
+                ShoppingListActivity.launch(this);
+                break;
+        }
     }
 
     @Override
