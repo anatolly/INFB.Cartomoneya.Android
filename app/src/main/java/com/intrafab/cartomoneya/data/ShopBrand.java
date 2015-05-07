@@ -21,10 +21,31 @@ public class ShopBrand implements Parcelable {
         }
     };
 
+    private int id;
+    private String name;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public ShopBrand() {
     }
 
     public ShopBrand(Parcel source) {
+        id = source.readInt();
+        name = source.readString();
     }
 
     public ShopBrand(JSONObject object) {
@@ -39,5 +60,7 @@ public class ShopBrand implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(name);
     }
 }

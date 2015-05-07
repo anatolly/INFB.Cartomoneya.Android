@@ -3,4 +3,9 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+
+    <!-- Shopping Cards -->Shopping Cards
+    <string name="shopping_card_screen_header">Shopping Cards</string>
+    <string name="shopping_card_name_unknown">Unknown</string>
+    <string name="empty_state_shopping_list">List is empty.\n Tap + to add.</string>
 </resources>
