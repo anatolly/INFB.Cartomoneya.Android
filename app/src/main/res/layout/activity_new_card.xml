@@ -12,4 +12,173 @@
         android:layout_height="wrap_content"
         android:minHeight="?attr/actionBarSize" />
 
+    <ScrollView
+        android:id="@+id/scroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#f4f4f4"
+        android:fillViewport="true"
+        android:overScrollMode="never">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TableRow
+                android:id="@+id/layoutCardImages"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="8dp"
+                android:gravity="center_vertical"
+                android:minHeight="?attr/actionBarSize">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvFrontImage"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:gravity="center_horizontal"
+                        android:text="Front Image"
+                        android:textColor="@color/colorLightTextMain"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textSize="14sp" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tvFrontImage"
+                        android:layout_margin="8dp"
+                        android:background="@drawable/bg_card_frame">
+
+                        <ImageView
+                            android:id="@+id/ivFrontImage"
+                            android:layout_width="match_parent"
+                            android:layout_height="80dp" />
+
+                        <ImageView
+                            android:id="@+id/ivIconAddFront"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true"
+                            android:src="@mipmap/ic_add" />
+                    </RelativeLayout>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvBackImage"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:gravity="center_horizontal"
+                        android:text="Back Image"
+                        android:textColor="@color/colorLightTextMain"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textSize="14sp" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tvBackImage"
+                        android:layout_margin="8dp"
+                        android:background="@drawable/bg_card_frame">
+
+                        <ImageView
+                            android:id="@+id/ivBackImage"
+                            android:layout_width="match_parent"
+                            android:layout_height="80dp" />
+
+                        <ImageView
+                            android:id="@+id/ivIconAddBack"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true"
+
+                            android:src="@mipmap/ic_add" />
+                    </RelativeLayout>
+
+                </RelativeLayout>
+
+            </TableRow>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/layoutCardImages"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvBarcode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center_horizontal"
+                    android:text="Barcode"
+                    android:textColor="@color/colorLightTextMain"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textSize="14sp" />
+
+                <RelativeLayout
+                    android:id="@+id/layoutBarcode"
+                    android:layout_width="250dp"
+                    android:layout_height="80dp"
+                    android:layout_below="@+id/tvBarcode"
+                    android:layout_centerHorizontal="true"
+                    android:layout_margin="8dp"
+                    android:background="@drawable/bg_card_frame">
+
+                    <ImageView
+                        android:id="@+id/ivBarcodeImage"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_centerHorizontal="true"
+                        android:scaleType="fitXY"
+                        android:src="@mipmap/ic_barcode" />
+
+                    <ImageView
+                        android:id="@+id/ivIconAddBarcode"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:src="@mipmap/ic_add"
+                        android:visibility="gone" />
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/tvBarcodeNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/layoutBarcode"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center_horizontal"
+                    android:text="1221434253436546"
+                    android:textColor="@color/colorLightTextMain"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textSize="18sp" />
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+    </ScrollView>
+
 </LinearLayout>
