@@ -5,8 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.balysv.materialripple.MaterialRippleLayout;
 import com.intrafab.cartomoneya.actions.ActionRequestShoppingCardsTask;
@@ -170,6 +173,30 @@ public class ShoppingCardsActivity extends BaseActivity
 
         fragment.showProgress();
         getLoaderManager().initLoader(LOADER_SHOP_CARD_ID, null, mLoaderCallback);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_shop_card, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            Toast.makeText(this, "Coming soon. Show settings screen", Toast.LENGTH_SHORT).show();
+            return true;
+        } else if (id == R.id.action_search_card) {
+            Toast.makeText(this, "Coming soon. Show search", Toast.LENGTH_SHORT).show();
+            return true;
+        } else if (id == R.id.action_add_card) {
+            NewCardActivity.launch(this);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
