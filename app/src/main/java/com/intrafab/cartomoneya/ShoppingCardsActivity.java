@@ -15,6 +15,7 @@ import com.balysv.materialripple.MaterialRippleLayout;
 import com.intrafab.cartomoneya.actions.ActionRequestShoppingCardsTask;
 import com.intrafab.cartomoneya.adapters.ShopCardAdapter;
 import com.intrafab.cartomoneya.data.ShopCard;
+import com.intrafab.cartomoneya.db.DBManager;
 import com.intrafab.cartomoneya.fragments.PlaceholderShoppingCardsFragment;
 import com.intrafab.cartomoneya.loaders.ShopCardListLoader;
 import com.intrafab.cartomoneya.utils.Logger;
@@ -193,6 +194,17 @@ public class ShoppingCardsActivity extends BaseActivity
             return true;
         } else if (id == R.id.action_add_card) {
             NewCardActivity.launch(this);
+            return true;
+        } else if (id == R.id.action_sync) {
+            PlaceholderShoppingCardsFragment fragment = getFragment();
+            if (fragment == null)
+                return true;
+
+            if (fragment != null) {
+                fragment.hideProgress();
+                fragment.setData(null);
+            }
+            DBManager.getInstance().deleteObject(Constants.Prefs.PREF_PARAM_SHOPPING_CARDS, ShopCardListLoader.class);
             return true;
         }
 

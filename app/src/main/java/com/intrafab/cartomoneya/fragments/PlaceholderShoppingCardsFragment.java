@@ -59,7 +59,7 @@ public class PlaceholderShoppingCardsFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_state_shopping_cards, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_shopping_cards, container, false);
 
         mRecyclerView = (EmptyRecyclerView) rootView.findViewById(R.id.listViews);
         mEmptyLayout = (LinearLayout) rootView.findViewById(R.id.layoutEmptyList);

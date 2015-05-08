@@ -1,23 +1,34 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ShoppingCardsActivity" >
+    tools:context=".ShoppingCardsActivity">
 
-    <item android:id="@+id/action_search_card"
-        android:title="Search"
-        app:showAsAction="always"
+    <item
+        android:id="@+id/action_search_card"
         android:icon="@mipmap/ic_action_search"
+        android:menuCategory="secondary"
         android:orderInCategory="1"
-        android:menuCategory="secondary"/>
+        android:title="Search"
+        app:showAsAction="always" />
 
-    <item android:id="@+id/action_add_card"
-        android:title="Add"
-        app:showAsAction="always"
+    <item
+        android:id="@+id/action_add_card"
         android:icon="@mipmap/ic_action_new"
+        android:menuCategory="secondary"
         android:orderInCategory="2"
-        android:menuCategory="secondary"/>
+        android:title="Add"
+        app:showAsAction="always" />
 
-    <item android:id="@+id/action_settings" android:title="@string/action_settings"
-        android:orderInCategory="100" app:showAsAction="never" />
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="100"
+        android:title="@string/action_settings"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_sync"
+        android:orderInCategory="101"
+        android:title="@string/action_sync"
+        app:showAsAction="never" />
 
 </menu>

@@ -8,10 +8,11 @@ public class Constants {
 
     public static final boolean RELEASE_MODE = false;
 
-        public static class Prefs {
+    public static class Prefs {
         public static final String PREF_PARAM_ME = "pref_param_me";
         public static final String PREF_PARAM_BUSINESS_CARDS = "pref_param_business_cards";
         public static final String PREF_PARAM_SHOPPING_CARDS = "pref_param_shopping_cards";
+        public static final String PREF_PARAM_SHOP_BRANDS = "pref_param_shop_brands";
     }
 
     public static class Extras {

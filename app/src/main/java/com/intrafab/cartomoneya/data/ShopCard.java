@@ -32,6 +32,15 @@ public class ShopCard implements Parcelable {
     private String backImageFile;
     private Date createdAt;
     private Date updatedAt;
+    private String notes;
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
 
     public Date getUpdatedAt() {
         return updatedAt;
@@ -118,6 +127,7 @@ public class ShopCard implements Parcelable {
         backImageFile = source.readString();
         createdAt = new Date(source.readLong());
         updatedAt = new Date(source.readLong());
+        notes = source.readString();
     }
 
     public ShopCard(JSONObject object) {
@@ -141,5 +151,6 @@ public class ShopCard implements Parcelable {
         dest.writeString(backImageFile);
         dest.writeLong(createdAt.getTime());
         dest.writeLong(updatedAt.getTime());
+        dest.writeString(notes);
     }
 }

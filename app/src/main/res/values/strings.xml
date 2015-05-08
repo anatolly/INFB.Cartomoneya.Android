@@ -3,6 +3,7 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="action_sync">Sync with server</string>
 
     <!-- Shopping Cards -->Shopping Cards
     <string name="shopping_card_screen_header">Shopping Cards</string>
