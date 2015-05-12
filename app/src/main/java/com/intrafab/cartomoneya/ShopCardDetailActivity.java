@@ -105,7 +105,7 @@ public class ShopCardDetailActivity extends BaseActivity {
 
     private void finishedShopBrandLoader(List<ShopBrand> data) {
         if (data == null) {
-            Logger.d(TAG, "finishedShopBrandLoader start ActionRequestShoppingCardsTask");
+            Logger.d(TAG, "finishedShopBrandLoader start ActionRequestShopBrand");
             Groundy.create(ActionRequestShopBrand.class)
                     .callback(ShopCardDetailActivity.this)
                     .callbackManager(mCallbacksManager)
@@ -189,7 +189,7 @@ public class ShopCardDetailActivity extends BaseActivity {
                     //bitmap.recycle();
                 }
 
-                if (!TextUtils.isEmpty(mShopCard.getNotes())) {
+                if (!TextUtils.isEmpty(mShopCard.getBarcode())) {
                     mBarcodeNumber.setText(mShopCard.getBarcode());
                     Paint textPaint = mBarcodeNumber.getPaint();
                     float width = textPaint.measureText(mShopCard.getBarcode());
