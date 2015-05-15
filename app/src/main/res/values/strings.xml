@@ -5,8 +5,13 @@
     <string name="action_settings">Settings</string>
     <string name="action_sync">Sync with server</string>
 
-    <!-- Shopping Cards -->Shopping Cards
+    <!-- Shopping Cards -->
     <string name="shopping_card_screen_header">Shopping Cards</string>
     <string name="shopping_card_name_unknown">Unknown</string>
     <string name="empty_state_shopping_list">List is empty.\n Tap + to add.</string>
+
+    <!-- New Card -->
+    <string name="new_card_screen_header">New Card</string>
+    <string name="tab_new_card_frot">Front card image</string>
+    <string name="tab_new_card_back">Back card image</string>
 </resources>

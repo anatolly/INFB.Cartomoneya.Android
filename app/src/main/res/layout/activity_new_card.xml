@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:material="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorLightWindowBackground"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true"
     android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
@@ -24,159 +26,144 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <TableRow
-                android:id="@+id/layoutCardImages"
+            <it.neokree.materialtabs.MaterialTabHost
+                android:id="@+id/tabHost"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_alignParentTop="true"
+                android:background="?attr/colorPrimaryDark"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                material:materialTabsPrimaryColor="@color/colorLightPrimary"
+                material:accentColor="@android:color/white" />
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/tabPager"
+                android:layout_width="match_parent"
+                android:layout_height="212dp"
+                android:layout_below="@+id/tabHost"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/tvBarode"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginTop="8dp"
-                android:gravity="center_vertical"
-                android:minHeight="?attr/actionBarSize">
+                android:layout_below="@+id/tabPager"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="24dp"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="Barcode"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/colorLightTextMain"
+                android:textSize="20sp" />
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.5"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/tvFrontImage"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:gravity="center_horizontal"
-                        android:text="Front Image"
-                        android:textColor="@color/colorLightTextMain"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:textSize="14sp" />
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/tvFrontImage"
-                        android:layout_margin="8dp"
-                        android:background="@drawable/bg_card_frame">
-
-                        <ImageView
-                            android:id="@+id/ivFrontImage"
-                            android:layout_width="match_parent"
-                            android:layout_height="80dp" />
-
-                        <ImageView
-                            android:id="@+id/ivIconAddFront"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_centerHorizontal="true"
-                            android:layout_centerVertical="true"
-                            android:src="@mipmap/ic_add" />
-                    </RelativeLayout>
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.5"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/tvBackImage"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:gravity="center_horizontal"
-                        android:text="Back Image"
-                        android:textColor="@color/colorLightTextMain"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:textSize="14sp" />
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/tvBackImage"
-                        android:layout_margin="8dp"
-                        android:background="@drawable/bg_card_frame">
-
-                        <ImageView
-                            android:id="@+id/ivBackImage"
-                            android:layout_width="match_parent"
-                            android:layout_height="80dp" />
-
-                        <ImageView
-                            android:id="@+id/ivIconAddBack"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_centerHorizontal="true"
-                            android:layout_centerVertical="true"
-
-                            android:src="@mipmap/ic_add" />
-                    </RelativeLayout>
-
-                </RelativeLayout>
-
-            </TableRow>
+            <View
+                android:id="@+id/delimBarcode"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/tvBarode"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="4dp"
+                android:background="@color/colorLightPrimary"/>
 
             <RelativeLayout
+                android:id="@+id/layoutBarcode"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/layoutCardImages"
-                android:orientation="vertical">
+                android:layout_below="@+id/delimBarcode"
+                android:layout_marginLeft="32dp"
+                android:layout_marginRight="32dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_card_frame">
 
-                <TextView
-                    android:id="@+id/tvBarcode"
+                <ImageView
+                    android:id="@+id/ivBarcodeImage"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="16dp"
-                    android:gravity="center_horizontal"
-                    android:text="Barcode"
-                    android:textColor="@color/colorLightTextMain"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textSize="14sp" />
-
-                <RelativeLayout
-                    android:id="@+id/layoutBarcode"
-                    android:layout_width="250dp"
-                    android:layout_height="80dp"
-                    android:layout_below="@+id/tvBarcode"
+                    android:layout_height="100dp"
+                    android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"
-                    android:layout_margin="8dp"
-                    android:background="@drawable/bg_card_frame">
-
-                    <ImageView
-                        android:id="@+id/ivBarcodeImage"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_centerHorizontal="true"
-                        android:scaleType="fitXY"
-                        android:src="@mipmap/ic_barcode" />
-
-                    <ImageView
-                        android:id="@+id/ivIconAddBarcode"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_centerHorizontal="true"
-                        android:layout_centerVertical="true"
-                        android:src="@mipmap/ic_add"
-                        android:visibility="gone" />
-                </RelativeLayout>
+                    android:scaleType="fitCenter" />
 
                 <TextView
                     android:id="@+id/tvBarcodeNumber"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/layoutBarcode"
+                    android:layout_below="@+id/ivBarcodeImage"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="4dp"
+                    android:layout_marginLeft="32dp"
+                    android:layout_marginRight="32dp"
+                    android:ellipsize="end"
                     android:gravity="center_horizontal"
-                    android:text="1221434253436546"
-                    android:textColor="@color/colorLightTextMain"
+                    android:singleLine="true"
+                    android:text=""
+                    android:visibility="gone"
                     android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/colorLightTextMain"
                     android:textSize="18sp" />
 
+                <ImageView
+                    android:id="@+id/ivIconAddBarcode"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/ic_add" />
             </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tvNotes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/layoutBarcode"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="24dp"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="Notes"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/colorLightTextMain"
+                android:textSize="20sp" />
+
+            <View
+                android:id="@+id/delim"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/tvNotes"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="4dp"
+                android:background="@color/colorLightPrimary"/>
+
+            <LinearLayout
+                android:id="@+id/layoutAboutInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/delim"
+                android:layout_marginLeft="32dp"
+                android:layout_marginRight="32dp"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/etNotes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="bottom|left"
+                    android:hint="Your notes"
+                    android:inputType="textMultiLine"
+                    android:minLines="2"
+                    android:singleLine="false"
+                    android:textColor="#273747"
+                    android:textSize="16sp"
+                    material:met_baseColor="#000"
+                    material:met_floatingLabel="highlight"
+                    material:met_maxCharacters="4000"
+                    material:met_primaryColor="#273747"
+                    material:met_singleLineEllipsis="false" />
+            </LinearLayout>
 
         </RelativeLayout>
     </ScrollView>

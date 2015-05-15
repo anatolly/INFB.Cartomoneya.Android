@@ -1,1 +1,4 @@
 include ':app'
+include ':libraries'
+include ':libraries:MaterialTabsModule'
+include ':libraries:DiscreteSeekBar'
