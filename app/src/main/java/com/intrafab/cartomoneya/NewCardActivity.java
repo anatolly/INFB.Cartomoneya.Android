@@ -5,6 +5,8 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.graphics.Bitmap;
+import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -12,11 +14,19 @@ import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.WriterException;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 import com.intrafab.cartomoneya.adapters.CardImagePagerAdapter;
 import com.intrafab.cartomoneya.fragments.PlaceholderCardImagePageFragment;
+import com.intrafab.cartomoneya.utils.Images;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -40,6 +50,9 @@ public class NewCardActivity extends BaseActivity
     private CardImagePagerAdapter mAdapter;
     private ImageView mBarcodeImageView;
     private ImageView mBarcodeAddImageView;
+    private TextView mBarcodeNumber;
+
+    private IntentIntegrator mScanIntegrator;
 
     private MaterialTabListener mTabListener = new MaterialTabListener() {
         @Override
@@ -72,6 +85,7 @@ public class NewCardActivity extends BaseActivity
 
         mBarcodeImageView = (ImageView) findViewById(R.id.ivBarcodeImage);
         mBarcodeAddImageView = (ImageView) findViewById(R.id.ivIconAddBarcode);
+        mBarcodeNumber = (TextView) findViewById(R.id.tvBarcodeNumber);
 
         mBarcodeImageView.setOnClickListener(this);
         mBarcodeAddImageView.setOnClickListener(this);
@@ -130,13 +144,63 @@ public class NewCardActivity extends BaseActivity
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == Activity.RESULT_OK) {
+        if (resultCode == Activity.RESULT_OK && requestCode == 200) {
             Uri imageUri = getPickImageResultUri(data, true);
 
-            //mAdapter.getFragment(mPager.getCurrentItem()).setUri(imageUri);
+            mAdapter.getFragment(mPager.getCurrentItem()).setUri(imageUri);
+        }
 
-            CropActivity.launch(this, imageUri);
+        IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if (scanningResult != null) {
+            final String scanContent = scanningResult.getContents();
+            final String scanFormat = scanningResult.getFormatName();
 
+            if (!TextUtils.isEmpty(scanContent)) {
+                Bitmap bitmap = null;
+                try {
+                    BarcodeFormat barcodeFormat;
+                    try {
+                        barcodeFormat = BarcodeFormat.valueOf(scanFormat);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        barcodeFormat = BarcodeFormat.CODE_128;
+                    }
+
+                    bitmap = Images.encodeAsBitmap(scanContent, barcodeFormat, mBarcodeImageView.getWidth(), mBarcodeImageView.getHeight());
+                    mBarcodeImageView.setImageBitmap(bitmap);
+                    mBarcodeAddImageView.setVisibility(View.GONE);
+                } catch (WriterException e) {
+                    e.printStackTrace();
+                    mBarcodeImageView.setImageResource(R.mipmap.ic_barcode);
+                    mBarcodeAddImageView.setVisibility(View.GONE);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    mBarcodeImageView.setImageResource(R.mipmap.ic_barcode);
+                    mBarcodeAddImageView.setVisibility(View.GONE);
+                } catch (Throwable e) {
+                    e.printStackTrace();
+                    mBarcodeImageView.setImageResource(R.mipmap.ic_barcode);
+                    mBarcodeAddImageView.setVisibility(View.GONE);
+                }
+
+                mBarcodeNumber.setVisibility(View.VISIBLE);
+                mBarcodeNumber.setText(scanContent);
+                mBarcodeNumber.requestLayout();
+                Paint textPaint = mBarcodeNumber.getPaint();
+                float width = textPaint.measureText(scanContent);
+                mBarcodeNumber.setTextScaleX(((float) mBarcodeNumber.getMeasuredWidth() / width) - 0.2f);
+            } else {
+                mBarcodeImageView.setImageDrawable(null);
+                mBarcodeAddImageView.setVisibility(View.VISIBLE);
+                mBarcodeNumber.setText("");
+                mBarcodeNumber.setVisibility(View.GONE);
+
+                Toast.makeText(getApplicationContext(),
+                        "No scan data received!", Toast.LENGTH_SHORT).show();
+            }
+        } else{
+            Toast.makeText(getApplicationContext(),
+                    "No scan data received!", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -150,6 +214,9 @@ public class NewCardActivity extends BaseActivity
         switch (v.getId()) {
             case R.id.ivBarcodeImage:
             case R.id.ivIconAddBarcode:
+                if (mScanIntegrator == null)
+                    mScanIntegrator = new IntentIntegrator(this);
+                mScanIntegrator.initiateScan();
                 break;
         }
     }
