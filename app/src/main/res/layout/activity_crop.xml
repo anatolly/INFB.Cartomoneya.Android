@@ -15,15 +15,18 @@
     <com.theartofdev.edmodo.cropper.CropImageView
         android:id="@+id/ivCropImage"
         android:layout_below="@+id/toolbar"
+        android:scaleType="centerCrop"
+        android:adjustViewBounds="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
     <org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
+        android:id="@+id/dSeekbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_margin="32dp"
-        app:dsb_min="2"
-        app:dsb_max="15" />
+        android:padding="32dp"
+        app:dsb_min="-5"
+        app:dsb_max="5" />
 
 </RelativeLayout>

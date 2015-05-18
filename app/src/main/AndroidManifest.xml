@@ -43,6 +43,9 @@
             android:name=".NewCardActivity"
             android:windowSoftInputMode="stateHidden"
             android:screenOrientation="sensorPortrait"></activity>
+        <activity
+            android:name=".CropActivity"
+            android:screenOrientation="sensorPortrait"></activity>
 
         <service android:name="com.telly.groundy.GroundyService" />
     </application>

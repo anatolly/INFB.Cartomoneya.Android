@@ -133,7 +133,9 @@ public class NewCardActivity extends BaseActivity
         if (resultCode == Activity.RESULT_OK) {
             Uri imageUri = getPickImageResultUri(data, true);
 
-            mAdapter.getFragment(mPager.getCurrentItem()).setUri(imageUri);
+            //mAdapter.getFragment(mPager.getCurrentItem()).setUri(imageUri);
+
+            CropActivity.launch(this, imageUri);
 
         }
     }
