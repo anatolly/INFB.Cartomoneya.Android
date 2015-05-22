@@ -27,6 +27,7 @@ import com.google.zxing.integration.android.IntentResult;
 import com.intrafab.cartomoneya.adapters.CardImagePagerAdapter;
 import com.intrafab.cartomoneya.fragments.PlaceholderCardImagePageFragment;
 import com.intrafab.cartomoneya.utils.Images;
+import com.intrafab.cartomoneya.utils.Logger;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -44,6 +45,9 @@ public class NewCardActivity extends BaseActivity
         View.OnClickListener {
 
     public static final String TAG = NewCardActivity.class.getName();
+
+    public static final int REQUEST_CODE_PICK_IMAGE = 200;
+    public static final int REQUEST_CODE_CROP_IMAGE = 300;
 
     private MaterialTabHost mTabHost;
     private ViewPager mPager;
@@ -144,69 +148,83 @@ public class NewCardActivity extends BaseActivity
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == Activity.RESULT_OK && requestCode == 200) {
-            Uri imageUri = getPickImageResultUri(data, true);
+        if (requestCode == REQUEST_CODE_PICK_IMAGE) {
+            if (resultCode == Activity.RESULT_OK) {
+                if (data != null) {
+                    Uri imageUri = getPickImageResultUri(data, mPager.getCurrentItem() == 0 ? true : false);
 
-            mAdapter.getFragment(mPager.getCurrentItem()).setUri(imageUri);
-        }
+                    CropActivity.launch(this, REQUEST_CODE_CROP_IMAGE, imageUri, mPager.getCurrentItem() == 0 ? true : false);
+                }
+            }
+        } else if (requestCode == REQUEST_CODE_CROP_IMAGE) {
+            if (resultCode == Activity.RESULT_OK) {
+                if (data != null) {
+                    String path = data.getStringExtra(CropActivity.EXTRA_ARG_URI);
+                    Uri imageUri = Uri.parse(path);
+                    Logger.e(TAG, "onActivityResult path: " + imageUri.getPath());
 
-        IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-        if (scanningResult != null) {
-            final String scanContent = scanningResult.getContents();
-            final String scanFormat = scanningResult.getFormatName();
+                    mAdapter.getFragment(mPager.getCurrentItem()).setUri(imageUri);
+                }
+            }
+        } else {
+            IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+            if (scanningResult != null) {
+                final String scanContent = scanningResult.getContents();
+                final String scanFormat = scanningResult.getFormatName();
 
-            if (!TextUtils.isEmpty(scanContent)) {
-                Bitmap bitmap = null;
-                try {
-                    BarcodeFormat barcodeFormat;
+                if (!TextUtils.isEmpty(scanContent)) {
+                    Bitmap bitmap = null;
                     try {
-                        barcodeFormat = BarcodeFormat.valueOf(scanFormat);
+                        BarcodeFormat barcodeFormat;
+                        try {
+                            barcodeFormat = BarcodeFormat.valueOf(scanFormat);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            barcodeFormat = BarcodeFormat.CODE_128;
+                        }
+
+                        bitmap = Images.encodeAsBitmap(scanContent, barcodeFormat, mBarcodeImageView.getWidth(), mBarcodeImageView.getHeight());
+                        mBarcodeImageView.setImageBitmap(bitmap);
+                        mBarcodeAddImageView.setVisibility(View.GONE);
+                    } catch (WriterException e) {
+                        e.printStackTrace();
+                        mBarcodeImageView.setImageResource(R.mipmap.ic_barcode);
+                        mBarcodeAddImageView.setVisibility(View.GONE);
                     } catch (Exception e) {
                         e.printStackTrace();
-                        barcodeFormat = BarcodeFormat.CODE_128;
+                        mBarcodeImageView.setImageResource(R.mipmap.ic_barcode);
+                        mBarcodeAddImageView.setVisibility(View.GONE);
+                    } catch (Throwable e) {
+                        e.printStackTrace();
+                        mBarcodeImageView.setImageResource(R.mipmap.ic_barcode);
+                        mBarcodeAddImageView.setVisibility(View.GONE);
                     }
 
-                    bitmap = Images.encodeAsBitmap(scanContent, barcodeFormat, mBarcodeImageView.getWidth(), mBarcodeImageView.getHeight());
-                    mBarcodeImageView.setImageBitmap(bitmap);
-                    mBarcodeAddImageView.setVisibility(View.GONE);
-                } catch (WriterException e) {
-                    e.printStackTrace();
-                    mBarcodeImageView.setImageResource(R.mipmap.ic_barcode);
-                    mBarcodeAddImageView.setVisibility(View.GONE);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    mBarcodeImageView.setImageResource(R.mipmap.ic_barcode);
-                    mBarcodeAddImageView.setVisibility(View.GONE);
-                } catch (Throwable e) {
-                    e.printStackTrace();
-                    mBarcodeImageView.setImageResource(R.mipmap.ic_barcode);
-                    mBarcodeAddImageView.setVisibility(View.GONE);
+                    mBarcodeNumber.setVisibility(View.VISIBLE);
+                    mBarcodeNumber.setText(scanContent);
+                    mBarcodeNumber.requestLayout();
+                    Paint textPaint = mBarcodeNumber.getPaint();
+                    float width = textPaint.measureText(scanContent);
+                    mBarcodeNumber.setTextScaleX(((float) mBarcodeImageView.getMeasuredWidth() / width) - 0.2f);
+                } else {
+                    mBarcodeImageView.setImageDrawable(null);
+                    mBarcodeAddImageView.setVisibility(View.VISIBLE);
+                    mBarcodeNumber.setText("");
+                    mBarcodeNumber.setVisibility(View.GONE);
+
+                    Toast.makeText(getApplicationContext(),
+                            "No scan data received!", Toast.LENGTH_SHORT).show();
                 }
-
-                mBarcodeNumber.setVisibility(View.VISIBLE);
-                mBarcodeNumber.setText(scanContent);
-                mBarcodeNumber.requestLayout();
-                Paint textPaint = mBarcodeNumber.getPaint();
-                float width = textPaint.measureText(scanContent);
-                mBarcodeNumber.setTextScaleX(((float) mBarcodeNumber.getMeasuredWidth() / width) - 0.2f);
             } else {
-                mBarcodeImageView.setImageDrawable(null);
-                mBarcodeAddImageView.setVisibility(View.VISIBLE);
-                mBarcodeNumber.setText("");
-                mBarcodeNumber.setVisibility(View.GONE);
-
                 Toast.makeText(getApplicationContext(),
                         "No scan data received!", Toast.LENGTH_SHORT).show();
             }
-        } else{
-            Toast.makeText(getApplicationContext(),
-                    "No scan data received!", Toast.LENGTH_SHORT).show();
         }
     }
 
     @Override
     public void onCardImageClick() {
-        startActivityForResult(getPickImageChooserIntent(true), 200);
+        startActivityForResult(getPickImageChooserIntent(true), REQUEST_CODE_PICK_IMAGE);
     }
 
     @Override

@@ -34,6 +34,8 @@ import com.theartofdev.edmodo.cropper.util.AspectRatioUtil;
 import com.theartofdev.edmodo.cropper.util.HandleUtil;
 import com.theartofdev.edmodo.cropper.util.PaintUtil;
 
+import uk.co.senab.photoview.PhotoView;
+
 /**
  * A custom View representing the crop window and the shaded background outside the crop window.
  */
@@ -160,6 +162,11 @@ public class CropOverlayView extends View {
     public void setBitmapRect(Rect bitmapRect) {
         mBitmapRect = bitmapRect;
         initCropWindow(mBitmapRect);
+    }
+
+    public void changeBitmapRectInvalidate(Rect bitmapRect) {
+        mBitmapRect = bitmapRect;
+        invalidate();
     }
 
     /**
@@ -338,8 +345,14 @@ public class CropOverlayView extends View {
         }
     }
 
+    private PhotoView mPhotoView;
+
+    public void setImageView(PhotoView photoView){
+        mPhotoView = photoView;
+    }
+
     @Override
-    public boolean onTouchEvent(@SuppressWarnings("NullableProblems") MotionEvent event) {
+    public boolean onTouchEvent(MotionEvent event) {
 
         // If this View is not enabled, don't allow for touch interactions.
         if (!isEnabled()) {
@@ -349,17 +362,24 @@ public class CropOverlayView extends View {
         switch (event.getAction()) {
 
             case MotionEvent.ACTION_DOWN:
-                onActionDown(event.getX(), event.getY());
-                return true;
+                boolean dispatch = onActionDown(event.getX(), event.getY());
+                if(!dispatch)
+                    mPhotoView.dispatchTouchEvent(event);
+
+                return dispatch;
 
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
                 getParent().requestDisallowInterceptTouchEvent(false);
-                onActionUp();
+                boolean dispatchUp = onActionUp();
+//                if(!dispatchUp)
+//                    mPhotoView.dispatchTouchEvent(event);
                 return true;
 
             case MotionEvent.ACTION_MOVE:
-                onActionMove(event.getX(), event.getY());
+                boolean dispatchMove = onActionMove(event.getX(), event.getY());
+//                if(!dispatchMove)
+//                    mPhotoView.dispatchTouchEvent(event);
                 getParent().requestDisallowInterceptTouchEvent(true);
                 return true;
 
@@ -587,7 +607,7 @@ public class CropOverlayView extends View {
      * @param x the x-coordinate of the down action
      * @param y the y-coordinate of the down action
      */
-    private void onActionDown(float x, float y) {
+    private boolean onActionDown(float x, float y) {
 
         final float left = Edge.LEFT.getCoordinate();
         final float top = Edge.TOP.getCoordinate();
@@ -597,7 +617,7 @@ public class CropOverlayView extends View {
         mPressedHandle = HandleUtil.getPressedHandle(x, y, left, top, right, bottom, mHandleRadius);
 
         if (mPressedHandle == null) {
-            return;
+            return false;
         }
 
         // Calculate the offset of the touch point from the precise location
@@ -606,21 +626,23 @@ public class CropOverlayView extends View {
         mTouchOffset = HandleUtil.getOffset(mPressedHandle, x, y, left, top, right, bottom);
 
         invalidate();
+        return true;
     }
 
     /**
      * Handles a {@link android.view.MotionEvent#ACTION_UP} or
      * {@link android.view.MotionEvent#ACTION_CANCEL} event.
      */
-    private void onActionUp() {
+    private boolean onActionUp() {
 
         if (mPressedHandle == null) {
-            return;
+            return false;
         }
 
         mPressedHandle = null;
 
         invalidate();
+        return true;
     }
 
     /**
@@ -629,10 +651,10 @@ public class CropOverlayView extends View {
      * @param x the x-coordinate of the move event
      * @param y the y-coordinate of the move event
      */
-    private void onActionMove(float x, float y) {
+    private boolean onActionMove(float x, float y) {
 
         if (mPressedHandle == null) {
-            return;
+            return false;
         }
 
         // Adjust the coordinates for the finger position's offset (i.e. the
@@ -649,6 +671,7 @@ public class CropOverlayView extends View {
             mPressedHandle.updateCropWindow(x, y, mBitmapRect, mSnapRadius);
         }
         invalidate();
+        return true;
     }
     //endregion
 }

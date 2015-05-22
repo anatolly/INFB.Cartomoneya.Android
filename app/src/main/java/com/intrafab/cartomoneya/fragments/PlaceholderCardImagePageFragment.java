@@ -1,16 +1,21 @@
 package com.intrafab.cartomoneya.fragments;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.intrafab.cartomoneya.R;
-import com.theartofdev.edmodo.cropper.CropImageView;
+import com.intrafab.cartomoneya.utils.SupportVersion;
+
+import java.io.IOException;
 
 /**
  * Created by Artemiy Terekhov on 15.05.2015.
@@ -23,8 +28,9 @@ public class PlaceholderCardImagePageFragment extends Fragment implements View.O
     }
 
     private onClickListener mListener;
-    private CropImageView mCardImageView;
+    private ImageView mCardImageView;
     private ImageView mCardAddImageView;
+    private RelativeLayout mLayoutCardFrame;
 
     @Override
     public void onAttach(Activity activity) {
@@ -54,8 +60,9 @@ public class PlaceholderCardImagePageFragment extends Fragment implements View.O
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_new_card, container, false);
 
-        mCardImageView = (CropImageView) rootView.findViewById(R.id.ivCardImage);
+        mCardImageView = (ImageView) rootView.findViewById(R.id.ivCardImage);
         mCardAddImageView = (ImageView) rootView.findViewById(R.id.ivIconAddImage);
+        mLayoutCardFrame = (RelativeLayout) rootView.findViewById(R.id.layoutCardFrame);
 
         mCardImageView.setOnClickListener(this);
         mCardAddImageView.setOnClickListener(this);
@@ -81,8 +88,19 @@ public class PlaceholderCardImagePageFragment extends Fragment implements View.O
         }
     }
 
+    @SuppressWarnings("NewApi")
     public void setUri(Uri imageUri) {
-        mCardImageView.setImageUri(imageUri);
-        mCardAddImageView.setVisibility(View.GONE);
+        try {
+            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), imageUri);
+            mCardImageView.setImageBitmap(bitmap);
+            if (SupportVersion.JellyBean())
+                mLayoutCardFrame.setBackground(null);
+            else
+                mLayoutCardFrame.setBackgroundDrawable(null);
+            mCardAddImageView.setVisibility(View.GONE);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 }

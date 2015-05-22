@@ -5,28 +5,29 @@
     android:layout_height="match_parent"
     android:background="@color/colorLightWindowBackground">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:minHeight="?attr/actionBarSize" />
+
 
     <com.theartofdev.edmodo.cropper.CropImageView
         android:id="@+id/ivCropImage"
-        android:layout_below="@+id/toolbar"
-        android:scaleType="centerCrop"
+        android:scaleType="centerInside"
         android:adjustViewBounds="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
-        android:id="@+id/dSeekbar"
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:padding="32dp"
-        app:dsb_min="-5"
-        app:dsb_max="5" />
+        android:minHeight="?attr/actionBarSize" />
+
+    <com.pnikosis.materialishprogress.ProgressWheel
+        android:id="@+id/progress_wheel"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        app:matProg_barColor="#5588FF"
+        android:visibility="gone"
+        app:matProg_progressIndeterminate="true" />
 
 </RelativeLayout>

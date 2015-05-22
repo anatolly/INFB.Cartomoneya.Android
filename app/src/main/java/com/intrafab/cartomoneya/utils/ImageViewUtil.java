@@ -11,7 +11,7 @@
  * governing permissions and limitations under the License. 
  */
 
-package com.theartofdev.edmodo.cropper.util;
+package com.intrafab.cartomoneya.utils;
 
 import android.content.ContentResolver;
 import android.content.Context;
@@ -200,7 +200,7 @@ public class ImageViewUtil {
     }
 
     /**
-     * Get {@link java.io.File} object for the given Android URI.<br>
+     * Get {@link File} object for the given Android URI.<br>
      * Use content resolver to get real path if direct path doesn't return valid file.
      */
     public static File getFileFromUri(Context context, Uri uri) {
@@ -259,7 +259,7 @@ public class ImageViewUtil {
     /**
      * Helper that does the work of the above functions. Gets the rectangular
      * position of a Bitmap if it were placed inside a View with scale type set
-     * to {@link android.widget.ImageView.ScaleType #CENTER_INSIDE}.
+     * to {@link ImageView.ScaleType #CENTER_INSIDE}.
      *
      * @param bitmapWidth the Bitmap's width
      * @param bitmapHeight the Bitmap's height
@@ -378,7 +378,7 @@ public class ImageViewUtil {
     //region: Inner class: DecodeBitmapResult
 
     /**
-     * The result of {@link #decodeSampledBitmap(android.content.Context, android.net.Uri, int, int)}.
+     * The result of {@link #decodeSampledBitmap(Context, Uri, int, int)}.
      */
     public static final class DecodeBitmapResult {
 
@@ -402,7 +402,7 @@ public class ImageViewUtil {
     //region: Inner class: RotateBitmapResult
 
     /**
-     * The result of {@link #rotateBitmapByExif(android.graphics.Bitmap, android.media.ExifInterface)}.
+     * The result of {@link #rotateBitmapByExif(Bitmap, ExifInterface)}.
      */
     public static final class RotateBitmapResult {
 
@@ -420,24 +420,6 @@ public class ImageViewUtil {
             this.bitmap = bitmap;
             this.degrees = degrees;
         }
-    }
-
-    /**
-     * Gets the rectangular position of a Bitmap if it were placed inside a View
-     * with scale type set to .
-     *
-     * @param bitmap the Bitmap
-     * @param view the parent View of the Bitmap
-     * @return the rectangular position of the Bitmap
-     */
-    public static Rect getBitmapRectCenterInside(Bitmap bitmap, View view) {
-
-        final int bitmapWidth = bitmap.getWidth();
-        final int bitmapHeight = bitmap.getHeight();
-        final int viewWidth = view.getWidth();
-        final int viewHeight = view.getHeight();
-
-        return getBitmapRectCenterInsideHelper(bitmapWidth, bitmapHeight, viewWidth, viewHeight);
     }
     //endregion
 }

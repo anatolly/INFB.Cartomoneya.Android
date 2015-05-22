@@ -44,8 +44,7 @@
             android:windowSoftInputMode="stateHidden"
             android:screenOrientation="sensorPortrait"></activity>
         <activity
-            android:name=".CropActivity"
-            android:screenOrientation="sensorPortrait"></activity>
+            android:name=".CropActivity"></activity>
 
         <service android:name="com.telly.groundy.GroundyService" />
     </application>

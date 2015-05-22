@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".CropActivity" >
+    <item
+        android:id="@+id/action_cancel"
+        android:orderInCategory="101"
+        android:menuCategory="secondary"
+        android:title="@string/action_cancel"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_crop"
+        android:orderInCategory="102"
+        android:icon="@mipmap/ic_action_crop"
+        android:menuCategory="secondary"
+        android:title="@string/action_crop"
+        app:showAsAction="always|withText" />
+</menu>

@@ -1,6 +1,8 @@
 package com.intrafab.cartomoneya.utils;
 
 import android.graphics.Bitmap;
+import android.media.ExifInterface;
+import android.net.Uri;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
@@ -61,5 +63,37 @@ public class Images {
             }
         }
         return null;
+    }
+
+    public static int getExifOrientation(final Uri imageUri) {
+        ExifInterface exif;
+        int orientation = 1;
+        try {
+            exif = new ExifInterface(imageUri.getPath());
+            orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, 1);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        switch( orientation ) {
+            case 1:
+                // Special case when no transformation is needed.
+                return 0;
+            case 3:
+                return 180;
+            case 6:
+                return -90;
+            case 8:
+                return 90;
+            case 2:
+            case 4:
+            case 5:
+            case 7:
+                // Warning: Not implemented.
+                return 0;
+            default:
+                // Ignore wrong exifOrientation value.
+                return 0;
+        }
     }
 }

@@ -5,6 +5,7 @@
     android:orientation="vertical">
 
     <RelativeLayout
+        android:id="@+id/layoutCardFrame"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="32dp"
@@ -12,7 +13,7 @@
         android:layout_marginTop="16dp"
         android:background="@drawable/bg_card_frame">
 
-        <com.theartofdev.edmodo.cropper.CropImageView
+        <ImageView
             android:id="@+id/ivCardImage"
             android:layout_width="match_parent"
             android:layout_height="180dp" />

@@ -33,8 +33,8 @@
                 android:layout_alignParentTop="true"
                 android:background="?attr/colorPrimaryDark"
                 android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-                material:materialTabsPrimaryColor="@color/colorLightPrimary"
-                material:accentColor="@android:color/white" />
+                material:accentColor="@android:color/white"
+                material:materialTabsPrimaryColor="@color/colorLightPrimary" />
 
             <android.support.v4.view.ViewPager
                 android:id="@+id/tabPager"
@@ -66,7 +66,7 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginTop="4dp"
-                android:background="@color/colorLightPrimary"/>
+                android:background="@color/colorLightPrimary" />
 
             <RelativeLayout
                 android:id="@+id/layoutBarcode"
@@ -84,8 +84,7 @@
                     android:layout_height="100dp"
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"
-                    android:scaleType="fitCenter"
-                    android:src="@mipmap/ic_barcode"/>
+                    android:scaleType="fitCenter" />
 
                 <TextView
                     android:id="@+id/tvBarcodeNumber"
@@ -99,10 +98,10 @@
                     android:gravity="center_horizontal"
                     android:singleLine="true"
                     android:text=""
-                    android:visibility="gone"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textColor="@color/colorLightTextMain"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:visibility="gone" />
 
                 <ImageView
                     android:id="@+id/ivIconAddBarcode"
@@ -114,10 +113,54 @@
             </RelativeLayout>
 
             <TextView
-                android:id="@+id/tvNotes"
+                android:id="@+id/tvBrand"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/layoutBarcode"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="24dp"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="Brand"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/colorLightTextMain"
+                android:textSize="20sp" />
+
+            <View
+                android:id="@+id/delimBrand"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/tvBrand"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="4dp"
+                android:background="@color/colorLightPrimary" />
+
+            <fr.ganfra.materialspinner.MaterialSpinner
+                android:id="@+id/brandSpinner"
+                android:layout_below="@+id/delimBrand"
+                android:layout_marginLeft="32dp"
+                android:layout_marginRight="32dp"
+                android:layout_marginTop="8dp"
+                material:ms_alignLabels="true"
+                material:ms_arrowColor="#273747"
+                material:ms_arrowSize="12dp"
+                material:ms_baseColor="@color/colorLightTextExtra"
+                material:ms_errorColor="@color/colorLightError"
+                material:ms_floatingLabelColor="#273747"
+                material:ms_floatingLabelText="Select brand"
+                material:ms_highlightColor="@color/colorLightPrimary"
+                material:ms_hint="Select brand"
+                material:ms_multiline="false"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/tvNotes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/brandSpinner"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginTop="24dp"
@@ -136,7 +179,7 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginTop="4dp"
-                android:background="@color/colorLightPrimary"/>
+                android:background="@color/colorLightPrimary" />
 
             <LinearLayout
                 android:id="@+id/layoutAboutInfo"

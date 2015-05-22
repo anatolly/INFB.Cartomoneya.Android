@@ -21,10 +21,13 @@
         <item name="android:windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
         <item name="colorControlNormal">@color/colorLightTextColorHint</item>
-        <item name="actionBarStyle">@style/LightToolbarStyle</item>
+
         <item name="windowActionBarOverlay">true</item>
         <item name="android:textColorSecondary">#000</item>
-        <item name="actionMenuTextColor">#000</item>
+        <item name="actionMenuTextColor">#fff</item>
+
+        <item name="actionBarStyle">@style/LightToolbarStyle</item>
+        <item name="android:actionBarStyle">@style/LightToolbarStyle</item>
     </style>
 
 </resources>
