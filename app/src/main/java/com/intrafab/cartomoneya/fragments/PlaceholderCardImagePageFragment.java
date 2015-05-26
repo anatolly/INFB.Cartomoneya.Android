@@ -32,6 +32,12 @@ public class PlaceholderCardImagePageFragment extends Fragment implements View.O
     private ImageView mCardAddImageView;
     private RelativeLayout mLayoutCardFrame;
 
+    public Uri getUri() {
+        return mUri;
+    }
+
+    private Uri mUri;
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -91,6 +97,7 @@ public class PlaceholderCardImagePageFragment extends Fragment implements View.O
     @SuppressWarnings("NewApi")
     public void setUri(Uri imageUri) {
         try {
+            mUri = imageUri;
             Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), imageUri);
             mCardImageView.setImageBitmap(bitmap);
             if (SupportVersion.JellyBean())

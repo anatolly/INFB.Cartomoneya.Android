@@ -6,6 +6,7 @@
     <string name="action_sync">Sync with server</string>
     <string name="action_cancel">Cancel</string>
     <string name="action_crop">Crop</string>
+    <string name="action_create">Create</string>
 
 
     <!-- Shopping Cards -->
@@ -17,4 +18,7 @@
     <string name="new_card_screen_header">New Card</string>
     <string name="tab_new_card_frot">Front card image</string>
     <string name="tab_new_card_back">Back card image</string>
+    <string name="error_need_front_image">Need select front image</string>
+    <string name="error_need_brand">Need select card brand</string>
+    <string name="select_brand">Select brand</string>
 </resources>

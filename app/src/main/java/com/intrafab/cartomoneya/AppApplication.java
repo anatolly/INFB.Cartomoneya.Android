@@ -29,11 +29,15 @@ public class AppApplication extends MultiDexApplication {
 
         Logger.setApplicationTag("Cartomoneya");
         Logger.setRelease(Constants.RELEASE_MODE);
+
+        //test
+        userInfo = new User();
+        userInfo.setId(1);
     }
 
-    public static Context getContext() {
-        return getContext();
-    }
+//    public static Context getContext() {
+//        return getContext();
+//    }
 
     public static AppApplication getApplication(Context context) {
         if (context instanceof AppApplication) {

@@ -23,10 +23,21 @@ public class User implements Parcelable {
         }
     };
 
+
+
+    private int id;
     private String name;
     private String login;
     private Date createdAt;
     private Date updatedAt;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public Date getUpdatedAt() {
         return updatedAt;
@@ -64,6 +75,7 @@ public class User implements Parcelable {
     }
 
     public User(Parcel source) {
+        id = source.readInt();
         name = source.readString();
         login = source.readString();
         createdAt = new Date(source.readLong());
@@ -82,9 +94,12 @@ public class User implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
         dest.writeString(name);
         dest.writeString(login);
-        dest.writeLong(createdAt.getTime());
-        dest.writeLong(updatedAt.getTime());
+        if (createdAt != null)
+            dest.writeLong(createdAt.getTime());
+        if (updatedAt != null)
+            dest.writeLong(updatedAt.getTime());
     }
 }

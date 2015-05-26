@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Created by Artemiy Terekhov on 08.05.2015.
  */
-public class ActionRequestShopBrand extends GroundyTask {
+public class ActionRequestShopBrandTask extends GroundyTask {
 
     @Override
     protected TaskResult doInBackground() {

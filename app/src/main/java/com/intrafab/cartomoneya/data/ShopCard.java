@@ -3,6 +3,8 @@ package com.intrafab.cartomoneya.data;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.intrafab.cartomoneya.http.RestApiConfig;
+
 import org.json.JSONObject;
 
 import java.util.Date;
@@ -24,12 +26,12 @@ public class ShopCard implements Parcelable {
     };
 
     private int id;
-    private int owner;
+    private int belongsToUser;
     private int shopBrand;
     private String barcode;
     private String name;
-    private String frontImageFile;
-    private String backImageFile;
+    private int frontImageFile;
+    private int backImageFile;
     private Date createdAt;
     private Date updatedAt;
     private String notes;
@@ -58,12 +60,12 @@ public class ShopCard implements Parcelable {
         this.id = id;
     }
 
-    public int getOwner() {
-        return owner;
+    public int getBelongsToUser() {
+        return belongsToUser;
     }
 
-    public void setOwner(int owner) {
-        this.owner = owner;
+    public void setBelongsToUser(int belongsToUser) {
+        this.belongsToUser = belongsToUser;
     }
 
     public int getShopBrand() {
@@ -90,19 +92,19 @@ public class ShopCard implements Parcelable {
         this.name = name;
     }
 
-    public String getFrontImageFile() {
+    public int getFrontImageFile() {
         return frontImageFile;
     }
 
-    public void setFrontImageFile(String frontImageFile) {
+    public void setFrontImageFile(int frontImageFile) {
         this.frontImageFile = frontImageFile;
     }
 
-    public String getBackImageFile() {
+    public int getBackImageFile() {
         return backImageFile;
     }
 
-    public void setBackImageFile(String backImageFile) {
+    public void setBackImageFile(int backImageFile) {
         this.backImageFile = backImageFile;
     }
 
@@ -119,12 +121,12 @@ public class ShopCard implements Parcelable {
 
     public ShopCard(Parcel source) {
         id = source.readInt();
-        owner = source.readInt();
+        belongsToUser = source.readInt();
         shopBrand = source.readInt();
         barcode = source.readString();
         name = source.readString();
-        frontImageFile = source.readString();
-        backImageFile = source.readString();
+        frontImageFile = source.readInt();
+        backImageFile = source.readInt();
         createdAt = new Date(source.readLong());
         updatedAt = new Date(source.readLong());
         notes = source.readString();
@@ -143,14 +145,22 @@ public class ShopCard implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(id);
-        dest.writeInt(owner);
+        dest.writeInt(belongsToUser);
         dest.writeInt(shopBrand);
         dest.writeString(barcode);
         dest.writeString(name);
-        dest.writeString(frontImageFile);
-        dest.writeString(backImageFile);
+        dest.writeInt(frontImageFile);
+        dest.writeInt(backImageFile);
         dest.writeLong(createdAt.getTime());
         dest.writeLong(updatedAt.getTime());
         dest.writeString(notes);
+    }
+
+    public String getFrontImagePath() {
+        return RestApiConfig.BASE_HOST_URL + "/fileEntity/getFile?id=" + frontImageFile;
+    }
+
+    public String getBackImagePath() {
+        return RestApiConfig.BASE_HOST_URL + "/fileEntity/getFile?id=" + backImageFile;
     }
 }

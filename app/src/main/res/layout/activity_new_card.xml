@@ -92,16 +92,13 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/ivBarcodeImage"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginLeft="32dp"
-                    android:layout_marginRight="32dp"
-                    android:ellipsize="end"
                     android:gravity="center_horizontal"
                     android:singleLine="true"
                     android:text=""
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textColor="@color/colorLightTextMain"
                     android:textSize="18sp"
-                    android:visibility="gone" />
+                    android:visibility="visible" />
 
                 <ImageView
                     android:id="@+id/ivIconAddBarcode"
@@ -140,6 +137,7 @@
             <fr.ganfra.materialspinner.MaterialSpinner
                 android:id="@+id/brandSpinner"
                 android:layout_below="@+id/delimBrand"
+                android:popupBackground="@color/colorLightWindowBackground"
                 android:layout_marginLeft="32dp"
                 android:layout_marginRight="32dp"
                 android:layout_marginTop="8dp"
@@ -149,9 +147,9 @@
                 material:ms_baseColor="@color/colorLightTextExtra"
                 material:ms_errorColor="@color/colorLightError"
                 material:ms_floatingLabelColor="#273747"
-                material:ms_floatingLabelText="Select brand"
+                material:ms_floatingLabelText="@string/select_brand"
                 material:ms_highlightColor="@color/colorLightPrimary"
-                material:ms_hint="Select brand"
+                material:ms_hint="@string/select_brand"
                 material:ms_multiline="false"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />

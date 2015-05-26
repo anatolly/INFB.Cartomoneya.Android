@@ -6,7 +6,12 @@ import com.intrafab.cartomoneya.data.User;
 
 import java.util.List;
 
+import retrofit.Callback;
 import retrofit.http.GET;
+import retrofit.http.Multipart;
+import retrofit.http.POST;
+import retrofit.http.Part;
+import retrofit.mime.TypedFile;
 
 /**
  * Created by Artemiy Terekhov on 10.04.2015.
@@ -21,4 +26,10 @@ public interface HttpRestService {
 
     @GET("/shopbrand")
     public List<ShopBrand> getShopBrands();
+
+    @Multipart
+    @POST("shopcard/storeImageByFormData")
+    void createShopCard(@Part("myfile") TypedFile file,
+                @Part("description") String description,
+                Callback<String> cb);
 }

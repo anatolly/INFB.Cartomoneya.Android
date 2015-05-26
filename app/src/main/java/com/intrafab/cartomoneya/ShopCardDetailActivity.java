@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
-import com.intrafab.cartomoneya.actions.ActionRequestShopBrand;
+import com.intrafab.cartomoneya.actions.ActionRequestShopBrandTask;
 import com.intrafab.cartomoneya.adapters.CardPageAdapter;
 import com.intrafab.cartomoneya.data.ShopBrand;
 import com.intrafab.cartomoneya.data.ShopCard;
@@ -101,8 +101,8 @@ public class ShopCardDetailActivity extends BaseActivity {
 
     private void finishedShopBrandLoader(List<ShopBrand> data) {
         if (data == null) {
-            Logger.d(TAG, "finishedShopBrandLoader start ActionRequestShopBrand");
-            Groundy.create(ActionRequestShopBrand.class)
+            Logger.d(TAG, "finishedShopBrandLoader start ActionRequestShopBrandTask");
+            Groundy.create(ActionRequestShopBrandTask.class)
                     .callback(ShopCardDetailActivity.this)
                     .callbackManager(mCallbacksManager)
                     .queueUsing(ShopCardDetailActivity.this);
@@ -156,8 +156,8 @@ public class ShopCardDetailActivity extends BaseActivity {
 
         mPagerAdapter = new CardPageAdapter(getSupportFragmentManager());
 
-        mPagerAdapter.add(PlaceholderCardPageFragment.create(1, mShopCard.getFrontImageFile()));
-        mPagerAdapter.add(PlaceholderCardPageFragment.create(2, mShopCard.getBackImageFile()));
+        mPagerAdapter.add(PlaceholderCardPageFragment.create(1, mShopCard.getFrontImagePath()));
+        mPagerAdapter.add(PlaceholderCardPageFragment.create(2, mShopCard.getBackImagePath()));
 
         mViewpager.setOffscreenPageLimit(NUM_PAGES);
         mViewpager.setAdapter(mPagerAdapter);

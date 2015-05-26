@@ -89,6 +89,7 @@ public class ShoppingCardsActivity extends BaseActivity
             Groundy.create(ActionRequestShoppingCardsTask.class)
                     .callback(ShoppingCardsActivity.this)
                     .callbackManager(mCallbacksManager)
+                    .arg(ActionRequestShoppingCardsTask.ARG_USER, AppApplication.getApplication(this).getUserInfo())
                     .queueUsing(ShoppingCardsActivity.this);
         } else {
             Logger.d(TAG, "finishedShopCardLoader setData size = " + data.size());
