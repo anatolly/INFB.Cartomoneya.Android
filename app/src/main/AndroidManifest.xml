@@ -28,6 +28,9 @@
             android:name=".BusinessCardsActivity"
             android:screenOrientation="sensorPortrait"></activity>
         <activity
+            android:name=".BusinessCardDetailActivity"
+            android:screenOrientation="sensorPortrait"></activity>
+        <activity
             android:name=".ShoppingCardsActivity"
             android:screenOrientation="sensorPortrait"></activity>
         <activity

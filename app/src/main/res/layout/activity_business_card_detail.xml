@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorLightWindowBackground"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="?attr/actionBarSize" />
+
+    <ScrollView
+        android:id="@+id/scroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar"
+        android:background="#f4f4f4"
+        android:fillViewport="true"
+        android:overScrollMode="never">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/layoutSlider"
+                android:layout_width="172dp"
+                android:layout_height="220dp"
+                android:layout_marginRight="16dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:orientation="vertical">
+
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/pager"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp" />
+
+                <me.relex.circleindicator.CircleIndicator
+                    android:id="@+id/indicator_default"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_centerInParent="true"
+                    app:ci_drawable="@drawable/bg_selected_card_indicator"
+                    app:ci_drawable_unselected="@drawable/bg_unselected_card_indicator" />
+
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Name"
+                android:id="@+id/tvName"
+                android:layout_alignTop="@+id/layoutSlider"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/colorLightTextMain"
+                android:textSize="24sp"
+                android:layout_marginLeft="16dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Company"
+                android:id="@+id/tvCompany"
+                android:layout_below="@+id/tvName"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/colorLightTextMain"
+                android:textSize="24sp"
+                android:layout_marginLeft="16dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Job Title"
+                android:id="@+id/tvJobTitle"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/colorLightTextMain"
+                android:textSize="24sp"
+                android:layout_below="@+id/tvCompany"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginLeft="16dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/work_phone_label"
+                android:id="@+id/tvWorkPhoneLabel"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/colorLightTextMain"
+                android:textSize="24sp"
+                android:layout_below="@+id/layoutSlider"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginLeft="16dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Work phone"
+                android:id="@+id/tvWorkPhone"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/colorLightTextMain"
+                android:textSize="24sp"
+                android:layout_below="@+id/layoutSlider"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="16dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cell_phone_label"
+                android:id="@+id/tvCellPhoneLabel"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/colorLightTextMain"
+                android:textSize="24sp"
+                android:layout_below="@+id/tvWorkPhoneLabel"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="16dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cell phone"
+                android:id="@+id/tvCellPhone"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/colorLightTextMain"
+                android:textSize="24sp"
+                android:layout_below="@+id/tvWorkPhoneLabel"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="16dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/skype_label"
+                android:id="@+id/tvSkypeLabel"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/colorLightTextMain"
+                android:textSize="24sp"
+                android:layout_below="@+id/tvCellPhoneLabel"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="16dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="skype"
+                android:id="@+id/tvSkype"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/colorLightTextMain"
+                android:textSize="24sp"
+                android:layout_below="@+id/tvCellPhoneLabel"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="16dp"/>
+
+            <TextView
+                android:id="@+id/tvNotes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvSkypeLabel"
+                android:layout_marginLeft="32dp"
+                android:layout_marginRight="32dp"
+                android:layout_marginTop="64dp"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="Notes"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/colorLightTextMain"
+                android:textSize="24sp" />
+
+            <View
+                android:id="@+id/delim"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/tvNotes"
+                android:layout_marginLeft="32dp"
+                android:layout_marginRight="32dp"
+                android:layout_marginTop="4dp"
+                android:background="@color/colorLightPrimary"/>
+
+            <TextView
+                android:id="@+id/tvNotesText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/delim"
+                android:layout_marginLeft="32dp"
+                android:layout_marginRight="32dp"
+                android:layout_marginTop="8dp"
+                android:singleLine="false"
+                android:text="Notes text"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/colorLightTextMain"
+                android:textSize="18sp" />
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

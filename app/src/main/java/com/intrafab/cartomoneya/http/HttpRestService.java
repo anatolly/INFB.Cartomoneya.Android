@@ -1,5 +1,6 @@
 package com.intrafab.cartomoneya.http;
 
+import com.intrafab.cartomoneya.data.BizCard;
 import com.intrafab.cartomoneya.data.ShopBrand;
 import com.intrafab.cartomoneya.data.ShopCard;
 import com.intrafab.cartomoneya.data.User;
@@ -21,4 +22,7 @@ public interface HttpRestService {
 
     @GET("/shopbrand")
     public List<ShopBrand> getShopBrands();
+
+    @GET("/bizcard?populate=[personage]")
+    public List<BizCard> getBizCards();
 }

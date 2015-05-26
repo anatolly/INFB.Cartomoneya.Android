@@ -9,4 +9,14 @@
     <string name="shopping_card_screen_header">Shopping Cards</string>
     <string name="shopping_card_name_unknown">Unknown</string>
     <string name="empty_state_shopping_list">List is empty.\n Tap + to add.</string>
+
+    <!-- Business Cards -->
+    <string name="business_card_screen_header">Business Cards</string>
+    <string name="business_card_name_unknown">Unknown</string>
+    <string name="empty_state_business_list">List is empty.\n Tap + to add.</string>
+
+    <!-- Business Cards Details -->
+    <string name="work_phone_label">Work phone:</string>
+    <string name="cell_phone_label">Cell phone:</string>
+    <string name="skype_label">Skype:</string>
 </resources>
