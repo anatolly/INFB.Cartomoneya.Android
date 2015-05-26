@@ -117,6 +117,11 @@ public class ShopCard implements Parcelable {
     }
 
     public ShopCard() {
+//        id = Integer.MIN_VALUE;
+//        belongsToUser = Integer.MIN_VALUE;
+//        shopBrand = Integer.MIN_VALUE;
+//        frontImageFile = Integer.MIN_VALUE;
+//        backImageFile = Integer.MIN_VALUE;
     }
 
     public ShopCard(Parcel source) {
@@ -127,8 +132,10 @@ public class ShopCard implements Parcelable {
         name = source.readString();
         frontImageFile = source.readInt();
         backImageFile = source.readInt();
-        createdAt = new Date(source.readLong());
-        updatedAt = new Date(source.readLong());
+        long _createdAt = source.readLong();
+        createdAt = _createdAt == -1 ? null : new Date(_createdAt);
+        long _updatedAt = source.readLong();
+        updatedAt = _updatedAt == -1 ? null : new Date(_updatedAt);
         notes = source.readString();
     }
 
@@ -151,8 +158,8 @@ public class ShopCard implements Parcelable {
         dest.writeString(name);
         dest.writeInt(frontImageFile);
         dest.writeInt(backImageFile);
-        dest.writeLong(createdAt.getTime());
-        dest.writeLong(updatedAt.getTime());
+        dest.writeLong(createdAt != null ? createdAt.getTime() : -1);
+        dest.writeLong(updatedAt != null ? updatedAt.getTime() : -1);
         dest.writeString(notes);
     }
 

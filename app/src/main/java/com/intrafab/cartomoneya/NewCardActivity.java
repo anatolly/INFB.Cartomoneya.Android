@@ -18,7 +18,7 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,9 +27,13 @@ import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+import com.intrafab.cartomoneya.actions.ActionRequestCreateShopCardTask;
 import com.intrafab.cartomoneya.actions.ActionRequestShopBrandTask;
 import com.intrafab.cartomoneya.adapters.CardImagePagerAdapter;
+import com.intrafab.cartomoneya.adapters.ShopBrandAdapter;
 import com.intrafab.cartomoneya.data.ShopBrand;
+import com.intrafab.cartomoneya.data.ShopCard;
+import com.intrafab.cartomoneya.data.User;
 import com.intrafab.cartomoneya.fragments.PlaceholderCardImagePageFragment;
 import com.intrafab.cartomoneya.loaders.ShopBrandListLoader;
 import com.intrafab.cartomoneya.utils.Images;
@@ -76,6 +80,8 @@ public class NewCardActivity extends BaseActivity
 
     private Uri mFrontImageUri;
     private Uri mBackImageUri;
+
+    private ShopBrand mSelectedBrand;
 
     private CallbacksManager mCallbacksManager;
 
@@ -166,19 +172,32 @@ public class NewCardActivity extends BaseActivity
         } else {
             Logger.d(TAG, "finishedShopBrandLoader setData size = " + data.size());
 //            ArrayAdapter<ShopBrand> adapter = new ArrayAdapter<ShopBrand>(this, android.R.layout.simple_spinner_item, data);
-            List<String> items = new ArrayList<String>();
-            for (ShopBrand brand : data)
-                items.add(brand.getName());
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, items);
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//            List<String> items = new ArrayList<String>();
+//            for (ShopBrand brand : data)
+//                items.add(brand.getName());
+            final ShopBrandAdapter adapter = new ShopBrandAdapter(this, data);
+            //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             mMaterialSpinner.setAdapter(adapter);
+            mMaterialSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                    SpinnerAdapter adapter = mMaterialSpinner.getAdapter();
+                    if (position >= 0 && position < adapter.getCount())
+                        mSelectedBrand = (ShopBrand) adapter.getItem(position);
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
         }
     }
 
     private void resetShopBrandLoader() {
         Logger.d(TAG, "resetShopBrandLoader");
 
-        mMaterialSpinner.setAdapter(null);
+        //mMaterialSpinner.setAdapter(null);
     }
 
     @Override
@@ -242,6 +261,9 @@ public class NewCardActivity extends BaseActivity
                         .setTabListener(mTabListener)
         );
 
+        mTabHost.setSelectedNavigationItem(0);
+        mPager.setCurrentItem(0);
+
         getLoaderManager().initLoader(LOADER_SHOP_BRAND_ID, null, mLoaderCallback);
     }
 
@@ -292,7 +314,11 @@ public class NewCardActivity extends BaseActivity
                     } else {
                         mBackImageUri = imageUri;
                     }
-                    mAdapter.getFragment(mPager.getCurrentItem()).setUri(imageUri);
+                    try {
+                        mAdapter.getFragment(mPager.getCurrentItem()).setUri(imageUri);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         } else {
@@ -451,12 +477,33 @@ public class NewCardActivity extends BaseActivity
             return;
         }
 
-        if (!validateBrand()) {
+        String brand = validateBrand();
+        if (TextUtils.isEmpty(brand)) {
             showSnackBarError(getString(R.string.error_need_brand));
             return;
         }
 
         SnackbarManager.dismiss();
+
+        String barcode = mBarcodeNumber.getText().toString();
+
+        ShopCard newCard = new ShopCard();
+        newCard.setBarcode(barcode);
+        if (mSelectedBrand != null)
+            newCard.setShopBrand(mSelectedBrand.getId());
+        newCard.setNotes("test");
+
+        User user = AppApplication.getApplication(this).getUserInfo();
+        if (user != null)
+            newCard.setBelongsToUser(user.getId());
+
+        Groundy.create(ActionRequestCreateShopCardTask.class)
+                .callback(NewCardActivity.this)
+                .callbackManager(mCallbacksManager)
+                .arg(ActionRequestCreateShopCardTask.ARG_BACK_IMAGE, mBackImageUri != null ? mBackImageUri.getPath() : "")
+                .arg(ActionRequestCreateShopCardTask.ARG_FRONT_IMAGE, mFrontImageUri != null ? mFrontImageUri.getPath() : "")
+                .arg(ActionRequestCreateShopCardTask.ARG_SHOP_CARD, newCard)
+                .queueUsing(NewCardActivity.this);
     }
 
     private boolean validateImage() {
@@ -466,17 +513,17 @@ public class NewCardActivity extends BaseActivity
         return false;
     }
 
-    private boolean validateBrand() {
+    private String validateBrand() {
         if (mMaterialSpinner.getSelectedItem() == null)
-            return false;
+            return null;
         String brand = mMaterialSpinner.getSelectedItem().toString();
         if (TextUtils.isEmpty(brand))
-            return false;
+            return null;
 
         if (getString(R.string.select_brand).equals(brand))
-            return false;
+            return null;
 
-        return true;
+        return brand;
     }
 
     private void showSnackBarError(String error) {

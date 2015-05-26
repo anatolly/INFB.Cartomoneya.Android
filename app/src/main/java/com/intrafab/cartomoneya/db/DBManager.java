@@ -300,14 +300,6 @@ public class DBManager {
                 }.getType());
                 mSnappyDB.put(key, json);
                 Logger.d(TAG, "Insert data to database key: " + key);
-
-                if (mLoaders != null) {
-                    synchronized (mLoaders) {
-                        Iterator i = mLoaders.iterator();
-                        while (i.hasNext())
-                            ((Loader) i.next()).onContentChanged();
-                    }
-                }
             } catch (SnappydbException e) {
                 e.printStackTrace();
                 Logger.e(TAG, "Can't insert array into database key: " + key + "; object: " + listObjects);
@@ -325,14 +317,6 @@ public class DBManager {
                 String json = new Gson().toJson(list, new TypeToken<List<T>>() {
                 }.getType());
                 mSnappyDB.put(key, json);
-
-                if (mLoaders != null) {
-                    synchronized (mLoaders) {
-                        Iterator i = mLoaders.iterator();
-                        while (i.hasNext())
-                            ((Loader) i.next()).onContentChanged();
-                    }
-                }
             } catch (SnappydbException e) {
                 e.printStackTrace();
                 Logger.e(TAG, "Can't insert array into database key: " + key + "; object: " + listObjects);
@@ -461,13 +445,6 @@ public class DBManager {
         if (mSnappyDB != null) {
             try {
                 mSnappyDB.del(key);
-                if (mLoaders != null) {
-                    synchronized (mLoaders) {
-                        Iterator i = mLoaders.iterator();
-                        while (i.hasNext())
-                            ((Loader) i.next()).onContentChanged();
-                    }
-                }
             } catch (SnappydbException e) {
                 e.printStackTrace();
                 Logger.e(TAG, "Can't delete from database key: " + key);
