@@ -5,12 +5,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.intrafab.cartomoneya.actions.ActionRequestBizCardsTask;
 import com.intrafab.cartomoneya.adapters.BizCardAdapter;
 import com.intrafab.cartomoneya.data.BizCard;
+import com.intrafab.cartomoneya.db.DBManager;
 import com.intrafab.cartomoneya.fragments.PlaceholderBizCardsFragment;
+import com.intrafab.cartomoneya.fragments.PlaceholderShoppingCardsFragment;
 import com.intrafab.cartomoneya.loaders.BizCardListLoader;
+import com.intrafab.cartomoneya.loaders.ShopCardListLoader;
 import com.intrafab.cartomoneya.utils.Logger;
 import com.telly.groundy.CallbacksManager;
 import com.telly.groundy.Groundy;
@@ -145,6 +151,41 @@ public class BusinessCardsActivity extends BaseActivity implements BizCardAdapte
 
         fragment.showProgress();
         getLoaderManager().initLoader(LOADER_BIZ_CARD_ID, null, mLoaderCallback);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_biz_card, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            Toast.makeText(this, "Coming soon. Show settings screen", Toast.LENGTH_SHORT).show();
+            return true;
+        } else if (id == R.id.action_search_card) {
+            Toast.makeText(this, "Coming soon. Show search", Toast.LENGTH_SHORT).show();
+            return true;
+        } else if (id == R.id.action_add_card) {
+            NewCardActivity.launch(this);
+            return true;
+        } else if (id == R.id.action_sync) {
+            PlaceholderBizCardsFragment fragment = getFragment();
+            if (fragment == null)
+                return true;
+
+            if (fragment != null) {
+                fragment.hideProgress();
+                fragment.setData(null);
+            }
+            DBManager.getInstance().deleteObject(Constants.Prefs.PREF_PARAM_BUSINESS_CARDS, BizCardListLoader.class);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
