@@ -117,11 +117,7 @@ public class ShopCard implements Parcelable {
     }
 
     public ShopCard() {
-//        id = Integer.MIN_VALUE;
-//        belongsToUser = Integer.MIN_VALUE;
-//        shopBrand = Integer.MIN_VALUE;
-//        frontImageFile = Integer.MIN_VALUE;
-//        backImageFile = Integer.MIN_VALUE;
+
     }
 
     public ShopCard(Parcel source) {
