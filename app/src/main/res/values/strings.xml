@@ -19,6 +19,15 @@
     <string name="tab_new_card_frot">Front card image</string>
     <string name="tab_new_card_back">Back card image</string>
     <string name="error_need_front_image">Need select front image</string>
-    <string name="error_need_brand">Need select card brand</string>
+    <string name="error_need_input_name">Need input card name</string>
     <string name="select_brand">Select brand</string>
+    <string name="card_name">Card Name</string>
+    <string name="barcode">Barcode</string>
+    <string name="brand">Brand</string>
+    <string name="notes">Notes</string>
+    <string name="your_notes">Your notes</string>
+    <string name="success_create_shop_card">Карта успешно создана</string>
+
+    <string name="error_internet_not_available">Интернет не доступен. Проверьте подключение или попробуйте позже.</string>
+    <string name="error_occurred">Ошибка. Не удалось подключиться к серверу</string>
 </resources>

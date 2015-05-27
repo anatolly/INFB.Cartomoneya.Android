@@ -20,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,8 +42,13 @@ import com.intrafab.cartomoneya.utils.Logger;
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
 import com.nispok.snackbar.enums.SnackbarType;
+import com.nispok.snackbar.listeners.EventListener;
+import com.rengwuxian.materialedittext.MaterialEditText;
 import com.telly.groundy.CallbacksManager;
 import com.telly.groundy.Groundy;
+import com.telly.groundy.annotations.OnFailure;
+import com.telly.groundy.annotations.OnSuccess;
+import com.telly.groundy.annotations.Param;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -77,6 +83,10 @@ public class NewCardActivity extends BaseActivity
     private IntentIntegrator mScanIntegrator;
 
     private MaterialSpinner mMaterialSpinner;
+    private MaterialEditText mEditCardName;
+    private MaterialEditText mEditNotes;
+
+    private RelativeLayout mLayoutProgress;
 
     private Uri mFrontImageUri;
     private Uri mBackImageUri;
@@ -155,6 +165,15 @@ public class NewCardActivity extends BaseActivity
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public boolean onPrepareOptionsMenu (Menu menu) {
+        MenuItem item = menu.findItem(R.id.action_create);//.getItem(1).setEnabled(false);
+        if(item != null) {
+            item.setEnabled(!isProgress());
+        }
+        return true;
+    }
+
     private android.content.Loader<List<ShopBrand>> createShopBrandLoader() {
         Logger.d(TAG, "createShopBrandLoader");
         return new ShopBrandListLoader(NewCardActivity.this);
@@ -219,6 +238,9 @@ public class NewCardActivity extends BaseActivity
         mBarcodeAddImageView = (ImageView) findViewById(R.id.ivIconAddBarcode);
         mBarcodeNumber = (TextView) findViewById(R.id.tvBarcodeNumber);
         mMaterialSpinner = (MaterialSpinner) findViewById(R.id.brandSpinner);
+        mEditCardName = (MaterialEditText) findViewById(R.id.etCardName);
+        mEditNotes = (MaterialEditText) findViewById(R.id.etNotes);
+        mLayoutProgress = (RelativeLayout) findViewById(R.id.layoutProgress);
 
         mBarcodeImageView.setOnClickListener(this);
         mBarcodeAddImageView.setOnClickListener(this);
@@ -473,14 +495,9 @@ public class NewCardActivity extends BaseActivity
     }
 
     private void createNewCard() {
-        if (!validateImage()) {
-            showSnackBarError(getString(R.string.error_need_front_image));
-            return;
-        }
-
-        String brand = validateBrand();
-        if (TextUtils.isEmpty(brand)) {
-            showSnackBarError(getString(R.string.error_need_brand));
+        String cardName = validateCardName();
+        if (TextUtils.isEmpty(cardName)) {
+            showSnackBarError(getString(R.string.error_need_input_name));
             return;
         }
 
@@ -490,16 +507,23 @@ public class NewCardActivity extends BaseActivity
         String barcodeFormat = (String) mBarcodeNumber.getTag();
 
         ShopCard newCard = new ShopCard();
+        newCard.setName(cardName);
+
         newCard.setBarcode(barcode);
         newCard.setBarcodeFormat(barcodeFormat);
+
         if (mSelectedBrand != null)
             newCard.setShopBrand(mSelectedBrand.getId());
-        newCard.setNotes("test");
+
+        String notes = mEditNotes.getText().toString();
+        newCard.setNotes(notes);
 
         User user = AppApplication.getApplication(this).getUserInfo();
         if (user != null)
             newCard.setBelongsToUser(user.getId());
 
+        showProgress();
+        invalidateOptionsMenu();
         Groundy.create(ActionRequestCreateShopCardTask.class)
                 .callback(NewCardActivity.this)
                 .callbackManager(mCallbacksManager)
@@ -509,24 +533,12 @@ public class NewCardActivity extends BaseActivity
                 .queueUsing(NewCardActivity.this);
     }
 
-    private boolean validateImage() {
-        if (mFrontImageUri != null && new File(mFrontImageUri.getPath()).exists())
-            return true;
-
-        return false;
-    }
-
-    private String validateBrand() {
-        if (mMaterialSpinner.getSelectedItem() == null)
-            return null;
-        String brand = mMaterialSpinner.getSelectedItem().toString();
-        if (TextUtils.isEmpty(brand))
+    private String validateCardName() {
+        String cardName = mEditCardName.getText().toString();
+        if (TextUtils.isEmpty(cardName))
             return null;
 
-        if (getString(R.string.select_brand).equals(brand))
-            return null;
-
-        return brand;
+        return cardName;
     }
 
     private void showSnackBarError(String error) {
@@ -539,5 +551,80 @@ public class NewCardActivity extends BaseActivity
                         .swipeToDismiss(true)
                         .duration(Snackbar.SnackbarDuration.LENGTH_INDEFINITE)
                 , NewCardActivity.this); // activity where it is displayed
+    }
+
+    private void showSnackBarSuccess(String text) {
+        SnackbarManager.show(
+                Snackbar.with(NewCardActivity.this) // context
+                        .type(SnackbarType.MULTI_LINE)
+                        .text(text)
+                        .color(getResources().getColor(R.color.colorLightSuccess))
+                        .textColor(getResources().getColor(R.color.colorLightEditTextHint))
+                        .swipeToDismiss(false)
+                        .duration(Snackbar.SnackbarDuration.LENGTH_SHORT)
+                        .eventListener(new EventListener() {
+                            @Override
+                            public void onShow(Snackbar snackbar) {
+
+                            }
+
+                            @Override
+                            public void onShowByReplace(Snackbar snackbar) {
+
+                            }
+
+                            @Override
+                            public void onShown(Snackbar snackbar) {
+
+                            }
+
+                            @Override
+                            public void onDismiss(Snackbar snackbar) {
+                                finish();
+                            }
+
+                            @Override
+                            public void onDismissByReplace(Snackbar snackbar) {
+                                finish();
+                            }
+
+                            @Override
+                            public void onDismissed(Snackbar snackbar) {
+                                finish();
+                            }
+                        })
+                , NewCardActivity.this); // activity where it is displayed
+    }
+
+    public boolean isProgress() {
+        return mLayoutProgress.getVisibility() == View.VISIBLE;
+    }
+
+    public void showProgress() {
+        mLayoutProgress.setVisibility(View.VISIBLE);
+    }
+
+    public void hideProgress() {
+        mLayoutProgress.setVisibility(View.GONE);
+    }
+
+    @OnSuccess(ActionRequestCreateShopCardTask.class)
+    public void onSuccessRequestCreateShopCard() {
+        hideProgress();
+        invalidateOptionsMenu();
+
+        showSnackBarSuccess(getResources().getString(R.string.success_create_shop_card));
+    }
+
+    @OnFailure(ActionRequestCreateShopCardTask.class)
+    public void onFailureRequestCreateShopCard(@Param(Constants.Extras.PARAM_INTERNET_AVAILABLE) boolean isAvailable) {
+        hideProgress();
+        invalidateOptionsMenu();
+
+        if (!isAvailable) {
+            showSnackBarError(getResources().getString(R.string.error_internet_not_available));
+        } else {
+            showSnackBarError(getResources().getString(R.string.error_occurred));
+        }
     }
 }
