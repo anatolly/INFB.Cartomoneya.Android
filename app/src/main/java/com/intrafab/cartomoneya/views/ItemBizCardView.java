@@ -107,9 +107,9 @@ public class ItemBizCardView extends RecyclerView.ViewHolder
             mTextViewJobTitle.setVisibility(View.GONE);
         }
 
-        if (!TextUtils.isEmpty(item.getFrontImageFile())) {
+        if (!TextUtils.isEmpty(item.getFrontImagePath())) {
             Picasso.with(getContext())
-                    .load(item.getFrontImageFile())
+                    .load(item.getFrontImagePath())
                     .placeholder(R.mipmap.ic_default_card)
                     .error(R.mipmap.ic_default_card)
                     .into(mImageThumbnail);

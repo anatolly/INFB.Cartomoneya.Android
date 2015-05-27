@@ -3,6 +3,8 @@ package com.intrafab.cartomoneya.data;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.intrafab.cartomoneya.http.RestApiConfig;
+
 import org.json.JSONObject;
 
 import java.util.Date;
@@ -18,8 +20,8 @@ public class BizCard implements Parcelable {
     private Date updatedAt;
     private String notes;
 
-    private String frontImageFile;
-    private String backImageFile;
+    private int frontImageFile;
+    private int backImageFile;
 
     private Personage personage;
 
@@ -71,19 +73,19 @@ public class BizCard implements Parcelable {
         this.notes = notes;
     }
 
-    public String getFrontImageFile() {
+    public int getFrontImageFile() {
         return frontImageFile;
     }
 
-    public void setFrontImageFile(String frontImageFile) {
+    public void setFrontImageFile(int frontImageFile) {
         this.frontImageFile = frontImageFile;
     }
 
-    public String getBackImageFile() {
+    public int getBackImageFile() {
         return backImageFile;
     }
 
-    public void setBackImageFile(String backImageFile) {
+    public void setBackImageFile(int backImageFile) {
         this.backImageFile = backImageFile;
     }
 
@@ -93,6 +95,14 @@ public class BizCard implements Parcelable {
 
     public void setPersonage(Personage personage) {
         this.personage = personage;
+    }
+
+    public String getFrontImagePath() {
+        return RestApiConfig.BASE_HOST_URL + "/fileEntity/getFile?id=" + frontImageFile;
+    }
+
+    public String getBackImagePath() {
+        return RestApiConfig.BASE_HOST_URL + "/fileEntity/getFile?id=" + backImageFile;
     }
 
     public static class Personage implements Parcelable {
@@ -248,8 +258,8 @@ public class BizCard implements Parcelable {
         dest.writeLong(createdAt != null ? createdAt.getTime() : -1);
         dest.writeLong(updatedAt != null ? updatedAt.getTime() : -1);
         dest.writeString(this.notes);
-        dest.writeString(this.frontImageFile);
-        dest.writeString(this.backImageFile);
+        dest.writeInt(this.frontImageFile);
+        dest.writeInt(this.backImageFile);
         dest.writeParcelable(this.personage, 0);
     }
 
@@ -265,8 +275,8 @@ public class BizCard implements Parcelable {
         long tmpUpdatedAt = in.readLong();
         this.updatedAt = tmpUpdatedAt == -1 ? null : new Date(tmpUpdatedAt);
         this.notes = in.readString();
-        this.frontImageFile = in.readString();
-        this.backImageFile = in.readString();
+        this.frontImageFile = in.readInt();
+        this.backImageFile = in.readInt();
         this.personage = in.readParcelable(Personage.class.getClassLoader());
     }
 

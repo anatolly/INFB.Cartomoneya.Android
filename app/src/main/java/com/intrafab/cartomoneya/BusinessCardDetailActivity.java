@@ -72,8 +72,8 @@ public class BusinessCardDetailActivity extends BaseActivity {
 
         mPagerAdapter = new CardPageAdapter(getSupportFragmentManager());
 
-        mPagerAdapter.add(PlaceholderCardPageFragment.create(1, mBizCard.getFrontImageFile()));
-        mPagerAdapter.add(PlaceholderCardPageFragment.create(2, mBizCard.getBackImageFile()));
+        mPagerAdapter.add(PlaceholderCardPageFragment.create(1, mBizCard.getFrontImagePath()));
+        mPagerAdapter.add(PlaceholderCardPageFragment.create(2, mBizCard.getBackImagePath()));
 
         mViewpager.setOffscreenPageLimit(NUM_PAGES);
         mViewpager.setAdapter(mPagerAdapter);
