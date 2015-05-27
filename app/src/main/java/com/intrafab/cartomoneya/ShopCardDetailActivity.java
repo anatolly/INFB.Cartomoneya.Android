@@ -169,9 +169,20 @@ public class ShopCardDetailActivity extends BaseActivity {
             public void run() {
                 Bitmap bitmap = null;
                 try {
+                    String barcode = mShopCard.getBarcode();
 
-                    bitmap = Images.encodeAsBitmap(mShopCard.getBarcode(), BarcodeFormat.CODE_128, mBarcodeImage.getWidth(), mBarcodeImage.getHeight());
-                    mBarcodeImage.setImageBitmap(bitmap);
+                    BarcodeFormat barcodeFormat;
+                    try {
+                        barcodeFormat = BarcodeFormat.valueOf(mShopCard.getBarcodeFormat());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        barcodeFormat = BarcodeFormat.CODE_128;
+                    }
+
+                    if (!TextUtils.isEmpty(barcode)) {
+                        bitmap = Images.encodeAsBitmap(mShopCard.getBarcode(), barcodeFormat, mBarcodeImage.getWidth(), mBarcodeImage.getHeight());
+                        mBarcodeImage.setImageBitmap(bitmap);
+                    }
                 } catch (WriterException e) {
                     e.printStackTrace();
                     mBarcodeImage.setImageResource(R.mipmap.ic_barcode);
@@ -181,8 +192,6 @@ public class ShopCardDetailActivity extends BaseActivity {
                 } catch (Throwable e) {
                     e.printStackTrace();
                     mBarcodeImage.setImageResource(R.mipmap.ic_barcode);
-                } finally {
-                    //bitmap.recycle();
                 }
 
                 if (!TextUtils.isEmpty(mShopCard.getBarcode())) {

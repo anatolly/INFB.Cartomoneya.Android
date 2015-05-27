@@ -29,6 +29,7 @@ public class ShopCard implements Parcelable {
     private int belongsToUser;
     private int shopBrand;
     private String barcode;
+    private String barcodeFormat;
     private String name;
     private int frontImageFile;
     private int backImageFile;
@@ -84,6 +85,14 @@ public class ShopCard implements Parcelable {
         this.barcode = barcode;
     }
 
+    public String getBarcodeFormat() {
+        return barcodeFormat;
+    }
+
+    public void setBarcodeFormat(String barcodeFormat) {
+        this.barcodeFormat = barcodeFormat;
+    }
+
     public String getName() {
         return name;
     }
@@ -129,6 +138,7 @@ public class ShopCard implements Parcelable {
         belongsToUser = source.readInt();
         shopBrand = source.readInt();
         barcode = source.readString();
+        barcodeFormat = source.readString();
         name = source.readString();
         frontImageFile = source.readInt();
         backImageFile = source.readInt();
@@ -155,6 +165,7 @@ public class ShopCard implements Parcelable {
         dest.writeInt(belongsToUser);
         dest.writeInt(shopBrand);
         dest.writeString(barcode);
+        dest.writeString(barcodeFormat);
         dest.writeString(name);
         dest.writeInt(frontImageFile);
         dest.writeInt(backImageFile);

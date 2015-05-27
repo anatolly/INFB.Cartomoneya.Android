@@ -357,6 +357,7 @@ public class NewCardActivity extends BaseActivity
 
                     mBarcodeNumber.setVisibility(View.VISIBLE);
                     mBarcodeNumber.setText(scanContent);
+                    mBarcodeNumber.setTag(scanFormat);
                     mBarcodeNumber.requestLayout();
                     Paint textPaint = mBarcodeNumber.getPaint();
                     float width = textPaint.measureText(scanContent);
@@ -486,9 +487,11 @@ public class NewCardActivity extends BaseActivity
         SnackbarManager.dismiss();
 
         String barcode = mBarcodeNumber.getText().toString();
+        String barcodeFormat = (String) mBarcodeNumber.getTag();
 
         ShopCard newCard = new ShopCard();
         newCard.setBarcode(barcode);
+        newCard.setBarcodeFormat(barcodeFormat);
         if (mSelectedBrand != null)
             newCard.setShopBrand(mSelectedBrand.getId());
         newCard.setNotes("test");
