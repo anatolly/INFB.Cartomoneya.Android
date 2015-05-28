@@ -18,5 +18,6 @@ public class Constants {
     public static class Extras {
         public static final String PARAM_USER_DATA = "param_user_data";
         public static final String PARAM_INTERNET_AVAILABLE = "param_internet_available";
+        public static final String PARAM_SHOP_CARD = "param_shop_card";
     }
 }

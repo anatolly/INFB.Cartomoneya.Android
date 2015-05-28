@@ -7,7 +7,8 @@
     <string name="action_cancel">Cancel</string>
     <string name="action_crop">Crop</string>
     <string name="action_create">Create</string>
-
+    <string name="action_edit">Edit</string>
+    <string name="action_save">Save</string>
 
     <!-- Shopping Cards -->
     <string name="shopping_card_screen_header">Shopping Cards</string>
@@ -16,6 +17,7 @@
 
     <!-- New Card -->
     <string name="new_card_screen_header">New Card</string>
+    <string name="edit_card_screen_header">Edit Card</string>
     <string name="tab_new_card_frot">Front card image</string>
     <string name="tab_new_card_back">Back card image</string>
     <string name="error_need_front_image">Need select front image</string>
@@ -27,6 +29,7 @@
     <string name="notes">Notes</string>
     <string name="your_notes">Your notes</string>
     <string name="success_create_shop_card">Карта успешно создана</string>
+    <string name="success_update_shop_card">Карта успешно обновлена</string>
 
     <string name="error_internet_not_available">Интернет не доступен. Проверьте подключение или попробуйте позже.</string>
     <string name="error_occurred">Ошибка. Не удалось подключиться к серверу</string>

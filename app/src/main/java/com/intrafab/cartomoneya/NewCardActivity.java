@@ -30,6 +30,7 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.intrafab.cartomoneya.actions.ActionRequestCreateShopCardTask;
 import com.intrafab.cartomoneya.actions.ActionRequestShopBrandTask;
+import com.intrafab.cartomoneya.actions.ActionRequestUpdateShopCardTask;
 import com.intrafab.cartomoneya.adapters.CardImagePagerAdapter;
 import com.intrafab.cartomoneya.adapters.ShopBrandAdapter;
 import com.intrafab.cartomoneya.data.ShopBrand;
@@ -39,6 +40,7 @@ import com.intrafab.cartomoneya.fragments.PlaceholderCardImagePageFragment;
 import com.intrafab.cartomoneya.loaders.ShopBrandListLoader;
 import com.intrafab.cartomoneya.utils.Images;
 import com.intrafab.cartomoneya.utils.Logger;
+import com.intrafab.cartomoneya.utils.SupportVersion;
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
 import com.nispok.snackbar.enums.SnackbarType;
@@ -73,9 +75,17 @@ public class NewCardActivity extends BaseActivity
 
     private static final int LOADER_SHOP_BRAND_ID = 11;
 
+    public static final String ARG_SHOP_CARD = "arg_shop_card";
+    public static final String ARG_SHOP_BRAND = "arg_shop_brand";
+
+    private ShopCard mShopCardEdit;
+    private ShopBrand mShopBrand;
+    private boolean mIsEditMode;
+
     private MaterialTabHost mTabHost;
     private ViewPager mPager;
     private CardImagePagerAdapter mAdapter;
+    private RelativeLayout mLayoutBarcode;
     private ImageView mBarcodeImageView;
     private ImageView mBarcodeAddImageView;
     private TextView mBarcodeNumber;
@@ -161,15 +171,31 @@ public class NewCardActivity extends BaseActivity
         if (id == R.id.action_create) {
             createNewCard();
             return true;
+        } else if (id == R.id.action_save) {
+            saveCard();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
-    public boolean onPrepareOptionsMenu (Menu menu) {
-        MenuItem item = menu.findItem(R.id.action_create);//.getItem(1).setEnabled(false);
-        if(item != null) {
-            item.setEnabled(!isProgress());
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem itemCreate = menu.findItem(R.id.action_create);
+        MenuItem itemSave = menu.findItem(R.id.action_save);
+        if (itemCreate != null) {
+            itemCreate.setEnabled(!isProgress());
+        }
+
+        if (mIsEditMode) {
+            if (itemCreate != null)
+                itemCreate.setVisible(false);
+            if (itemSave != null)
+                itemSave.setVisible(true);
+        } else {
+            if (itemCreate != null)
+                itemCreate.setVisible(true);
+            if (itemSave != null)
+                itemSave.setVisible(false);
         }
         return true;
     }
@@ -190,17 +216,11 @@ public class NewCardActivity extends BaseActivity
                     .queueUsing(NewCardActivity.this);
         } else {
             Logger.d(TAG, "finishedShopBrandLoader setData size = " + data.size());
-//            ArrayAdapter<ShopBrand> adapter = new ArrayAdapter<ShopBrand>(this, android.R.layout.simple_spinner_item, data);
-//            List<String> items = new ArrayList<String>();
-//            for (ShopBrand brand : data)
-//                items.add(brand.getName());
             final ShopBrandAdapter adapter = new ShopBrandAdapter(this, data);
-            //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             mMaterialSpinner.setAdapter(adapter);
             mMaterialSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                    SpinnerAdapter adapter = mMaterialSpinner.getAdapter();
                     if (position >= 0 && position < adapter.getCount())
                         mSelectedBrand = (ShopBrand) adapter.getItem(position);
                 }
@@ -210,13 +230,22 @@ public class NewCardActivity extends BaseActivity
 
                 }
             });
+
+            if (mIsEditMode && mShopBrand != null) {
+                int count = data.size();
+                for (int i = 0; i < count; ++i) {
+                    ShopBrand brand = data.get(i);
+                    if (brand.getId() == mShopBrand.getId()) {
+                        mMaterialSpinner.setSelection(i + 1); //поправка на дефолтное значение
+                        break;
+                    }
+                }
+            }
         }
     }
 
     private void resetShopBrandLoader() {
         Logger.d(TAG, "resetShopBrandLoader");
-
-        //mMaterialSpinner.setAdapter(null);
     }
 
     @Override
@@ -225,7 +254,16 @@ public class NewCardActivity extends BaseActivity
 
         getSupportActionBar().getThemedContext();
 
-        getSupportActionBar().setTitle(R.string.new_card_screen_header);
+        Intent intent = getIntent();
+        if (intent != null) {
+            mShopCardEdit = getIntent().getParcelableExtra(ARG_SHOP_CARD);
+            mShopBrand = getIntent().getParcelableExtra(ARG_SHOP_BRAND);
+            if (mShopCardEdit != null) {
+                mIsEditMode = true;
+            }
+        }
+
+        getSupportActionBar().setTitle(mIsEditMode ? R.string.edit_card_screen_header : R.string.new_card_screen_header);
         showActionBar();
 
         mCallbacksManager = CallbacksManager.init(savedInstanceState);
@@ -234,6 +272,7 @@ public class NewCardActivity extends BaseActivity
         mTabHost = (MaterialTabHost) this.findViewById(R.id.tabHost);
         mPager = (ViewPager) this.findViewById(R.id.tabPager);
 
+        mLayoutBarcode = (RelativeLayout) findViewById(R.id.layoutBarcode);
         mBarcodeImageView = (ImageView) findViewById(R.id.ivBarcodeImage);
         mBarcodeAddImageView = (ImageView) findViewById(R.id.ivIconAddBarcode);
         mBarcodeNumber = (TextView) findViewById(R.id.tvBarcodeNumber);
@@ -287,6 +326,44 @@ public class NewCardActivity extends BaseActivity
         mPager.setCurrentItem(0);
 
         getLoaderManager().initLoader(LOADER_SHOP_BRAND_ID, null, mLoaderCallback);
+
+        if (mIsEditMode) {
+            mTabHost.post(new Runnable() {
+                @Override
+                public void run() {
+                    fillData();
+                }
+            });
+
+        }
+    }
+
+    private void fillData() {
+        String frontImagePath = mShopCardEdit.getFrontImagePath();
+        if (!TextUtils.isEmpty(frontImagePath)) {
+            Uri imageUri = Uri.parse(frontImagePath);
+            mAdapter.getFragment(0).setUri(imageUri);
+        }
+
+        String backImagePath = mShopCardEdit.getBackImagePath();
+        if (!TextUtils.isEmpty(backImagePath)) {
+            Uri imageUri = Uri.parse(backImagePath);
+            mAdapter.getFragment(1).setUri(imageUri);
+        }
+
+        String cardName = mShopCardEdit.getName();
+        if (!TextUtils.isEmpty(cardName)) {
+            mEditCardName.setText(cardName);
+        }
+
+        String cardNotes = mShopCardEdit.getNotes();
+        if (!TextUtils.isEmpty(cardNotes)) {
+            mEditNotes.setText(cardNotes);
+        }
+
+        fillBarcode(mShopCardEdit.getBarcode(), mShopCardEdit.getBarcodeFormat());
+
+        invalidateOptionsMenu();
     }
 
     @Override
@@ -312,6 +389,16 @@ public class NewCardActivity extends BaseActivity
         Bundle options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity).toBundle();
 
         ActivityCompat.startActivity(activity, intent, options);
+    }
+
+    public static void launchEdit(BaseActivity activity, ShopCard shopCard, ShopBrand shopBrand, int requestCode) {
+        Intent intent = new Intent(activity, NewCardActivity.class);
+        intent.putExtra(ARG_SHOP_CARD, shopCard);
+        intent.putExtra(ARG_SHOP_BRAND, shopBrand);
+
+        Bundle options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity).toBundle();
+
+        ActivityCompat.startActivityForResult(activity, intent, requestCode, options);
     }
 
     @Override
@@ -349,54 +436,61 @@ public class NewCardActivity extends BaseActivity
                 final String scanContent = scanningResult.getContents();
                 final String scanFormat = scanningResult.getFormatName();
 
-                if (!TextUtils.isEmpty(scanContent)) {
-                    Bitmap bitmap = null;
-                    try {
-                        BarcodeFormat barcodeFormat;
-                        try {
-                            barcodeFormat = BarcodeFormat.valueOf(scanFormat);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            barcodeFormat = BarcodeFormat.CODE_128;
-                        }
-
-                        bitmap = Images.encodeAsBitmap(scanContent, barcodeFormat, mBarcodeImageView.getWidth(), mBarcodeImageView.getHeight());
-                        mBarcodeImageView.setImageBitmap(bitmap);
-                        mBarcodeAddImageView.setVisibility(View.GONE);
-                    } catch (WriterException e) {
-                        e.printStackTrace();
-                        mBarcodeImageView.setImageResource(R.mipmap.ic_barcode);
-                        mBarcodeAddImageView.setVisibility(View.GONE);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        mBarcodeImageView.setImageResource(R.mipmap.ic_barcode);
-                        mBarcodeAddImageView.setVisibility(View.GONE);
-                    } catch (Throwable e) {
-                        e.printStackTrace();
-                        mBarcodeImageView.setImageResource(R.mipmap.ic_barcode);
-                        mBarcodeAddImageView.setVisibility(View.GONE);
-                    }
-
-                    mBarcodeNumber.setVisibility(View.VISIBLE);
-                    mBarcodeNumber.setText(scanContent);
-                    mBarcodeNumber.setTag(scanFormat);
-                    mBarcodeNumber.requestLayout();
-                    Paint textPaint = mBarcodeNumber.getPaint();
-                    float width = textPaint.measureText(scanContent);
-                    mBarcodeNumber.setTextScaleX(((float) mBarcodeImageView.getMeasuredWidth() / width) - 0.5f);
-                } else {
-                    mBarcodeImageView.setImageDrawable(null);
-                    mBarcodeAddImageView.setVisibility(View.VISIBLE);
-                    mBarcodeNumber.setText("");
-                    mBarcodeNumber.setVisibility(View.GONE);
-
-                    Toast.makeText(getApplicationContext(),
-                            "No scan data received!", Toast.LENGTH_SHORT).show();
-                }
+                fillBarcode(scanContent, scanFormat);
             } else {
                 Toast.makeText(getApplicationContext(),
                         "No scan data received!", Toast.LENGTH_SHORT).show();
             }
+        }
+    }
+
+    @SuppressWarnings("NewApi")
+    private void fillBarcode(final String scanContent, final String scanFormat) {
+        if (!TextUtils.isEmpty(scanContent)) {
+            Bitmap bitmap = null;
+            try {
+                BarcodeFormat barcodeFormat;
+                try {
+                    barcodeFormat = BarcodeFormat.valueOf(scanFormat);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    barcodeFormat = BarcodeFormat.CODE_128;
+                }
+
+                bitmap = Images.encodeAsBitmap(scanContent, barcodeFormat, mBarcodeImageView.getWidth(), mBarcodeImageView.getHeight());
+                mBarcodeImageView.setImageBitmap(bitmap);
+                mBarcodeAddImageView.setVisibility(View.GONE);
+                if (SupportVersion.JellyBean())
+                    mLayoutBarcode.setBackground(null);
+                else
+                    mLayoutBarcode.setBackgroundDrawable(null);
+            } catch (WriterException e) {
+                e.printStackTrace();
+                mBarcodeImageView.setImageResource(R.mipmap.ic_barcode);
+                mBarcodeAddImageView.setVisibility(View.GONE);
+            } catch (Exception e) {
+                e.printStackTrace();
+                mBarcodeImageView.setImageResource(R.mipmap.ic_barcode);
+                mBarcodeAddImageView.setVisibility(View.GONE);
+            } catch (Throwable e) {
+                e.printStackTrace();
+                mBarcodeImageView.setImageResource(R.mipmap.ic_barcode);
+                mBarcodeAddImageView.setVisibility(View.GONE);
+            }
+
+            mBarcodeNumber.setVisibility(View.VISIBLE);
+            mBarcodeNumber.setTextScaleX(1.0f);
+            mBarcodeNumber.setText(scanContent);
+            mBarcodeNumber.setTag(scanFormat);
+            Paint textPaint = mBarcodeNumber.getPaint();
+            float width = textPaint.measureText(scanContent);
+            mBarcodeNumber.setTextScaleX(((float) mBarcodeNumber.getWidth() / width) - 0.3f);
+        } else {
+            mBarcodeImageView.setImageDrawable(null);
+            mBarcodeAddImageView.setVisibility(View.VISIBLE);
+            mBarcodeNumber.setTextScaleX(1.0f);
+            mBarcodeNumber.setText("");
+            mBarcodeNumber.setVisibility(View.GONE);
         }
     }
 
@@ -533,6 +627,50 @@ public class NewCardActivity extends BaseActivity
                 .queueUsing(NewCardActivity.this);
     }
 
+    private void saveCard() {
+        String cardName = validateCardName();
+        if (TextUtils.isEmpty(cardName)) {
+            showSnackBarError(getString(R.string.error_need_input_name));
+            return;
+        }
+
+        SnackbarManager.dismiss();
+
+        String barcode = mBarcodeNumber.getText().toString();
+        String barcodeFormat = (String) mBarcodeNumber.getTag();
+
+        ShopCard newCard = null;
+        if (mIsEditMode) {
+            newCard = mShopCardEdit;
+        } else {
+            newCard = new ShopCard();
+        }
+        newCard.setName(cardName);
+
+        newCard.setBarcode(barcode);
+        newCard.setBarcodeFormat(barcodeFormat);
+
+        if (mSelectedBrand != null)
+            newCard.setShopBrand(mSelectedBrand.getId());
+
+        String notes = mEditNotes.getText().toString();
+        newCard.setNotes(notes);
+
+        User user = AppApplication.getApplication(this).getUserInfo();
+        if (user != null)
+            newCard.setBelongsToUser(user.getId());
+
+        showProgress();
+        invalidateOptionsMenu();
+        Groundy.create(ActionRequestUpdateShopCardTask.class)
+                .callback(NewCardActivity.this)
+                .callbackManager(mCallbacksManager)
+                .arg(ActionRequestCreateShopCardTask.ARG_BACK_IMAGE, mBackImageUri != null ? mBackImageUri.getPath() : "")
+                .arg(ActionRequestCreateShopCardTask.ARG_FRONT_IMAGE, mFrontImageUri != null ? mFrontImageUri.getPath() : "")
+                .arg(ActionRequestCreateShopCardTask.ARG_SHOP_CARD, newCard)
+                .queueUsing(NewCardActivity.this);
+    }
+
     private String validateCardName() {
         String cardName = mEditCardName.getText().toString();
         if (TextUtils.isEmpty(cardName))
@@ -580,16 +718,31 @@ public class NewCardActivity extends BaseActivity
 
                             @Override
                             public void onDismiss(Snackbar snackbar) {
+                                if (mIsEditMode) {
+                                    Intent intentResult = new Intent();
+                                    intentResult.putExtra(ARG_SHOP_CARD, mShopCardEdit);
+                                    setResult(RESULT_OK, intentResult);
+                                }
                                 finish();
                             }
 
                             @Override
                             public void onDismissByReplace(Snackbar snackbar) {
+                                if (mIsEditMode) {
+                                    Intent intentResult = new Intent();
+                                    intentResult.putExtra(ARG_SHOP_CARD, mShopCardEdit);
+                                    setResult(RESULT_OK, intentResult);
+                                }
                                 finish();
                             }
 
                             @Override
                             public void onDismissed(Snackbar snackbar) {
+                                if (mIsEditMode) {
+                                    Intent intentResult = new Intent();
+                                    intentResult.putExtra(ARG_SHOP_CARD, mShopCardEdit);
+                                    setResult(RESULT_OK, intentResult);
+                                }
                                 finish();
                             }
                         })
@@ -618,6 +771,27 @@ public class NewCardActivity extends BaseActivity
 
     @OnFailure(ActionRequestCreateShopCardTask.class)
     public void onFailureRequestCreateShopCard(@Param(Constants.Extras.PARAM_INTERNET_AVAILABLE) boolean isAvailable) {
+        hideProgress();
+        invalidateOptionsMenu();
+
+        if (!isAvailable) {
+            showSnackBarError(getResources().getString(R.string.error_internet_not_available));
+        } else {
+            showSnackBarError(getResources().getString(R.string.error_occurred));
+        }
+    }
+
+    @OnSuccess(ActionRequestUpdateShopCardTask.class)
+    public void onSuccessRequestUpdateShopCard(@Param(Constants.Extras.PARAM_SHOP_CARD) ShopCard createdCard) {
+        mShopCardEdit = createdCard;
+        hideProgress();
+        invalidateOptionsMenu();
+
+        showSnackBarSuccess(getResources().getString(R.string.success_update_shop_card));
+    }
+
+    @OnFailure(ActionRequestUpdateShopCardTask.class)
+    public void onFailureRequestUpdateShopCard(@Param(Constants.Extras.PARAM_INTERNET_AVAILABLE) boolean isAvailable) {
         hideProgress();
         invalidateOptionsMenu();
 

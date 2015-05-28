@@ -14,7 +14,10 @@ import android.widget.RelativeLayout;
 
 import com.intrafab.cartomoneya.R;
 import com.intrafab.cartomoneya.utils.SupportVersion;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.io.IOException;
 
 /**
@@ -98,13 +101,44 @@ public class PlaceholderCardImagePageFragment extends Fragment implements View.O
     public void setUri(Uri imageUri) {
         try {
             mUri = imageUri;
-            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), imageUri);
-            mCardImageView.setImageBitmap(bitmap);
-            if (SupportVersion.JellyBean())
-                mLayoutCardFrame.setBackground(null);
-            else
-                mLayoutCardFrame.setBackgroundDrawable(null);
-            mCardAddImageView.setVisibility(View.GONE);
+            if (new File(imageUri.getPath()).exists()) {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), imageUri);
+                mCardImageView.setImageBitmap(bitmap);
+                if (SupportVersion.JellyBean())
+                    mLayoutCardFrame.setBackground(null);
+                else
+                    mLayoutCardFrame.setBackgroundDrawable(null);
+                mCardAddImageView.setVisibility(View.GONE);
+            } else {
+                Picasso.with(getActivity())
+                        .load(imageUri)
+                        .into(mCardImageView, new Callback() {
+                            @Override
+                            public void onSuccess() {
+                                if (SupportVersion.JellyBean())
+                                    mLayoutCardFrame.setBackground(null);
+                                else
+                                    mLayoutCardFrame.setBackgroundDrawable(null);
+                                mCardAddImageView.setVisibility(View.GONE);
+                            }
+
+                            @Override
+                            public void onError() {
+                                try {
+                                    if (SupportVersion.LMR1())
+                                        mLayoutCardFrame.setBackground(getActivity().getResources().getDrawable(R.drawable.bg_card_frame, null));
+                                    else
+                                        mLayoutCardFrame.setBackground(getActivity().getResources().getDrawable(R.drawable.bg_card_frame));
+                                    mCardAddImageView.setVisibility(View.VISIBLE);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+            }
+
+
+
         } catch (IOException e) {
             e.printStackTrace();
         }

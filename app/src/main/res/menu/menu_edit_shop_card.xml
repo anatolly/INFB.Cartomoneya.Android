@@ -2,18 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".NewCardActivity" >
+    tools:context=".ShopCardDetailActivity" >
     <item
-        android:id="@+id/action_create"
+        android:id="@+id/action_edit"
         android:orderInCategory="101"
         android:menuCategory="secondary"
-        android:title="@string/action_create"
-        app:showAsAction="always" />
-
-    <item
-        android:id="@+id/action_save"
-        android:orderInCategory="101"
-        android:menuCategory="secondary"
-        android:title="@string/action_save"
+        android:title="@string/action_edit"
         app:showAsAction="always" />
 </menu>

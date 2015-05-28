@@ -90,11 +90,25 @@ public class SupportVersion {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
     }
 
+    /**
+     * @return true when the caller API version is at least Kitkat 20
+     */
+    public static boolean KitkatWatch() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH;
+    }
+
 
     /**
-     * @return true when the caller API version is at least L 20
+     * @return true when the caller API version is at least L 21
      */
     public static boolean L() {
-        return Build.VERSION.SDK_INT >= 20;
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
+    }
+
+    /**
+     * @return true when the caller API version is at least L 22
+     */
+    public static boolean LMR1() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1;
     }
 }

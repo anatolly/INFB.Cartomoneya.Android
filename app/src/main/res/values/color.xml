@@ -8,6 +8,7 @@
     <color name="colorLightTextColorHint">#42000000</color>
     <color name="colorLightWindowBackground">#f4f4f4</color>
     <color name="colorLightColorAccent">#999999</color>
+    <color name="colorLightCropBackground">#9937474f</color>
 
     <color name="colorLightTextMain">#273849</color>
     <color name="colorLightTextExtra">#999999</color>

@@ -10,7 +10,9 @@ import retrofit.http.Body;
 import retrofit.http.GET;
 import retrofit.http.Multipart;
 import retrofit.http.POST;
+import retrofit.http.PUT;
 import retrofit.http.Part;
+import retrofit.http.Path;
 import retrofit.mime.TypedFile;
 import retrofit.mime.TypedString;
 
@@ -30,6 +32,9 @@ public interface HttpRestService {
 
     @POST("/shopcard")
     public ShopCard createShopCard(@Body ShopCard card);
+
+    @PUT("/shopcard/{id}")
+    public ShopCard updateShopCard(@Path("id") String id, @Body ShopCard card);
 
     // Порядок важен. Файл должен быть последним параметром
     @Multipart

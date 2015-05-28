@@ -34,4 +34,8 @@ public class CardPageAdapter extends FragmentPagerAdapter {
     public void add(Fragment fragment) {
         mFragments.add(fragment);
     }
+
+    public Fragment getFragment(int fragmentPosition) {
+        return mFragments.get(fragmentPosition);
+    }
 }
