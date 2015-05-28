@@ -1,5 +1,6 @@
 package com.intrafab.cartomoneya.http;
 
+import com.intrafab.cartomoneya.data.BizCard;
 import com.intrafab.cartomoneya.data.ShopBrand;
 import com.intrafab.cartomoneya.data.ShopCard;
 import com.intrafab.cartomoneya.data.User;
@@ -35,6 +36,9 @@ public interface HttpRestService {
 
     @PUT("/shopcard/{id}")
     public ShopCard updateShopCard(@Path("id") String id, @Body ShopCard card);
+
+    @GET("/bizcard?populate=[personage]")
+    public List<BizCard> getBizCards();
 
     // Порядок важен. Файл должен быть последним параметром
     @Multipart
