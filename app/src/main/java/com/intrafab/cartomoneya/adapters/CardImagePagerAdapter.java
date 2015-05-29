@@ -3,8 +3,6 @@ package com.intrafab.cartomoneya.adapters;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.util.SparseArray;
-import android.view.ViewGroup;
 
 import com.intrafab.cartomoneya.fragments.PlaceholderCardImagePageFragment;
 
@@ -14,7 +12,7 @@ import com.intrafab.cartomoneya.fragments.PlaceholderCardImagePageFragment;
 public class CardImagePagerAdapter extends FragmentStatePagerAdapter {
     public static final String TAG = CardImagePagerAdapter.class.getName();
 
-    private SparseArray<Fragment> mRegisteredFragments = new SparseArray<Fragment>();
+//    private SparseArray<Fragment> mRegisteredFragments = new SparseArray<Fragment>();
 
     public CardImagePagerAdapter(FragmentManager fm) {
         super(fm);
@@ -31,22 +29,25 @@ public class CardImagePagerAdapter extends FragmentStatePagerAdapter {
         return 2;
     }
 
-    @Override
-    public Object instantiateItem(ViewGroup container, int position) {
-        Fragment fragment = (Fragment) super.instantiateItem(container, position);
-        mRegisteredFragments.put(position, fragment);
-        return fragment;
-    }
-
-    @Override
-    public void destroyItem(ViewGroup container, int position, Object object) {
-        mRegisteredFragments.remove(position);
-        super.destroyItem(container, position, object);
-    }
-
-    public PlaceholderCardImagePageFragment getFragment(int fragmentPosition) {
-
-        return (PlaceholderCardImagePageFragment) mRegisteredFragments.get(fragmentPosition);
-    }
+//    @Override
+//    public Object instantiateItem(ViewGroup container, int position) {
+//        Fragment fragment = (Fragment) super.instantiateItem(container, position);
+//        mRegisteredFragments.put(position, fragment);
+//        Logger.e(TAG, "CardImagePagerAdapter instantiateItem position: " + position);
+//        return fragment;
+//    }
+//
+//    @Override
+//    public void destroyItem(ViewGroup container, int position, Object object) {
+//        mRegisteredFragments.remove(position);
+//        Logger.e(TAG, "CardImagePagerAdapter destroyItem position: " + position);
+//        super.destroyItem(container, position, object);
+//    }
+//
+//    public PlaceholderCardImagePageFragment getFragment(int fragmentPosition) {
+//        Logger.e(TAG, "CardImagePagerAdapter getFragment position: " + fragmentPosition);
+//        Logger.e(TAG, "CardImagePagerAdapter getFragment size: " + mRegisteredFragments.size());
+//        return (PlaceholderCardImagePageFragment) mRegisteredFragments.get(fragmentPosition);
+//    }
 
 }

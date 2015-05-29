@@ -62,7 +62,6 @@ public class PlaceholderCardImagePageFragment extends Fragment implements View.O
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override

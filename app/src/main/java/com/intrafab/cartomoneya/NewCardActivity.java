@@ -252,6 +252,8 @@ public class NewCardActivity extends BaseActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Logger.e(TAG, "onCreate");
+
         getSupportActionBar().getThemedContext();
 
         Intent intent = getIntent();
@@ -342,13 +344,21 @@ public class NewCardActivity extends BaseActivity
         String frontImagePath = mShopCardEdit.getFrontImagePath();
         if (!TextUtils.isEmpty(frontImagePath)) {
             Uri imageUri = Uri.parse(frontImagePath);
-            mAdapter.getFragment(0).setUri(imageUri);
+//            mAdapter.getFragment(0).setUri(imageUri);
+            PlaceholderCardImagePageFragment pageFragment = (PlaceholderCardImagePageFragment) mAdapter.instantiateItem(mPager, 0);
+            if (pageFragment != null) {
+                pageFragment.setUri(imageUri);
+            }
         }
 
         String backImagePath = mShopCardEdit.getBackImagePath();
         if (!TextUtils.isEmpty(backImagePath)) {
             Uri imageUri = Uri.parse(backImagePath);
-            mAdapter.getFragment(1).setUri(imageUri);
+            PlaceholderCardImagePageFragment pageFragment = (PlaceholderCardImagePageFragment) mAdapter.instantiateItem(mPager, 1);
+            if (pageFragment != null) {
+                pageFragment.setUri(imageUri);
+            }
+//            mAdapter.getFragment(1).setUri(imageUri);
         }
 
         String cardName = mShopCardEdit.getName();
@@ -403,13 +413,17 @@ public class NewCardActivity extends BaseActivity
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_CODE_PICK_IMAGE) {
-            if (resultCode == Activity.RESULT_OK) {
-                if (data != null) {
-                    Uri imageUri = getPickImageResultUri(data, mPager.getCurrentItem() == 0 ? true : false);
+        super.onActivityResult(requestCode, resultCode, data);
+        Logger.e(TAG, "onActivityResult requestCode: " + requestCode);
+        Logger.e(TAG, "onActivityResult resultCode: " + resultCode);
 
-                    CropActivity.launch(this, REQUEST_CODE_CROP_IMAGE, imageUri, mPager.getCurrentItem() == 0 ? true : false);
-                }
+        if (requestCode == REQUEST_CODE_PICK_IMAGE) {
+            Logger.e(TAG, "onActivityResult requestCode REQUEST_CODE_PICK_IMAGE");
+            if (resultCode == Activity.RESULT_OK) {
+                Logger.e(TAG, "onActivityResult resultCode RESULT_OK");
+                Uri imageUri = getPickImageResultUri(data, mPager.getCurrentItem() == 0 ? true : false);
+
+                CropActivity.launch(this, REQUEST_CODE_CROP_IMAGE, imageUri, mPager.getCurrentItem() == 0 ? true : false);
             }
         } else if (requestCode == REQUEST_CODE_CROP_IMAGE) {
             if (resultCode == Activity.RESULT_OK) {
@@ -423,8 +437,13 @@ public class NewCardActivity extends BaseActivity
                     } else {
                         mBackImageUri = imageUri;
                     }
+
                     try {
-                        mAdapter.getFragment(mPager.getCurrentItem()).setUri(imageUri);
+                        PlaceholderCardImagePageFragment pageFragment = (PlaceholderCardImagePageFragment) mAdapter.instantiateItem(mPager, mPager.getCurrentItem());
+                        if (pageFragment != null) {
+                            pageFragment.setUri(imageUri);
+                        }
+                        //mAdapter.getFragment(mPager.getCurrentItem()).setUri(imageUri);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -573,8 +592,21 @@ public class NewCardActivity extends BaseActivity
     private Uri getCaptureImageOutputUri(boolean isFront) {
         Uri outputFileUri = null;
         File getImage = getExternalCacheDir();
+
         if (getImage != null) {
-            outputFileUri = Uri.fromFile(new File(getImage.getPath(), isFront ? "pickFrontImageResult.jpeg" : "pickBackImageResult.jpeg"));
+            if (!getImage.exists()) {
+                getImage.mkdirs();
+            }
+            File imageFile = new File(getImage.getPath(), isFront ? "pickFrontImageResult.jpeg" : "pickBackImageResult.jpeg");
+            imageFile.setWritable(true);
+            if (!imageFile.exists()) {
+                try {
+                    imageFile.createNewFile();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            outputFileUri = Uri.fromFile(imageFile);
         }
         return outputFileUri;
     }
