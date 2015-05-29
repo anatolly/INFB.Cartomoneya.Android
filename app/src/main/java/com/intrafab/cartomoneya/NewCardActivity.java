@@ -78,6 +78,9 @@ public class NewCardActivity extends BaseActivity
     public static final String ARG_SHOP_CARD = "arg_shop_card";
     public static final String ARG_SHOP_BRAND = "arg_shop_brand";
 
+    public static final String ARG_SAVE_FRONT_IMAGE = "arg_save_front_image";
+    public static final String ARG_SAVE_BACK_IMAGE = "arg_save_back_image";
+
     private ShopCard mShopCardEdit;
     private ShopBrand mShopBrand;
     private boolean mIsEditMode;
@@ -256,6 +259,18 @@ public class NewCardActivity extends BaseActivity
 
         getSupportActionBar().getThemedContext();
 
+        if (savedInstanceState != null) {
+            String pathFrontImage = savedInstanceState.getString(ARG_SAVE_FRONT_IMAGE);
+            if (!TextUtils.isEmpty(pathFrontImage)) {
+                mFrontImageUri = Uri.parse(pathFrontImage);
+            }
+
+            String pathBackImage = savedInstanceState.getString(ARG_SAVE_BACK_IMAGE);
+            if (!TextUtils.isEmpty(pathBackImage)) {
+                mBackImageUri = Uri.parse(pathBackImage);
+            }
+        }
+
         Intent intent = getIntent();
         if (intent != null) {
             mShopCardEdit = getIntent().getParcelableExtra(ARG_SHOP_CARD);
@@ -287,7 +302,7 @@ public class NewCardActivity extends BaseActivity
         mBarcodeAddImageView.setOnClickListener(this);
 
         // init view pager
-        mAdapter = new CardImagePagerAdapter(getSupportFragmentManager());
+        mAdapter = new CardImagePagerAdapter(getSupportFragmentManager(), mFrontImageUri, mBackImageUri);
         mPager.setAdapter(mAdapter);
         mPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
@@ -340,46 +355,60 @@ public class NewCardActivity extends BaseActivity
         }
     }
 
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        if (savedInstanceState != null) {
+            String pathFrontImage = savedInstanceState.getString(ARG_SAVE_FRONT_IMAGE);
+            if (!TextUtils.isEmpty(pathFrontImage)) {
+                mFrontImageUri = Uri.parse(pathFrontImage);
+            }
+
+            String pathBackImage = savedInstanceState.getString(ARG_SAVE_BACK_IMAGE);
+            if (!TextUtils.isEmpty(pathBackImage)) {
+                mBackImageUri = Uri.parse(pathBackImage);
+            }
+        }
+    }
+
     private void fillData() {
-        String frontImagePath = mShopCardEdit.getFrontImagePath();
-        if (!TextUtils.isEmpty(frontImagePath)) {
-            Uri imageUri = Uri.parse(frontImagePath);
-//            mAdapter.getFragment(0).setUri(imageUri);
-            PlaceholderCardImagePageFragment pageFragment = (PlaceholderCardImagePageFragment) mAdapter.instantiateItem(mPager, 0);
-            if (pageFragment != null) {
-                pageFragment.setUri(imageUri);
+        fillPagerImages();
+
+        if (mIsEditMode) {
+            String cardName = mShopCardEdit.getName();
+            if (!TextUtils.isEmpty(cardName)) {
+                mEditCardName.setText(cardName);
             }
-        }
 
-        String backImagePath = mShopCardEdit.getBackImagePath();
-        if (!TextUtils.isEmpty(backImagePath)) {
-            Uri imageUri = Uri.parse(backImagePath);
-            PlaceholderCardImagePageFragment pageFragment = (PlaceholderCardImagePageFragment) mAdapter.instantiateItem(mPager, 1);
-            if (pageFragment != null) {
-                pageFragment.setUri(imageUri);
+            String cardNotes = mShopCardEdit.getNotes();
+            if (!TextUtils.isEmpty(cardNotes)) {
+                mEditNotes.setText(cardNotes);
             }
-//            mAdapter.getFragment(1).setUri(imageUri);
+
+            fillBarcode(mShopCardEdit.getBarcode(), mShopCardEdit.getBarcodeFormat());
+
+            invalidateOptionsMenu();
         }
-
-        String cardName = mShopCardEdit.getName();
-        if (!TextUtils.isEmpty(cardName)) {
-            mEditCardName.setText(cardName);
-        }
-
-        String cardNotes = mShopCardEdit.getNotes();
-        if (!TextUtils.isEmpty(cardNotes)) {
-            mEditNotes.setText(cardNotes);
-        }
-
-        fillBarcode(mShopCardEdit.getBarcode(), mShopCardEdit.getBarcodeFormat());
-
-        invalidateOptionsMenu();
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         mCallbacksManager.onSaveInstanceState(outState);
+
+        if (mFrontImageUri != null && outState != null) {
+            outState.putString(ARG_SAVE_FRONT_IMAGE, mFrontImageUri.getPath());
+        }
+
+        if (mBackImageUri != null && outState != null) {
+            outState.putString(ARG_SAVE_BACK_IMAGE, mBackImageUri.getPath());
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 
     @Override
@@ -438,15 +467,48 @@ public class NewCardActivity extends BaseActivity
                         mBackImageUri = imageUri;
                     }
 
-                    try {
-                        PlaceholderCardImagePageFragment pageFragment = (PlaceholderCardImagePageFragment) mAdapter.instantiateItem(mPager, mPager.getCurrentItem());
-                        if (pageFragment != null) {
-                            pageFragment.setUri(imageUri);
+                    mAdapter.setFrontUri(mFrontImageUri);
+                    mAdapter.setBackUri(mBackImageUri);
+//                    mAdapter.update(mPager.getCurrentItem());
+
+                    mPager.post(new Runnable() {
+                        @Override
+                        public void run() {
+//                            PlaceholderCardImagePageFragment fragmentFront = mAdapter.getFragment(0);
+//                            if (fragmentFront != null) {
+//                                fragmentFront.setUri(mFrontImageUri, mPager.getCurrentItem() == 0 ? true : false);
+//                            }
+//
+//                            PlaceholderCardImagePageFragment fragmentBack = mAdapter.getFragment(1);
+//                            if (fragmentBack != null) {
+//                                fragmentBack.setUri(mBackImageUri, mPager.getCurrentItem() == 1 ? true : false);
+//                            }
+
+//                            mAdapter.setFrontUri(mFrontImageUri);
+//                            mAdapter.setBackUri(mBackImageUri);
+                            mAdapter.update(mPager.getCurrentItem());
                         }
-                        //mAdapter.getFragment(mPager.getCurrentItem()).setUri(imageUri);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                    });
+//                    try {
+//                        PlaceholderCardImagePageFragment fragment = mAdapter.getFragment(mPager.getCurrentItem());
+//                        if (fragment == null) {
+//                            mPager.post(new Runnable() {
+//                                @Override
+//                                public void run() {
+//                                    PlaceholderCardImagePageFragment fragment = mAdapter.getFragment(mPager.getCurrentItem());
+//                                }
+//                            });
+//                            fragment = (PlaceholderCardImagePageFragment) mAdapter.instantiateItem(mPager, mPager.getCurrentItem());
+//                            if (fragment != null) {
+//                                fragment.setUri(imageUri);
+//                            }
+//                            mPager.setAdapter(mAdapter);
+//                        } else {
+//                            fragment.setUri(imageUri);
+//                        }
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
                 }
             }
         } else {
@@ -461,6 +523,67 @@ public class NewCardActivity extends BaseActivity
                         "No scan data received!", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    private void fillPagerImages() {
+//        Uri frontImagePath = mFrontImageUri != null ? mFrontImageUri : (mIsEditMode ? Uri.parse(mShopCardEdit.getFrontImagePath()) : null);
+//        Logger.e(TAG, "fillPagerImages frontImagePath: " + (frontImagePath == null ? "NULL" : frontImagePath.getPath()));
+//        if (frontImagePath != null) {
+//            try {
+//                PlaceholderCardImagePageFragment fragment = mAdapter.getFragment(0);
+//                if (fragment == null) {
+//                    fragment = (PlaceholderCardImagePageFragment) mAdapter.instantiateItem(mPager, 0);
+//                    if (fragment != null) {
+//                        fragment.setUri(frontImagePath);
+//                    }
+//                } else {
+//                    fragment.setUri(frontImagePath);
+//                }
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        Uri backImagePath = mBackImageUri != null ? mBackImageUri : (mIsEditMode ? Uri.parse(mShopCardEdit.getBackImagePath()) : null);
+//        Logger.e(TAG, "fillPagerImages backImagePath: " + (backImagePath == null ? "NULL" : backImagePath.getPath()));
+//        if (backImagePath != null) {
+//            try {
+//                PlaceholderCardImagePageFragment fragment = mAdapter.getFragment(1);
+//                if (fragment == null) {
+//                    fragment = (PlaceholderCardImagePageFragment) mAdapter.instantiateItem(mPager, 1);
+//                    if (fragment != null) {
+//                        fragment.setUri(backImagePath);
+//                    }
+//                } else {
+//                    fragment.setUri(backImagePath);
+//                }
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
+//
+        mPager.post(new Runnable() {
+            @Override
+            public void run() {
+                Uri frontImagePath = mFrontImageUri != null ? mFrontImageUri : (mIsEditMode ? Uri.parse(mShopCardEdit.getFrontImagePath()) : null);
+                Logger.e(TAG, "fillPagerImages frontImagePath: " + (frontImagePath == null ? "NULL" : frontImagePath.getPath()));
+                if (frontImagePath != null) {
+                    PlaceholderCardImagePageFragment fragmentFront = mAdapter.getFragment(0);
+                    if (fragmentFront != null) {
+                        fragmentFront.setUri(frontImagePath, mPager.getCurrentItem() == 0 ? true : false);
+                    }
+                }
+
+                Uri backImagePath = mBackImageUri != null ? mBackImageUri : (mIsEditMode ? Uri.parse(mShopCardEdit.getBackImagePath()) : null);
+                Logger.e(TAG, "fillPagerImages backImagePath: " + (backImagePath == null ? "NULL" : backImagePath.getPath()));
+                if (backImagePath != null) {
+                    PlaceholderCardImagePageFragment fragmentBack = mAdapter.getFragment(1);
+                    if (fragmentBack != null) {
+                        fragmentBack.setUri(mBackImageUri, mPager.getCurrentItem() == 1 ? true : false);
+                    }
+                }
+            }
+        });
+        //mPager.invalidate();
     }
 
     @SuppressWarnings("NewApi")
@@ -515,7 +638,7 @@ public class NewCardActivity extends BaseActivity
 
     @Override
     public void onCardImageClick() {
-        startActivityForResult(getPickImageChooserIntent(true), REQUEST_CODE_PICK_IMAGE);
+        startActivityForResult(getPickImageChooserIntent(mPager.getCurrentItem() == 0 ? true : false), REQUEST_CODE_PICK_IMAGE);
     }
 
     @Override
@@ -590,6 +713,7 @@ public class NewCardActivity extends BaseActivity
      * Get URI to image received from capture by camera.
      */
     private Uri getCaptureImageOutputUri(boolean isFront) {
+        Logger.e(TAG, "getCaptureImageOutputUri start");
         Uri outputFileUri = null;
         File getImage = getExternalCacheDir();
 
@@ -598,7 +722,6 @@ public class NewCardActivity extends BaseActivity
                 getImage.mkdirs();
             }
             File imageFile = new File(getImage.getPath(), isFront ? "pickFrontImageResult.jpeg" : "pickBackImageResult.jpeg");
-            imageFile.setWritable(true);
             if (!imageFile.exists()) {
                 try {
                     imageFile.createNewFile();
@@ -606,7 +729,9 @@ public class NewCardActivity extends BaseActivity
                     e.printStackTrace();
                 }
             }
+            Logger.e(TAG, "getCaptureImageOutputUri imageFile: " + imageFile.getPath());
             outputFileUri = Uri.fromFile(imageFile);
+            Logger.e(TAG, "getCaptureImageOutputUri outputFileUri: " + outputFileUri.getPath());
         }
         return outputFileUri;
     }
@@ -799,6 +924,9 @@ public class NewCardActivity extends BaseActivity
         invalidateOptionsMenu();
 
         showSnackBarSuccess(getResources().getString(R.string.success_create_shop_card));
+
+        mFrontImageUri = null;
+        mBackImageUri = null;
     }
 
     @OnFailure(ActionRequestCreateShopCardTask.class)
@@ -820,6 +948,8 @@ public class NewCardActivity extends BaseActivity
         invalidateOptionsMenu();
 
         showSnackBarSuccess(getResources().getString(R.string.success_update_shop_card));
+        mFrontImageUri = null;
+        mBackImageUri = null;
     }
 
     @OnFailure(ActionRequestUpdateShopCardTask.class)

@@ -67,6 +67,13 @@ public class CropActivity extends BaseActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        setResult(RESULT_CANCELED);
+        super.onBackPressed();
+    }
+
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_crop, menu);
@@ -172,7 +179,16 @@ public class CropActivity extends BaseActivity {
         Uri outputFileUri = null;
         File getImage = getExternalCacheDir();
         if (getImage != null) {
-            outputFileUri = Uri.fromFile(new File(getImage.getPath(), isFront ? "pickFrontImageResult2.jpeg" : "pickBackImageResult2.jpeg"));
+            if (!getImage.exists()) {
+                getImage.mkdirs();
+            }
+            getImage.setWritable(true);
+            getImage.setReadable(true);
+
+            File newFile = new File(getImage.getPath(), isFront ? "pickFrontImageCropResult.jpeg" : "pickBackImageCropResult.jpeg");
+            newFile.setWritable(true);
+            newFile.setReadable(true);
+            outputFileUri = Uri.fromFile(newFile);
         }
         return outputFileUri;
     }
