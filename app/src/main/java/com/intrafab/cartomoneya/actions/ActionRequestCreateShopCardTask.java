@@ -8,7 +8,6 @@ import com.intrafab.cartomoneya.data.ShopCard;
 import com.intrafab.cartomoneya.db.DBManager;
 import com.intrafab.cartomoneya.http.HttpRestService;
 import com.intrafab.cartomoneya.http.RestApiConfig;
-import com.intrafab.cartomoneya.loaders.ShopCardListLoader;
 import com.intrafab.cartomoneya.utils.Connectivity;
 import com.telly.groundy.GroundyTask;
 import com.telly.groundy.TaskResult;
@@ -95,7 +94,7 @@ public class ActionRequestCreateShopCardTask extends GroundyTask {
             }
 
             if (items.size() > 0)
-                DBManager.getInstance().insertArrayObject(getContext(), ShopCardListLoader.class, Constants.Prefs.PREF_PARAM_SHOPPING_CARDS, items, ShopCard.class);
+                DBManager.getInstance().insertArrayObject(getContext(), Constants.Prefs.PREF_PARAM_SHOPPING_CARDS, items, ShopCard.class);
         } catch (Exception e) {
             e.printStackTrace();
             return failed()

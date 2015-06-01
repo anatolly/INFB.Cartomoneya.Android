@@ -78,8 +78,10 @@ public class User implements Parcelable {
         id = source.readInt();
         name = source.readString();
         login = source.readString();
-        createdAt = new Date(source.readLong());
-        updatedAt = new Date(source.readLong());
+        long _createdAt = source.readLong();
+        createdAt = _createdAt == -1 ? null : new Date(_createdAt);
+        long _updatedAt = source.readLong();
+        updatedAt = _updatedAt == -1 ? null : new Date(_updatedAt);
     }
 
     public User(JSONObject object) {
@@ -97,9 +99,7 @@ public class User implements Parcelable {
         dest.writeInt(id);
         dest.writeString(name);
         dest.writeString(login);
-        if (createdAt != null)
-            dest.writeLong(createdAt.getTime());
-        if (updatedAt != null)
-            dest.writeLong(updatedAt.getTime());
+        dest.writeLong(createdAt != null ? createdAt.getTime() : -1);
+        dest.writeLong(updatedAt != null ? updatedAt.getTime() : -1);
     }
 }

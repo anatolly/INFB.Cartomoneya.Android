@@ -2,6 +2,7 @@ package com.intrafab.cartomoneya;
 
 import android.app.Activity;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -18,11 +19,11 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
@@ -36,7 +37,6 @@ import com.intrafab.cartomoneya.adapters.ShopBrandAdapter;
 import com.intrafab.cartomoneya.data.ShopBrand;
 import com.intrafab.cartomoneya.data.ShopCard;
 import com.intrafab.cartomoneya.data.User;
-import com.intrafab.cartomoneya.fragments.PlaceholderCardImagePageFragment;
 import com.intrafab.cartomoneya.loaders.ShopBrandListLoader;
 import com.intrafab.cartomoneya.utils.Images;
 import com.intrafab.cartomoneya.utils.Logger;
@@ -65,12 +65,11 @@ import it.neokree.materialtabs.MaterialTabListener;
  * Created by Artemiy Terekhov on 07.05.2015.
  */
 public class NewCardActivity extends BaseActivity
-        implements PlaceholderCardImagePageFragment.onClickListener,
-        View.OnClickListener {
+        implements View.OnClickListener {
 
     public static final String TAG = NewCardActivity.class.getName();
 
-    public static final int REQUEST_CODE_PICK_IMAGE = 200;
+    //public static final int REQUEST_CODE_PICK_IMAGE = 200;
     public static final int REQUEST_CODE_CROP_IMAGE = 300;
 
     private static final int LOADER_SHOP_BRAND_ID = 11;
@@ -80,6 +79,7 @@ public class NewCardActivity extends BaseActivity
 
     public static final String ARG_SAVE_FRONT_IMAGE = "arg_save_front_image";
     public static final String ARG_SAVE_BACK_IMAGE = "arg_save_back_image";
+    public static final String ARG_SAVE_CURRENT_POSITION = "arg_save_current_position";
 
     private ShopCard mShopCardEdit;
     private ShopBrand mShopBrand;
@@ -104,6 +104,8 @@ public class NewCardActivity extends BaseActivity
     private Uri mFrontImageUri;
     private Uri mBackImageUri;
 
+    private int mCurrentPosition;
+
     private ShopBrand mSelectedBrand;
 
     private CallbacksManager mCallbacksManager;
@@ -112,6 +114,8 @@ public class NewCardActivity extends BaseActivity
         @Override
         public void onTabSelected(MaterialTab materialTab) {
             mPager.setCurrentItem(materialTab.getPosition());
+            mCurrentPosition = materialTab.getPosition();
+//            mAdapter.update(mPager, mCurrentPosition == 0 ? mFrontImageUri : mBackImageUri, mCurrentPosition, true);
         }
 
         @Override
@@ -175,6 +179,7 @@ public class NewCardActivity extends BaseActivity
             createNewCard();
             return true;
         } else if (id == R.id.action_save) {
+            hideKeyboard();
             saveCard();
             return true;
         }
@@ -269,6 +274,8 @@ public class NewCardActivity extends BaseActivity
             if (!TextUtils.isEmpty(pathBackImage)) {
                 mBackImageUri = Uri.parse(pathBackImage);
             }
+
+            mCurrentPosition = savedInstanceState.getInt(ARG_SAVE_CURRENT_POSITION);
         }
 
         Intent intent = getIntent();
@@ -303,6 +310,7 @@ public class NewCardActivity extends BaseActivity
 
         // init view pager
         mAdapter = new CardImagePagerAdapter(getSupportFragmentManager(), mFrontImageUri, mBackImageUri);
+        mPager.setOffscreenPageLimit(2);
         mPager.setAdapter(mAdapter);
         mPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
@@ -314,6 +322,8 @@ public class NewCardActivity extends BaseActivity
             public void onPageSelected(int position) {
                 // when user do a swipe the selected tab change
                 mTabHost.setSelectedNavigationItem(position);
+                mCurrentPosition = position;
+//                mAdapter.update(mPager, mCurrentPosition == 0 ? mFrontImageUri : mBackImageUri, mCurrentPosition, true);
             }
 
             @Override
@@ -324,6 +334,7 @@ public class NewCardActivity extends BaseActivity
                     int position = mPager.getCurrentItem();
                     mTabHost.setSelectedNavigationItem(position);
                     mPager.setCurrentItem(position);
+                    mCurrentPosition = position;
                 }
             }
         });
@@ -341,6 +352,7 @@ public class NewCardActivity extends BaseActivity
 
         mTabHost.setSelectedNavigationItem(0);
         mPager.setCurrentItem(0);
+        mCurrentPosition = 0;
 
         getLoaderManager().initLoader(LOADER_SHOP_BRAND_ID, null, mLoaderCallback);
 
@@ -369,6 +381,8 @@ public class NewCardActivity extends BaseActivity
             if (!TextUtils.isEmpty(pathBackImage)) {
                 mBackImageUri = Uri.parse(pathBackImage);
             }
+
+            mCurrentPosition = savedInstanceState.getInt(ARG_SAVE_CURRENT_POSITION);
         }
     }
 
@@ -404,22 +418,34 @@ public class NewCardActivity extends BaseActivity
         if (mBackImageUri != null && outState != null) {
             outState.putString(ARG_SAVE_BACK_IMAGE, mBackImageUri.getPath());
         }
+
+        outState.putInt(ARG_SAVE_CURRENT_POSITION, mCurrentPosition);
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        Logger.e(TAG, "NewCardActivity onResume");
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        Logger.e(TAG, "NewCardActivity onDestroy");
         mCallbacksManager.onDestroy();
     }
 
     @Override
     protected int getLayoutResource() {
         return R.layout.activity_new_card;
+    }
+
+    public static void launch(BaseActivity activity, int requestCode) {
+        Intent intent = new Intent(activity, NewCardActivity.class);
+
+        Bundle options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity).toBundle();
+
+        ActivityCompat.startActivityForResult(activity, intent, requestCode, options);
     }
 
     public static void launch(BaseActivity activity) {
@@ -446,69 +472,30 @@ public class NewCardActivity extends BaseActivity
         Logger.e(TAG, "onActivityResult requestCode: " + requestCode);
         Logger.e(TAG, "onActivityResult resultCode: " + resultCode);
 
-        if (requestCode == REQUEST_CODE_PICK_IMAGE) {
-            Logger.e(TAG, "onActivityResult requestCode REQUEST_CODE_PICK_IMAGE");
-            if (resultCode == Activity.RESULT_OK) {
-                Logger.e(TAG, "onActivityResult resultCode RESULT_OK");
-                Uri imageUri = getPickImageResultUri(data, mPager.getCurrentItem() == 0 ? true : false);
-
-                CropActivity.launch(this, REQUEST_CODE_CROP_IMAGE, imageUri, mPager.getCurrentItem() == 0 ? true : false);
-            }
-        } else if (requestCode == REQUEST_CODE_CROP_IMAGE) {
+//        if (requestCode == REQUEST_CODE_PICK_IMAGE) {
+//            Logger.e(TAG, "onActivityResult requestCode REQUEST_CODE_PICK_IMAGE");
+//            if (resultCode == Activity.RESULT_OK) {
+//                Logger.e(TAG, "onActivityResult resultCode RESULT_OK");
+//                Uri imageUri = getPickImageResultUri(data, mPager.getCurrentItem() == 0 ? true : false);
+//
+//                CropActivity.launch(this, REQUEST_CODE_CROP_IMAGE, imageUri, mPager.getCurrentItem() == 0 ? true : false);
+//            }
+//        } else
+        if (requestCode == REQUEST_CODE_CROP_IMAGE) {
             if (resultCode == Activity.RESULT_OK) {
                 if (data != null) {
                     String path = data.getStringExtra(CropActivity.EXTRA_ARG_URI);
-                    Uri imageUri = Uri.parse(path);
+                    final Uri imageUri = Uri.parse(path);
                     Logger.e(TAG, "onActivityResult path: " + imageUri.getPath());
 
-                    if (mPager.getCurrentItem() == 0) {
+                    if (mCurrentPosition == 0) {
                         mFrontImageUri = imageUri;
                     } else {
                         mBackImageUri = imageUri;
                     }
 
-                    mAdapter.setFrontUri(mFrontImageUri);
-                    mAdapter.setBackUri(mBackImageUri);
-//                    mAdapter.update(mPager.getCurrentItem());
+                    mAdapter.update(mPager, imageUri, mCurrentPosition, true);
 
-                    mPager.post(new Runnable() {
-                        @Override
-                        public void run() {
-//                            PlaceholderCardImagePageFragment fragmentFront = mAdapter.getFragment(0);
-//                            if (fragmentFront != null) {
-//                                fragmentFront.setUri(mFrontImageUri, mPager.getCurrentItem() == 0 ? true : false);
-//                            }
-//
-//                            PlaceholderCardImagePageFragment fragmentBack = mAdapter.getFragment(1);
-//                            if (fragmentBack != null) {
-//                                fragmentBack.setUri(mBackImageUri, mPager.getCurrentItem() == 1 ? true : false);
-//                            }
-
-//                            mAdapter.setFrontUri(mFrontImageUri);
-//                            mAdapter.setBackUri(mBackImageUri);
-                            mAdapter.update(mPager.getCurrentItem());
-                        }
-                    });
-//                    try {
-//                        PlaceholderCardImagePageFragment fragment = mAdapter.getFragment(mPager.getCurrentItem());
-//                        if (fragment == null) {
-//                            mPager.post(new Runnable() {
-//                                @Override
-//                                public void run() {
-//                                    PlaceholderCardImagePageFragment fragment = mAdapter.getFragment(mPager.getCurrentItem());
-//                                }
-//                            });
-//                            fragment = (PlaceholderCardImagePageFragment) mAdapter.instantiateItem(mPager, mPager.getCurrentItem());
-//                            if (fragment != null) {
-//                                fragment.setUri(imageUri);
-//                            }
-//                            mPager.setAdapter(mAdapter);
-//                        } else {
-//                            fragment.setUri(imageUri);
-//                        }
-//                    } catch (Exception e) {
-//                        e.printStackTrace();
-//                    }
                 }
             }
         } else {
@@ -518,10 +505,11 @@ public class NewCardActivity extends BaseActivity
                 final String scanFormat = scanningResult.getFormatName();
 
                 fillBarcode(scanContent, scanFormat);
-            } else {
-                Toast.makeText(getApplicationContext(),
-                        "No scan data received!", Toast.LENGTH_SHORT).show();
             }
+//            else {
+//                Toast.makeText(getApplicationContext(),
+//                        "No scan data received!", Toast.LENGTH_SHORT).show();
+//            }
         }
     }
 
@@ -567,19 +555,23 @@ public class NewCardActivity extends BaseActivity
                 Uri frontImagePath = mFrontImageUri != null ? mFrontImageUri : (mIsEditMode ? Uri.parse(mShopCardEdit.getFrontImagePath()) : null);
                 Logger.e(TAG, "fillPagerImages frontImagePath: " + (frontImagePath == null ? "NULL" : frontImagePath.getPath()));
                 if (frontImagePath != null) {
-                    PlaceholderCardImagePageFragment fragmentFront = mAdapter.getFragment(0);
-                    if (fragmentFront != null) {
-                        fragmentFront.setUri(frontImagePath, mPager.getCurrentItem() == 0 ? true : false);
-                    }
+                    //mAdapter.setFrontUri(frontImagePath);
+                    mAdapter.update(mPager, frontImagePath, 0, true);
+//                    PlaceholderCardImagePageFragment fragmentFront = mAdapter.getFragment(0);
+//                    if (fragmentFront != null) {
+//                        fragmentFront.setUri(frontImagePath, mPager.getCurrentItem() == 0 ? true : false);
+//                    }
                 }
 
                 Uri backImagePath = mBackImageUri != null ? mBackImageUri : (mIsEditMode ? Uri.parse(mShopCardEdit.getBackImagePath()) : null);
                 Logger.e(TAG, "fillPagerImages backImagePath: " + (backImagePath == null ? "NULL" : backImagePath.getPath()));
                 if (backImagePath != null) {
-                    PlaceholderCardImagePageFragment fragmentBack = mAdapter.getFragment(1);
-                    if (fragmentBack != null) {
-                        fragmentBack.setUri(mBackImageUri, mPager.getCurrentItem() == 1 ? true : false);
-                    }
+                    //mAdapter.setFrontUri(backImagePath);
+                    mAdapter.update(mPager, backImagePath, 1, true);
+//                    PlaceholderCardImagePageFragment fragmentBack = mAdapter.getFragment(1);
+//                    if (fragmentBack != null) {
+//                        fragmentBack.setUri(mBackImageUri, mPager.getCurrentItem() == 1 ? true : false);
+//                    }
                 }
             }
         });
@@ -634,11 +626,6 @@ public class NewCardActivity extends BaseActivity
             mBarcodeNumber.setText("");
             mBarcodeNumber.setVisibility(View.GONE);
         }
-    }
-
-    @Override
-    public void onCardImageClick() {
-        startActivityForResult(getPickImageChooserIntent(mPager.getCurrentItem() == 0 ? true : false), REQUEST_CODE_PICK_IMAGE);
     }
 
     @Override
@@ -819,6 +806,7 @@ public class NewCardActivity extends BaseActivity
 
         showProgress();
         invalidateOptionsMenu();
+
         Groundy.create(ActionRequestUpdateShopCardTask.class)
                 .callback(NewCardActivity.this)
                 .callbackManager(mCallbacksManager)
@@ -962,5 +950,11 @@ public class NewCardActivity extends BaseActivity
         } else {
             showSnackBarError(getResources().getString(R.string.error_occurred));
         }
+    }
+
+    private void hideKeyboard() {
+        InputMethodManager imm = (InputMethodManager) getSystemService(
+                Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(mEditNotes.getWindowToken(), 0);
     }
 }

@@ -35,6 +35,8 @@ public class ShoppingCardsActivity extends BaseActivity
 
     private static final int LOADER_SHOP_CARD_ID = 10;
 
+    public static final int REQUEST_CODE_NEW_CARD = 400;
+
     private CallbacksManager mCallbacksManager;
     private TextView mBtnOffers;
     private TextView mBtnShoppingList;
@@ -119,6 +121,23 @@ public class ShoppingCardsActivity extends BaseActivity
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_CODE_NEW_CARD) {
+            PlaceholderShoppingCardsFragment fragment = getFragment();
+            if (fragment == null)
+                return;
+
+            if (fragment != null) {
+                fragment.hideProgress();
+                fragment.setData(null);
+            }
+            DBManager.getInstance().deleteObject(Constants.Prefs.PREF_PARAM_SHOPPING_CARDS, ShopCardListLoader.class);
+        }
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -194,7 +213,7 @@ public class ShoppingCardsActivity extends BaseActivity
             Toast.makeText(this, "Coming soon. Show search", Toast.LENGTH_SHORT).show();
             return true;
         } else if (id == R.id.action_add_card) {
-            NewCardActivity.launch(this);
+            NewCardActivity.launch(this, REQUEST_CODE_NEW_CARD);
             return true;
         } else if (id == R.id.action_sync) {
             PlaceholderShoppingCardsFragment fragment = getFragment();
