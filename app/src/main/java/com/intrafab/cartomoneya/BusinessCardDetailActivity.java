@@ -80,6 +80,15 @@ public class BusinessCardDetailActivity extends BaseActivity {
 
         mIndicator.setViewPager(mViewpager);
 
+        mViewpager.post(new Runnable() {
+            @Override
+            public void run() {
+                fillData();
+            }
+        });
+    }
+
+    private void fillData() {
         if (mBizCard.getPersonage() != null) {
             BizCard.Personage personage = mBizCard.getPersonage();
             fillDescriptionIfExists(mTvName, personage.getName());
@@ -110,6 +119,9 @@ public class BusinessCardDetailActivity extends BaseActivity {
         } else {
             mNotesText.setVisibility(View.INVISIBLE);
         }
+
+        ((PlaceholderCardPageFragment)mPagerAdapter.getFragment(0)).setUri(mBizCard.getFrontImagePath());
+        ((PlaceholderCardPageFragment)mPagerAdapter.getFragment(1)).setUri(mBizCard.getBackImagePath());
     }
 
     private void fillContactIfExists(TextView label, TextView textView, String contact) {
