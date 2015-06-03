@@ -31,6 +31,9 @@
             android:name=".BusinessCardsActivity"
             android:screenOrientation="sensorPortrait"></activity>
         <activity
+            android:name=".ResultsActivity"
+            android:screenOrientation="sensorPortrait"></activity>
+        <activity
             android:name=".BusinessCardDetailActivity"
             android:screenOrientation="sensorPortrait"></activity>
         <activity
