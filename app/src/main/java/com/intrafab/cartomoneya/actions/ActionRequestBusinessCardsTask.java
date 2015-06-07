@@ -1,7 +1,7 @@
 package com.intrafab.cartomoneya.actions;
 
 import com.intrafab.cartomoneya.Constants;
-import com.intrafab.cartomoneya.data.BizCard;
+import com.intrafab.cartomoneya.data.BusinessCard;
 import com.intrafab.cartomoneya.db.DBManager;
 import com.intrafab.cartomoneya.http.HttpRestService;
 import com.intrafab.cartomoneya.http.RestApiConfig;
@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Created by Vasily Laushkin <vaslinux@gmail.com> on 25/05/15.
  */
-public class ActionRequestBizCardsTask extends GroundyTask {
+public class ActionRequestBusinessCardsTask extends GroundyTask {
     @Override
     protected TaskResult doInBackground() {
         if (!Connectivity.isNetworkConnected()) {
@@ -25,14 +25,14 @@ public class ActionRequestBizCardsTask extends GroundyTask {
 
         try {
             HttpRestService service = RestApiConfig.getRestService("");
-            List<BizCard> list = service.getBizCards();
+            List<BusinessCard> list = service.getBusinessCards();
 
             if (list == null)
                 return failed()
                         .add(Constants.Extras.PARAM_INTERNET_AVAILABLE, true);
 
             if (list.size() > 0)
-                DBManager.getInstance().insertArrayObject(getContext(), BizCardListLoader.class, Constants.Prefs.PREF_PARAM_BUSINESS_CARDS, list, BizCard.class);
+                DBManager.getInstance().insertArrayObject(getContext(), BizCardListLoader.class, Constants.Prefs.PREF_PARAM_BUSINESS_CARDS, list, BusinessCard.class);
         } catch (Exception e) {
             e.printStackTrace();
             return failed()

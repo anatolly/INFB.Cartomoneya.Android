@@ -12,7 +12,7 @@ import android.widget.LinearLayout;
 
 import com.intrafab.cartomoneya.R;
 import com.intrafab.cartomoneya.adapters.BizCardAdapter;
-import com.intrafab.cartomoneya.data.BizCard;
+import com.intrafab.cartomoneya.data.BusinessCard;
 import com.intrafab.cartomoneya.widgets.EmptyRecyclerView;
 import com.pnikosis.materialishprogress.ProgressWheel;
 
@@ -80,7 +80,7 @@ public class PlaceholderBizCardsFragment extends Fragment {
         mRecyclerView.setEmptyView(mEmptyLayout);
     }
 
-    public void setData(List<BizCard> data) {
+    public void setData(List<BusinessCard> data) {
         mAdapter.clear();
         mAdapter.addAll(data);
     }

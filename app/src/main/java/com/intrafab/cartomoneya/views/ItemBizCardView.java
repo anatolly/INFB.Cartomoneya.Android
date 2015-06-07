@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.intrafab.cartomoneya.R;
 import com.intrafab.cartomoneya.adapters.BizCardAdapter;
-import com.intrafab.cartomoneya.data.BizCard;
+import com.intrafab.cartomoneya.data.BusinessCard;
 import com.squareup.picasso.Picasso;
 
 /**
@@ -19,7 +19,7 @@ import com.squareup.picasso.Picasso;
 public class ItemBizCardView extends RecyclerView.ViewHolder
         implements View.OnClickListener {
 
-    private BizCard mItem;
+    private BusinessCard mItem;
     private BizCardAdapter.OnClickListener mListener;
 
     private ImageView mImageThumbnail;
@@ -51,7 +51,7 @@ public class ItemBizCardView extends RecyclerView.ViewHolder
         mItemLayout = (RelativeLayout) view.findViewById(R.id.rlItemLayout);
     }
 
-    public void setItem(BizCard itemShopCard) {
+    public void setItem(BusinessCard itemShopCard) {
         mItem = itemShopCard;
 
         fillView(mItem);
@@ -71,7 +71,7 @@ public class ItemBizCardView extends RecyclerView.ViewHolder
         return rootView.getContext();
     }
 
-    private void fillView(BizCard item) {
+    private void fillView(BusinessCard item) {
         if (item == null)
             return;
 

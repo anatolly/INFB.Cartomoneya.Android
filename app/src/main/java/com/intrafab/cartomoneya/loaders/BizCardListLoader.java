@@ -4,7 +4,7 @@ import android.content.AsyncTaskLoader;
 import android.content.Context;
 
 import com.intrafab.cartomoneya.Constants;
-import com.intrafab.cartomoneya.data.BizCard;
+import com.intrafab.cartomoneya.data.BusinessCard;
 import com.intrafab.cartomoneya.db.DBManager;
 
 import java.util.List;
@@ -12,30 +12,30 @@ import java.util.List;
 /**
  * Created by Vasily Laushkin <vaslinux@gmail.com> on 25/05/15.
  */
-public class BizCardListLoader extends AsyncTaskLoader<List<BizCard>> {
+public class BizCardListLoader extends AsyncTaskLoader<List<BusinessCard>> {
     public static final String TAG = BizCardListLoader.class.getName();
 
-    private List<BizCard> mData;
+    private List<BusinessCard> mData;
 
     public BizCardListLoader(Context ctx) {
         super(ctx);
     }
 
     @Override
-    public void onCanceled(List<BizCard> data) {
+    public void onCanceled(List<BusinessCard> data) {
         super.onCanceled(data);
 
         releaseResources(data);
     }
 
     @Override
-    public void deliverResult(List<BizCard> data) {
+    public void deliverResult(List<BusinessCard> data) {
         if (isReset()) {
             releaseResources(data);
             return;
         }
 
-        List<BizCard> oldData = mData;
+        List<BusinessCard> oldData = mData;
         mData = data;
 
         if (isStarted()) {
@@ -85,11 +85,11 @@ public class BizCardListLoader extends AsyncTaskLoader<List<BizCard>> {
     }
 
     @Override
-    public List<BizCard> loadInBackground() {
-        return DBManager.getInstance().readArrayToList(getContext(), Constants.Prefs.PREF_PARAM_BUSINESS_CARDS, BizCard[].class);
+    public List<BusinessCard> loadInBackground() {
+        return DBManager.getInstance().readArrayToList(getContext(), Constants.Prefs.PREF_PARAM_BUSINESS_CARDS, BusinessCard[].class);
     }
 
-    private void releaseResources(List<BizCard> data) {
+    private void releaseResources(List<BusinessCard> data) {
         // For a simple List, there is nothing to do. For something like a Cursor,
         // we would close it in this method. All resources associated with the
         // Loader should be released here.

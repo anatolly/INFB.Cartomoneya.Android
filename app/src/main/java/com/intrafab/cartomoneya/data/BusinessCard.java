@@ -12,7 +12,7 @@ import java.util.Date;
 /**
  * Created by Vasily Laushkin on 24/05/15.
  */
-public class BizCard implements Parcelable {
+public class BusinessCard implements Parcelable {
     private int id;
     private String name;
     private int belongsToUser;
@@ -109,9 +109,12 @@ public class BizCard implements Parcelable {
         private int id;
         private String name;
         private String company;
+        private String website;
+        private String address;
         private String jobTitle;
         private String workPhone;
         private String cellPhone;
+        private String fax;
         private String email;
         private String skype;
         private Date createdAt;
@@ -141,6 +144,22 @@ public class BizCard implements Parcelable {
             this.company = company;
         }
 
+        public String getCompanyAddress() {
+            return address;
+        }
+
+        public void setCompanyAddress(String address) {
+            this.company = address;
+        }
+
+        public String getCompanySiteAddress() {
+            return website;
+        }
+
+        public void setCompanySiteAddress(String website) {
+            this.website = website;
+        }
+
         public String getJobTitle() {
             return jobTitle;
         }
@@ -163,6 +182,14 @@ public class BizCard implements Parcelable {
 
         public void setCellPhone(String cellPhone) {
             this.cellPhone = cellPhone;
+        }
+
+        public String getFax() {
+            return fax;
+        }
+
+        public void setFax(String fax) {
+            this.fax = fax;
         }
 
         public String getEmail() {
@@ -263,10 +290,10 @@ public class BizCard implements Parcelable {
         dest.writeParcelable(this.personage, 0);
     }
 
-    public BizCard() {
+    public BusinessCard() {
     }
 
-    private BizCard(Parcel in) {
+    private BusinessCard(Parcel in) {
         this.id = in.readInt();
         this.name = in.readString();
         this.belongsToUser = in.readInt();
@@ -280,18 +307,18 @@ public class BizCard implements Parcelable {
         this.personage = in.readParcelable(Personage.class.getClassLoader());
     }
 
-    public BizCard(JSONObject object) {
+    public BusinessCard(JSONObject object) {
         if (object == null)
             return;
     }
 
-    public static final Parcelable.Creator<BizCard> CREATOR = new Parcelable.Creator<BizCard>() {
-        public BizCard createFromParcel(Parcel source) {
-            return new BizCard(source);
+    public static final Parcelable.Creator<BusinessCard> CREATOR = new Parcelable.Creator<BusinessCard>() {
+        public BusinessCard createFromParcel(Parcel source) {
+            return new BusinessCard(source);
         }
 
-        public BizCard[] newArray(int size) {
-            return new BizCard[size];
+        public BusinessCard[] newArray(int size) {
+            return new BusinessCard[size];
         }
     };
 }

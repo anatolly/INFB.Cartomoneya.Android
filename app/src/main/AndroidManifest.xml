@@ -53,6 +53,10 @@
             android:windowSoftInputMode="stateHidden"
             android:screenOrientation="sensorPortrait"></activity>
         <activity
+            android:name=".NewBusinessCardActivity"
+            android:windowSoftInputMode="stateHidden"
+            android:screenOrientation="sensorPortrait"></activity>
+        <activity
             android:name=".CropActivity"></activity>
 
         <service android:name="com.telly.groundy.GroundyService" />

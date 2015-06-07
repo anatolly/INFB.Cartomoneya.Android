@@ -10,20 +10,16 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.view.MenuItemCompat;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
-import com.intrafab.cartomoneya.actions.ActionRequestBizCardsTask;
+import com.intrafab.cartomoneya.actions.ActionRequestBusinessCardsTask;
 import com.intrafab.cartomoneya.adapters.BizCardAdapter;
-import com.intrafab.cartomoneya.data.BizCard;
+import com.intrafab.cartomoneya.data.BusinessCard;
 import com.intrafab.cartomoneya.db.DBManager;
 import com.intrafab.cartomoneya.fragments.PlaceholderBizCardsFragment;
-import com.intrafab.cartomoneya.fragments.PlaceholderShoppingCardsFragment;
 import com.intrafab.cartomoneya.loaders.BizCardListLoader;
-import com.intrafab.cartomoneya.loaders.ShopCardListLoader;
 import com.intrafab.cartomoneya.utils.Logger;
 import com.telly.groundy.CallbacksManager;
 import com.telly.groundy.Groundy;
@@ -47,9 +43,9 @@ public class BusinessCardsActivity extends BaseActivity implements BizCardAdapte
 
     private CallbacksManager mCallbacksManager;
 
-    private android.app.LoaderManager.LoaderCallbacks<List<BizCard>> mLoaderCallback = new android.app.LoaderManager.LoaderCallbacks<List<BizCard>>() {
+    private android.app.LoaderManager.LoaderCallbacks<List<BusinessCard>> mLoaderCallback = new android.app.LoaderManager.LoaderCallbacks<List<BusinessCard>>() {
         @Override
-        public android.content.Loader<List<BizCard>> onCreateLoader(int id, Bundle args) {
+        public android.content.Loader<List<BusinessCard>> onCreateLoader(int id, Bundle args) {
             switch (id) {
                 case LOADER_BIZ_CARD_ID:
                     return createBizCardLoader();
@@ -59,7 +55,7 @@ public class BusinessCardsActivity extends BaseActivity implements BizCardAdapte
         }
 
         @Override
-        public void onLoadFinished(android.content.Loader<List<BizCard>> loader, List<BizCard> data) {
+        public void onLoadFinished(android.content.Loader<List<BusinessCard>> loader, List<BusinessCard> data) {
             int id = loader.getId();
             switch (id) {
                 case LOADER_BIZ_CARD_ID:
@@ -71,7 +67,7 @@ public class BusinessCardsActivity extends BaseActivity implements BizCardAdapte
         }
 
         @Override
-        public void onLoaderReset(android.content.Loader<List<BizCard>> loader) {
+        public void onLoaderReset(android.content.Loader<List<BusinessCard>> loader) {
             int id = loader.getId();
             switch (id) {
                 case LOADER_BIZ_CARD_ID:
@@ -83,12 +79,12 @@ public class BusinessCardsActivity extends BaseActivity implements BizCardAdapte
         }
     };
 
-    private android.content.Loader<List<BizCard>> createBizCardLoader() {
+    private android.content.Loader<List<BusinessCard>> createBizCardLoader() {
         Logger.d(TAG, "createBizCardLoader");
         return new BizCardListLoader(BusinessCardsActivity.this);
     }
 
-    private void finishedBizCardLoader(List<BizCard> data) {
+    private void finishedBizCardLoader(List<BusinessCard> data) {
         Logger.d(TAG, "finishedBizCardLoader");
 
 
@@ -97,7 +93,7 @@ public class BusinessCardsActivity extends BaseActivity implements BizCardAdapte
             Logger.d(TAG, "finishedBizCardLoader start ActionRequestBizCardsTask");
             if (fragment != null)
                 fragment.showProgress();
-            Groundy.create(ActionRequestBizCardsTask.class)
+            Groundy.create(ActionRequestBusinessCardsTask.class)
                     .callback(BusinessCardsActivity.this)
                     .callbackManager(mCallbacksManager)
                     .queueUsing(BusinessCardsActivity.this);
@@ -183,7 +179,7 @@ public class BusinessCardsActivity extends BaseActivity implements BizCardAdapte
             Toast.makeText(this, "Coming soon. Show search", Toast.LENGTH_SHORT).show();
             return true;
         } else if (id == R.id.action_add_card) {
-            NewCardActivity.launch(this);
+            NewBusinessCardActivity.launch(this);
             return true;
         } else if (id == R.id.action_OCR_cam) {
             captureImageFromCamera();
@@ -233,7 +229,7 @@ public class BusinessCardsActivity extends BaseActivity implements BizCardAdapte
     }
 
     @Override
-    public void onClickItem(BizCard itemShopCard) {
+    public void onClickItem(BusinessCard itemShopCard) {
         BusinessCardDetailActivity.launch(this, itemShopCard);
     }
     public void captureImageFromSdCard() {

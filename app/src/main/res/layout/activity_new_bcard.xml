@@ -1,0 +1,428 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:material="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorLightWindowBackground"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical"
+    tools:context=".NewBCardActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="?attr/actionBarSize" />
+
+    <RelativeLayout
+        android:id="@+id/layoutProgress"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#55f4f4f4"
+        android:visibility="gone">
+
+        <com.pnikosis.materialishprogress.ProgressWheel
+            android:id="@+id/progress_wheel"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_centerInParent="true"
+            material:matProg_barColor="#5588FF"
+            material:matProg_progressIndeterminate="true" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:id="@+id/scroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#f4f4f4"
+        android:fillViewport="true"
+        android:overScrollMode="never">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <it.neokree.materialtabs.MaterialTabHost
+                android:id="@+id/tabHost"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_alignParentTop="true"
+                android:background="?attr/colorPrimaryDark"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                material:accentColor="@android:color/white"
+                material:materialTabsPrimaryColor="@color/colorLightPrimary" />
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/tabPager"
+                android:layout_width="match_parent"
+                android:layout_height="212dp"
+                android:layout_below="@+id/tabHost"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/tvContactName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tabPager"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="24dp"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="@string/contact_name"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/colorLightTextMain"
+                android:textSize="20sp" />
+
+            <View
+                android:id="@+id/delimContactName"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/tvContactName"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="4dp"
+                android:background="@color/colorLightPrimary" />
+
+            <LinearLayout
+                android:id="@+id/layoutContactName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/delimContactName"
+                android:layout_marginLeft="32dp"
+                android:layout_marginRight="32dp"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/etContactName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="start|bottom"
+                    android:hint="@string/contact_name"
+                    android:inputType="text"
+                    android:singleLine="true"
+                    android:textColor="#273747"
+                    android:textSize="16sp"
+                    material:met_baseColor="#000"
+                    material:met_floatingLabel="highlight"
+                    material:met_maxCharacters="4000"
+                    material:met_primaryColor="#273747"
+                    material:met_singleLineEllipsis="false" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/layoutContactJobTitle"
+                android:layout_below="@+id/layoutContactName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="32dp">
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/contact_job_title"
+                    android:gravity="center_vertical|right" />
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/contact_job_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical|start|right"
+                    android:imeOptions="actionNext"
+                    android:singleLine="true"
+                    android:layout_marginLeft="10dp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvContactCompanyName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/layoutContactJobTitle"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="24dp"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="@string/contact_company_name"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/colorLightTextMain"
+                android:textSize="20sp" />
+
+            <View
+                android:id="@+id/delimContactCompanyName"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/tvContactCompanyName"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="4dp"
+                android:background="@color/colorLightPrimary" />
+
+            <LinearLayout
+                android:id="@+id/layoutContactCompanyName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/delimContactCompanyName"
+                android:layout_marginLeft="32dp"
+                android:layout_marginRight="32dp"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/etContactCompanyName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="start|bottom"
+                    android:inputType="text"
+                    android:singleLine="true"
+                    android:textColor="#273747"
+                    android:textSize="16sp"
+                    material:met_baseColor="#000"
+                    material:met_floatingLabel="highlight"
+                    material:met_maxCharacters="4000"
+                    material:met_primaryColor="#273747"
+                    material:met_singleLineEllipsis="false"
+                    android:text="@string/contact_company_name" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutContactCompanyAddressName"
+                android:layout_below="@+id/layoutContactCompanyName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="32dp">
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/contact_company_address_label"
+                    android:gravity="center_vertical|right" />
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/contact_company_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical|start|right"
+                    android:imeOptions="actionNext"
+                    android:singleLine="true"
+                    android:layout_marginLeft="10dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutContactCompanyWebsiteName"
+                android:layout_below="@+id/layoutContactCompanyAddressName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="32dp">
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/contact_company_website_label"
+                    android:gravity="center_vertical|right" />
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/contact_company_website_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical|start|right"
+                    android:imeOptions="actionNext"
+                    android:singleLine="true"
+                    android:layout_marginLeft="10dp" />
+            </LinearLayout>
+
+            <View
+                android:id="@+id/delimContactCompany"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/layoutContactCompanyWebsiteName"
+                android:layout_marginLeft="32dp"
+                android:layout_marginRight="32dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/colorLightPrimary" />
+
+            <LinearLayout
+                android:id="@+id/layoutContactCompanyEMailAddress"
+                android:layout_below="@+id/delimContactCompany"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="32dp">
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/contact_company_email_label"
+                    android:gravity="center_vertical|right" />
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/contact_company_email_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical|start|right"
+                    android:imeOptions="actionNext"
+                    android:singleLine="true"
+                    android:layout_marginLeft="10dp" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/layoutContactCompanyMobile"
+                android:layout_below="@+id/layoutContactCompanyEMailAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="32dp">
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/contact_company_Mobile_label"
+                    android:gravity="center_vertical|right" />
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/contact_company_mobile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical|start|right"
+                    android:imeOptions="actionNext"
+                    android:singleLine="true"
+                    android:layout_marginLeft="10dp" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/layoutContactCompanyPhone"
+                android:layout_below="@+id/layoutContactCompanyMobile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="32dp">
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/contact_company_Phone_label"
+                    android:gravity="center_vertical|right" />
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/contact_company_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical|start|right"
+                    android:imeOptions="actionNext"
+                    android:singleLine="true"
+                    android:layout_marginLeft="10dp" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/layoutContactCompanyFAX"
+                android:layout_below="@+id/layoutContactCompanyPhone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="32dp">
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/contact_company_Fax_label"
+                    android:gravity="center_vertical|right" />
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/contact_company_fax"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical|start|right"
+                    android:imeOptions="actionNext"
+                    android:singleLine="true"
+                    android:layout_marginLeft="10dp" />
+            </LinearLayout>
+            <LinearLayout
+            android:id="@+id/layoutContactCompanySkype"
+            android:layout_below="@+id/layoutContactCompanyFAX"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="32dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="32dp">
+            <TextView
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:text="@string/contact_company_Skype_label"
+                android:gravity="center_vertical|right" />
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/contact_company_skype_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical|start|right"
+                android:imeOptions="actionNext"
+                android:singleLine="true"
+                android:layout_marginLeft="10dp" />
+            </LinearLayout>
+            <TextView
+                android:id="@+id/tvNotes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/layoutContactCompanySkype"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="24dp"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="@string/notes"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/colorLightTextMain"
+                android:textSize="20sp" />
+
+            <View
+                android:id="@+id/delim"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/tvNotes"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="4dp"
+                android:background="@color/colorLightPrimary" />
+
+            <LinearLayout
+                android:id="@+id/layoutNotesInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/delim"
+                android:layout_marginLeft="32dp"
+                android:layout_marginRight="32dp"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/etNotes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="bottom|left"
+                    android:hint="@string/your_notes"
+                    android:inputType="textMultiLine"
+                    android:minLines="2"
+                    android:singleLine="false"
+                    android:textColor="#273747"
+                    android:textSize="16sp"
+                    material:met_baseColor="#000"
+                    material:met_floatingLabel="highlight"
+                    material:met_maxCharacters="4000"
+                    material:met_primaryColor="#273747"
+                    material:met_singleLineEllipsis="false" />
+            </LinearLayout>
+
+
+        </RelativeLayout>
+    </ScrollView>
+
+</LinearLayout>

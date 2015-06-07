@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.intrafab.cartomoneya.adapters.CardPageAdapter;
-import com.intrafab.cartomoneya.data.BizCard;
+import com.intrafab.cartomoneya.data.BusinessCard;
 import com.intrafab.cartomoneya.fragments.PlaceholderCardPageFragment;
 
 import me.relex.circleindicator.CircleIndicator;
@@ -24,7 +24,7 @@ public class BusinessCardDetailActivity extends BaseActivity {
     public static final String EXTRA_PARAM_BIZ_CARD = "param_biz_card";
     private static final int NUM_PAGES = 2;
 
-    private BizCard mBizCard;
+    private BusinessCard mBusinessCard;
     private ViewPager mViewpager;
     private CircleIndicator mIndicator;
     private TextView mNotesText;
@@ -48,10 +48,10 @@ public class BusinessCardDetailActivity extends BaseActivity {
 
         Intent intent = getIntent();
         if (intent != null) {
-            mBizCard = getIntent().getParcelableExtra(EXTRA_PARAM_BIZ_CARD);
+            mBusinessCard = getIntent().getParcelableExtra(EXTRA_PARAM_BIZ_CARD);
         }
 
-        getSupportActionBar().setTitle(mBizCard.getName());
+        getSupportActionBar().setTitle(mBusinessCard.getName());
         showActionBar();
 
         mViewpager = (ViewPager) findViewById(R.id.pager);
@@ -72,8 +72,8 @@ public class BusinessCardDetailActivity extends BaseActivity {
 
         mPagerAdapter = new CardPageAdapter(getSupportFragmentManager());
 
-        mPagerAdapter.add(PlaceholderCardPageFragment.create(1, mBizCard.getFrontImagePath()));
-        mPagerAdapter.add(PlaceholderCardPageFragment.create(2, mBizCard.getBackImagePath()));
+        mPagerAdapter.add(PlaceholderCardPageFragment.create(1, mBusinessCard.getFrontImagePath()));
+        mPagerAdapter.add(PlaceholderCardPageFragment.create(2, mBusinessCard.getBackImagePath()));
 
         mViewpager.setOffscreenPageLimit(NUM_PAGES);
         mViewpager.setAdapter(mPagerAdapter);
@@ -89,8 +89,8 @@ public class BusinessCardDetailActivity extends BaseActivity {
     }
 
     private void fillData() {
-        if (mBizCard.getPersonage() != null) {
-            BizCard.Personage personage = mBizCard.getPersonage();
+        if (mBusinessCard.getPersonage() != null) {
+            BusinessCard.Personage personage = mBusinessCard.getPersonage();
             fillDescriptionIfExists(mTvName, personage.getName());
             fillDescriptionIfExists(mTvCompany, personage.getCompany());
             fillDescriptionIfExists(mTvJobTitle, personage.getJobTitle());
@@ -113,15 +113,15 @@ public class BusinessCardDetailActivity extends BaseActivity {
             mTvSkype.setVisibility(View.GONE);
         }
 
-        if (!TextUtils.isEmpty(mBizCard.getNotes())) {
+        if (!TextUtils.isEmpty(mBusinessCard.getNotes())) {
             mNotesText.setVisibility(View.VISIBLE);
-            mNotesText.setText(mBizCard.getNotes());
+            mNotesText.setText(mBusinessCard.getNotes());
         } else {
             mNotesText.setVisibility(View.INVISIBLE);
         }
 
-        ((PlaceholderCardPageFragment)mPagerAdapter.getFragment(0)).setUri(mBizCard.getFrontImagePath());
-        ((PlaceholderCardPageFragment)mPagerAdapter.getFragment(1)).setUri(mBizCard.getBackImagePath());
+        ((PlaceholderCardPageFragment)mPagerAdapter.getFragment(0)).setUri(mBusinessCard.getFrontImagePath());
+        ((PlaceholderCardPageFragment)mPagerAdapter.getFragment(1)).setUri(mBusinessCard.getBackImagePath());
     }
 
     private void fillContactIfExists(TextView label, TextView textView, String contact) {
@@ -149,7 +149,7 @@ public class BusinessCardDetailActivity extends BaseActivity {
         return R.layout.activity_business_card_detail;
     }
 
-    public static void launch(BaseActivity activity, BizCard item) {
+    public static void launch(BaseActivity activity, BusinessCard item) {
         Intent intent = new Intent(activity, BusinessCardDetailActivity.class);
         intent.putExtra(EXTRA_PARAM_BIZ_CARD, item);
 
