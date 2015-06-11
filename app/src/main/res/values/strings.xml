@@ -43,4 +43,9 @@
     <string name="work_phone_label">Work phone:</string>
     <string name="cell_phone_label">Cell phone:</string>
     <string name="skype_label">Skype:</string>
+
+    <!-- Shopping list item -->
+    <string name="shopping_list_item_empty">EMPTY</string>
+    <string name="shopping_list_title">Shopping List</string>
+    <string name="loaging">Loading</string>
 </resources>

@@ -3,6 +3,7 @@ package com.intrafab.cartomoneya.http;
 import com.intrafab.cartomoneya.data.BizCard;
 import com.intrafab.cartomoneya.data.ShopBrand;
 import com.intrafab.cartomoneya.data.ShopCard;
+import com.intrafab.cartomoneya.data.ShoppingListItem;
 import com.intrafab.cartomoneya.data.User;
 
 import java.util.List;
@@ -47,4 +48,10 @@ public interface HttpRestService {
             @Part("shopCardImageType") TypedString imageType,
             @Part("shopCardID") TypedString cardID,
             @Part("_data") TypedFile file);
+
+    @GET("/shoppingListItem")
+    public List<ShoppingListItem> getShoppingList();
+
+    @PUT("/shoppingListItem")
+    public ShoppingListItem createShopListItem(@Body ShoppingListItem item);
 }

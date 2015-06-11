@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:id="@+id/cbItem"
+        android:text="SOME TODO ITEM"
+        android:textColor="#273849"
+        android:singleLine="false"
+        android:textSize="20sp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@+id/ivEdit"
+        android:layout_toStartOf="@+id/ivEdit" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:layout_margin="4dp"
+        android:src="@android:drawable/ic_menu_delete"
+        android:id="@+id/ivDelete"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:layout_margin="4dp"
+        android:src="@android:drawable/ic_menu_edit"
+        android:id="@+id/ivEdit"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/ivDelete"/>
+</RelativeLayout>
