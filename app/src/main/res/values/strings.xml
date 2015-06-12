@@ -2,6 +2,8 @@
     <string name="app_name">Cartomoneya</string>
 
     <string name="hello_world">Hello world!</string>
+    <string name="action_OCR_cam">OCR from CAM </string>
+    <string name="action_OCR_file">OCR from file</string>
     <string name="action_settings">Settings</string>
     <string name="action_sync">Sync with server</string>
     <string name="action_cancel">Cancel</string>
@@ -24,6 +26,16 @@
     <string name="error_need_input_name">Need input card name</string>
     <string name="select_brand">Select brand</string>
     <string name="card_name">Card Name</string>
+    <string name="contact_name">Name</string>
+    <string name="contact_job_title">JobTitle:</string>
+    <string name="contact_company_name">Company</string>
+    <string name="contact_company_address_label">Address</string>
+    <string name="contact_company_website_label">Web</string>
+    <string name="contact_company_email_label">E-Mail</string>
+    <string name="contact_company_Mobile_label">Mobile</string>
+    <string name="contact_company_Phone_label">Phone</string>
+    <string name="contact_company_Fax_label">Fax</string>
+    <string name="contact_company_Skype_label">Skype</string>
     <string name="barcode">Barcode</string>
     <string name="brand">Brand</string>
     <string name="notes">Notes</string>

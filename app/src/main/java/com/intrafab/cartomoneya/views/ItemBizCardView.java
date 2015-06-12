@@ -10,7 +10,8 @@ import android.widget.TextView;
 
 import com.intrafab.cartomoneya.R;
 import com.intrafab.cartomoneya.adapters.BizCardAdapter;
-import com.intrafab.cartomoneya.data.BizCard;
+import com.intrafab.cartomoneya.data.BusinessCard;
+import com.intrafab.cartomoneya.data.BusinessCardPopulated;
 import com.squareup.picasso.Picasso;
 
 /**
@@ -19,7 +20,7 @@ import com.squareup.picasso.Picasso;
 public class ItemBizCardView extends RecyclerView.ViewHolder
         implements View.OnClickListener {
 
-    private BizCard mItem;
+    private BusinessCardPopulated mItem;
     private BizCardAdapter.OnClickListener mListener;
 
     private ImageView mImageThumbnail;
@@ -51,7 +52,7 @@ public class ItemBizCardView extends RecyclerView.ViewHolder
         mItemLayout = (RelativeLayout) view.findViewById(R.id.rlItemLayout);
     }
 
-    public void setItem(BizCard itemShopCard) {
+    public void setItem(BusinessCardPopulated itemShopCard) {
         mItem = itemShopCard;
 
         fillView(mItem);
@@ -71,11 +72,11 @@ public class ItemBizCardView extends RecyclerView.ViewHolder
         return rootView.getContext();
     }
 
-    private void fillView(BizCard item) {
+    private void fillView(BusinessCardPopulated item) {
         if (item == null)
             return;
 
-        String name;
+        String name = "No name yet!!!";
         String jobTitle = null;
         if (item.getPersonage() != null) {
             if (!TextUtils.isEmpty(item.getPersonage().getName())) {

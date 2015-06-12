@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.intrafab.cartomoneya.CropActivity;
+import com.intrafab.cartomoneya.NewBusinessCardActivity;
 import com.intrafab.cartomoneya.NewCardActivity;
 import com.intrafab.cartomoneya.R;
 import com.intrafab.cartomoneya.utils.Logger;
@@ -292,9 +294,19 @@ public class PlaceholderCardImagePageFragment extends Fragment implements View.O
             if (resultCode == Activity.RESULT_OK) {
                 Logger.e(TAG, "onActivityResult resultCode RESULT_OK");
                 Uri imageUri = getPickImageResultUri(data, mIsFront);
+                FragmentActivity mActivity =  getActivity();
 
-                CropActivity.launch((NewCardActivity) getActivity(), NewCardActivity.REQUEST_CODE_CROP_IMAGE, imageUri, mIsFront);
-
+                // TODO FIX IT!!!! IT Should not be implemented this way !!!!!
+                if (mActivity instanceof NewBusinessCardActivity ) {
+                    CropActivity.launch((NewBusinessCardActivity) getActivity(), NewBusinessCardActivity.REQUEST_CODE_CROP_IMAGE, imageUri, mIsFront);
+                }
+                else if (mActivity instanceof NewCardActivity) {
+                    CropActivity.launch((NewCardActivity) getActivity(), NewCardActivity.REQUEST_CODE_CROP_IMAGE, imageUri, mIsFront);
+                }
+                else
+                {
+                    Logger.e(TAG, "We  should never get here!!!");
+                }
             }
         }
     }

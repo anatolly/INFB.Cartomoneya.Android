@@ -5,37 +5,38 @@ import android.content.Context;
 
 import com.intrafab.cartomoneya.Constants;
 import com.intrafab.cartomoneya.data.BusinessCard;
+import com.intrafab.cartomoneya.data.BusinessCardPopulated;
 import com.intrafab.cartomoneya.db.DBManager;
 
 import java.util.List;
 
 /**
- * Created by Vasily Laushkin <vaslinux@gmail.com> on 25/05/15.
+ * Created by mikhailzubov on 08.06.15.
  */
-public class BizCardListLoader extends AsyncTaskLoader<List<BusinessCard>> {
-    public static final String TAG = BizCardListLoader.class.getName();
+public class BizCardPopulatedListLoader  extends AsyncTaskLoader<List<BusinessCardPopulated>> {
+    public static final String TAG = BizCardPopulatedListLoader.class.getName();
 
-    private List<BusinessCard> mData;
+    private List<BusinessCardPopulated> mData;
 
-    public BizCardListLoader(Context ctx) {
+    public BizCardPopulatedListLoader(Context ctx) {
         super(ctx);
     }
 
     @Override
-    public void onCanceled(List<BusinessCard> data) {
+    public void onCanceled(List<BusinessCardPopulated> data) {
         super.onCanceled(data);
 
         releaseResources(data);
     }
 
     @Override
-    public void deliverResult(List<BusinessCard> data) {
+    public void deliverResult(List<BusinessCardPopulated> data) {
         if (isReset()) {
             releaseResources(data);
             return;
         }
 
-        List<BusinessCard> oldData = mData;
+        List<BusinessCardPopulated> oldData = mData;
         mData = data;
 
         if (isStarted()) {
@@ -53,7 +54,7 @@ public class BizCardListLoader extends AsyncTaskLoader<List<BusinessCard>> {
             deliverResult(mData);
         }
 
-        DBManager.getInstance().registerObserver(getContext(), this, BizCardListLoader.class);
+        DBManager.getInstance().registerObserver(getContext(), this, BizCardPopulatedListLoader.class);
 
         if (takeContentChanged() || mData == null) {
             forceLoad();
@@ -81,15 +82,15 @@ public class BizCardListLoader extends AsyncTaskLoader<List<BusinessCard>> {
         }
 
         // The Loader is being reset, so we should stop monitoring for changes.
-        DBManager.getInstance().unregisterObserver(this, BizCardListLoader.class);
+        DBManager.getInstance().unregisterObserver(this, BizCardPopulatedListLoader.class);
     }
 
     @Override
-    public List<BusinessCard> loadInBackground() {
-        return DBManager.getInstance().readArrayToList(getContext(), Constants.Prefs.PREF_PARAM_BUSINESS_CARDS, BusinessCard[].class);
+    public List<BusinessCardPopulated> loadInBackground() {
+        return DBManager.getInstance().readArrayToList(getContext(), Constants.Prefs.PREF_PARAM_BUSINESS_CARDS_POPULATED, BusinessCardPopulated[].class);
     }
 
-    private void releaseResources(List<BusinessCard> data) {
+    private void releaseResources(List<BusinessCardPopulated> data) {
         // For a simple List, there is nothing to do. For something like a Cursor,
         // we would close it in this method. All resources associated with the
         // Loader should be released here.
@@ -100,9 +101,9 @@ public class BizCardListLoader extends AsyncTaskLoader<List<BusinessCard>> {
     {
         boolean isEqual= false;
 
-        if (object != null && object instanceof BizCardListLoader)
+        if (object != null && object instanceof BizCardPopulatedListLoader)
         {
-            isEqual = this.TAG.equals( ((BizCardListLoader) object).TAG );
+            isEqual = this.TAG.equals( ((BizCardPopulatedListLoader) object).TAG );
         }
 
         return isEqual;

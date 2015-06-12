@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".NewBusinessCardActivity">
+    <item
+        android:id="@+id/action_create"
+        android:orderInCategory="101"
+        android:menuCategory="secondary"
+        android:title="@string/action_create"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_save"
+        android:orderInCategory="101"
+        android:menuCategory="secondary"
+        android:title="@string/action_save"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_OCR_cam"
+        android:orderInCategory="100"
+        android:title="@string/action_OCR_cam"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_OCR_file"
+        android:orderInCategory="100"
+        android:title="@string/action_OCR_file"
+        app:showAsAction="never" />
+</menu>

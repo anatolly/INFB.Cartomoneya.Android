@@ -1,26 +1,32 @@
 package com.intrafab.cartomoneya;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.intrafab.cartomoneya.actions.ActionRequestBizCardsTask;
+import com.intrafab.cartomoneya.actions.ActionRequestBusinessCardsTask;
 import com.intrafab.cartomoneya.adapters.BizCardAdapter;
-import com.intrafab.cartomoneya.data.BizCard;
+import com.intrafab.cartomoneya.data.BusinessCardPopulated;
 import com.intrafab.cartomoneya.db.DBManager;
 import com.intrafab.cartomoneya.fragments.PlaceholderBizCardsFragment;
 import com.intrafab.cartomoneya.fragments.PlaceholderShoppingCardsFragment;
-import com.intrafab.cartomoneya.loaders.BizCardListLoader;
+import com.intrafab.cartomoneya.loaders.BizCardPopulatedListLoader;
 import com.intrafab.cartomoneya.loaders.ShopCardListLoader;
 import com.intrafab.cartomoneya.utils.Logger;
 import com.telly.groundy.CallbacksManager;
 import com.telly.groundy.Groundy;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -28,15 +34,18 @@ import java.util.List;
  */
 public class BusinessCardsActivity extends BaseActivity implements BizCardAdapter.OnClickListener {
 
+
+    public static final int REQUEST_CODE_NEW_BCARD = 500;
+
     public static final String TAG = BusinessCardsActivity.class.getName();
 
     private static final int LOADER_BIZ_CARD_ID = 10;
 
     private CallbacksManager mCallbacksManager;
 
-    private android.app.LoaderManager.LoaderCallbacks<List<BizCard>> mLoaderCallback = new android.app.LoaderManager.LoaderCallbacks<List<BizCard>>() {
+    private android.app.LoaderManager.LoaderCallbacks<List<BusinessCardPopulated>> mLoaderCallback = new android.app.LoaderManager.LoaderCallbacks<List<BusinessCardPopulated>>() {
         @Override
-        public android.content.Loader<List<BizCard>> onCreateLoader(int id, Bundle args) {
+        public android.content.Loader<List<BusinessCardPopulated>> onCreateLoader(int id, Bundle args) {
             switch (id) {
                 case LOADER_BIZ_CARD_ID:
                     return createBizCardLoader();
@@ -46,7 +55,7 @@ public class BusinessCardsActivity extends BaseActivity implements BizCardAdapte
         }
 
         @Override
-        public void onLoadFinished(android.content.Loader<List<BizCard>> loader, List<BizCard> data) {
+        public void onLoadFinished(android.content.Loader<List<BusinessCardPopulated>> loader, List<BusinessCardPopulated> data) {
             int id = loader.getId();
             switch (id) {
                 case LOADER_BIZ_CARD_ID:
@@ -58,7 +67,7 @@ public class BusinessCardsActivity extends BaseActivity implements BizCardAdapte
         }
 
         @Override
-        public void onLoaderReset(android.content.Loader<List<BizCard>> loader) {
+        public void onLoaderReset(android.content.Loader<List<BusinessCardPopulated>> loader) {
             int id = loader.getId();
             switch (id) {
                 case LOADER_BIZ_CARD_ID:
@@ -70,12 +79,12 @@ public class BusinessCardsActivity extends BaseActivity implements BizCardAdapte
         }
     };
 
-    private android.content.Loader<List<BizCard>> createBizCardLoader() {
+    private android.content.Loader<List<BusinessCardPopulated>> createBizCardLoader() {
         Logger.d(TAG, "createBizCardLoader");
-        return new BizCardListLoader(BusinessCardsActivity.this);
+        return new BizCardPopulatedListLoader(BusinessCardsActivity.this);
     }
 
-    private void finishedBizCardLoader(List<BizCard> data) {
+    private void finishedBizCardLoader(List<BusinessCardPopulated> data) {
         Logger.d(TAG, "finishedBizCardLoader");
 
 
@@ -84,7 +93,7 @@ public class BusinessCardsActivity extends BaseActivity implements BizCardAdapte
             Logger.d(TAG, "finishedBizCardLoader start ActionRequestBizCardsTask");
             if (fragment != null)
                 fragment.showProgress();
-            Groundy.create(ActionRequestBizCardsTask.class)
+            Groundy.create(ActionRequestBusinessCardsTask.class)
                     .callback(BusinessCardsActivity.this)
                     .callbackManager(mCallbacksManager)
                     .queueUsing(BusinessCardsActivity.this);
@@ -109,10 +118,12 @@ public class BusinessCardsActivity extends BaseActivity implements BizCardAdapte
 
     public PlaceholderBizCardsFragment getFragment() {
         Fragment fragment = getFragmentManager().findFragmentByTag(PlaceholderBizCardsFragment.TAG);
-        if (fragment != null && fragment instanceof PlaceholderBizCardsFragment)
+        if (fragment != null && fragment instanceof PlaceholderBizCardsFragment) {
             return (PlaceholderBizCardsFragment) fragment;
-
-        return null;
+        }
+        else {
+            return null;
+        }
     }
 
     @Override
@@ -170,9 +181,10 @@ public class BusinessCardsActivity extends BaseActivity implements BizCardAdapte
             Toast.makeText(this, "Coming soon. Show search", Toast.LENGTH_SHORT).show();
             return true;
         } else if (id == R.id.action_add_card) {
-            NewCardActivity.launch(this);
+            NewBusinessCardActivity.launch(this, REQUEST_CODE_NEW_BCARD);
             return true;
-        } else if (id == R.id.action_sync) {
+        }
+         else if (id == R.id.action_sync) {
             PlaceholderBizCardsFragment fragment = getFragment();
             if (fragment == null)
                 return true;
@@ -181,7 +193,7 @@ public class BusinessCardsActivity extends BaseActivity implements BizCardAdapte
                 fragment.hideProgress();
                 fragment.setData(null);
             }
-            DBManager.getInstance().deleteObject(Constants.Prefs.PREF_PARAM_BUSINESS_CARDS, BizCardListLoader.class);
+            DBManager.getInstance().deleteObject(Constants.Prefs.PREF_PARAM_BUSINESS_CARDS_POPULATED, BizCardPopulatedListLoader.class);
             return true;
         }
 
@@ -214,7 +226,25 @@ public class BusinessCardsActivity extends BaseActivity implements BizCardAdapte
     }
 
     @Override
-    public void onClickItem(BizCard itemShopCard) {
+    public void onClickItem(BusinessCardPopulated itemShopCard) {
         BusinessCardDetailActivity.launch(this, itemShopCard);
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if ( requestCode == REQUEST_CODE_NEW_BCARD) {
+            PlaceholderBizCardsFragment fragment = getFragment();
+            if (fragment == null)
+                return;
+
+            if (fragment != null) {
+                fragment.hideProgress();
+                fragment.setData(null);
+            }
+            DBManager.getInstance().deleteObject(Constants.Prefs.PREF_PARAM_BUSINESS_CARDS_POPULATED, BizCardPopulatedListLoader.class);
+        }
+    }
+
 }
