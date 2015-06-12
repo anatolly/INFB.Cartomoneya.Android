@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 
 import com.intrafab.cartomoneya.R;
 import com.intrafab.cartomoneya.data.BusinessCard;
+import com.intrafab.cartomoneya.data.BusinessCardPopulated;
 import com.intrafab.cartomoneya.views.ItemBizCardView;
 
 import java.util.ArrayList;
@@ -18,10 +19,10 @@ import java.util.List;
 public class BizCardAdapter extends RecyclerView.Adapter<ItemBizCardView> {
 
     private OnClickListener mListener;
-    private List<BusinessCard> mListItems = new ArrayList<BusinessCard>();
+    private List<BusinessCardPopulated> mListItems = new ArrayList<BusinessCardPopulated>();
 
     public interface OnClickListener {
-        public void onClickItem(BusinessCard itemShopCard);
+        public void onClickItem(BusinessCardPopulated itemShopCard);
     }
 
     public BizCardAdapter(OnClickListener listener) {
@@ -38,7 +39,7 @@ public class BizCardAdapter extends RecyclerView.Adapter<ItemBizCardView> {
 
     @Override
     public void onBindViewHolder(ItemBizCardView viewHolder, int i) {
-        final BusinessCard item = mListItems.get(i);
+        final BusinessCardPopulated item = mListItems.get(i);
         viewHolder.setItem(item);
     }
 
@@ -47,11 +48,11 @@ public class BizCardAdapter extends RecyclerView.Adapter<ItemBizCardView> {
         return mListItems.size();
     }
 
-    public void add(BusinessCard item) {
+    public void add(BusinessCardPopulated item) {
         mListItems.add(item);
     }
 
-    public void addAll(List<BusinessCard> items) {
+    public void addAll(List<BusinessCardPopulated> items) {
         if (items != null)
             mListItems.addAll(items);
         notifyDataSetChanged();

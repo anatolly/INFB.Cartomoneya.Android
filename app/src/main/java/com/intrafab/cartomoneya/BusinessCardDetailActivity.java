@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import com.intrafab.cartomoneya.adapters.CardPageAdapter;
 import com.intrafab.cartomoneya.data.BusinessCard;
+import com.intrafab.cartomoneya.data.BusinessCardPopulated;
+import com.intrafab.cartomoneya.data.Personage;
 import com.intrafab.cartomoneya.fragments.PlaceholderCardPageFragment;
 
 import me.relex.circleindicator.CircleIndicator;
@@ -24,7 +26,7 @@ public class BusinessCardDetailActivity extends BaseActivity {
     public static final String EXTRA_PARAM_BIZ_CARD = "param_biz_card";
     private static final int NUM_PAGES = 2;
 
-    private BusinessCard mBusinessCard;
+    private BusinessCardPopulated mBusinessCard;
     private ViewPager mViewpager;
     private CircleIndicator mIndicator;
     private TextView mNotesText;
@@ -90,7 +92,7 @@ public class BusinessCardDetailActivity extends BaseActivity {
 
     private void fillData() {
         if (mBusinessCard.getPersonage() != null) {
-            BusinessCard.Personage personage = mBusinessCard.getPersonage();
+            Personage personage = mBusinessCard.getPersonage();
             fillDescriptionIfExists(mTvName, personage.getName());
             fillDescriptionIfExists(mTvCompany, personage.getCompany());
             fillDescriptionIfExists(mTvJobTitle, personage.getJobTitle());
@@ -149,7 +151,7 @@ public class BusinessCardDetailActivity extends BaseActivity {
         return R.layout.activity_business_card_detail;
     }
 
-    public static void launch(BaseActivity activity, BusinessCard item) {
+    public static void launch(BaseActivity activity, BusinessCardPopulated item) {
         Intent intent = new Intent(activity, BusinessCardDetailActivity.class);
         intent.putExtra(EXTRA_PARAM_BIZ_CARD, item);
 

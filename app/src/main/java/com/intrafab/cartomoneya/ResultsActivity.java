@@ -51,10 +51,13 @@ public class ResultsActivity extends Activity {
 			} finally {
 				fis.close();
 			}
-
-			displayMessage(contents.toString());
+			setResult(RESULT_OK);
+			finish();
+			//displayMessage(contents.toString());
 		} catch (Exception e) {
-			displayMessage("Error: " + e.getMessage());
+			e.printStackTrace(); //displayMessage("Error: " + e.getMessage());
+			setResult(RESULT_CANCELED);
+			finish();
 		}
 	}
 	

@@ -16,10 +16,12 @@ import android.widget.Toast;
 
 import com.intrafab.cartomoneya.actions.ActionRequestBusinessCardsTask;
 import com.intrafab.cartomoneya.adapters.BizCardAdapter;
-import com.intrafab.cartomoneya.data.BusinessCard;
+import com.intrafab.cartomoneya.data.BusinessCardPopulated;
 import com.intrafab.cartomoneya.db.DBManager;
 import com.intrafab.cartomoneya.fragments.PlaceholderBizCardsFragment;
-import com.intrafab.cartomoneya.loaders.BizCardListLoader;
+import com.intrafab.cartomoneya.fragments.PlaceholderShoppingCardsFragment;
+import com.intrafab.cartomoneya.loaders.BizCardPopulatedListLoader;
+import com.intrafab.cartomoneya.loaders.ShopCardListLoader;
 import com.intrafab.cartomoneya.utils.Logger;
 import com.telly.groundy.CallbacksManager;
 import com.telly.groundy.Groundy;
@@ -32,10 +34,8 @@ import java.util.List;
  */
 public class BusinessCardsActivity extends BaseActivity implements BizCardAdapter.OnClickListener {
 
-    private final int TAKE_PICTURE = 0;
-    private final int SELECT_FILE = 1;
 
-    private String resultUrl = "result.txt";
+    public static final int REQUEST_CODE_NEW_BCARD = 500;
 
     public static final String TAG = BusinessCardsActivity.class.getName();
 
@@ -43,9 +43,9 @@ public class BusinessCardsActivity extends BaseActivity implements BizCardAdapte
 
     private CallbacksManager mCallbacksManager;
 
-    private android.app.LoaderManager.LoaderCallbacks<List<BusinessCard>> mLoaderCallback = new android.app.LoaderManager.LoaderCallbacks<List<BusinessCard>>() {
+    private android.app.LoaderManager.LoaderCallbacks<List<BusinessCardPopulated>> mLoaderCallback = new android.app.LoaderManager.LoaderCallbacks<List<BusinessCardPopulated>>() {
         @Override
-        public android.content.Loader<List<BusinessCard>> onCreateLoader(int id, Bundle args) {
+        public android.content.Loader<List<BusinessCardPopulated>> onCreateLoader(int id, Bundle args) {
             switch (id) {
                 case LOADER_BIZ_CARD_ID:
                     return createBizCardLoader();
@@ -55,7 +55,7 @@ public class BusinessCardsActivity extends BaseActivity implements BizCardAdapte
         }
 
         @Override
-        public void onLoadFinished(android.content.Loader<List<BusinessCard>> loader, List<BusinessCard> data) {
+        public void onLoadFinished(android.content.Loader<List<BusinessCardPopulated>> loader, List<BusinessCardPopulated> data) {
             int id = loader.getId();
             switch (id) {
                 case LOADER_BIZ_CARD_ID:
@@ -67,7 +67,7 @@ public class BusinessCardsActivity extends BaseActivity implements BizCardAdapte
         }
 
         @Override
-        public void onLoaderReset(android.content.Loader<List<BusinessCard>> loader) {
+        public void onLoaderReset(android.content.Loader<List<BusinessCardPopulated>> loader) {
             int id = loader.getId();
             switch (id) {
                 case LOADER_BIZ_CARD_ID:
@@ -79,12 +79,12 @@ public class BusinessCardsActivity extends BaseActivity implements BizCardAdapte
         }
     };
 
-    private android.content.Loader<List<BusinessCard>> createBizCardLoader() {
+    private android.content.Loader<List<BusinessCardPopulated>> createBizCardLoader() {
         Logger.d(TAG, "createBizCardLoader");
-        return new BizCardListLoader(BusinessCardsActivity.this);
+        return new BizCardPopulatedListLoader(BusinessCardsActivity.this);
     }
 
-    private void finishedBizCardLoader(List<BusinessCard> data) {
+    private void finishedBizCardLoader(List<BusinessCardPopulated> data) {
         Logger.d(TAG, "finishedBizCardLoader");
 
 
@@ -118,10 +118,12 @@ public class BusinessCardsActivity extends BaseActivity implements BizCardAdapte
 
     public PlaceholderBizCardsFragment getFragment() {
         Fragment fragment = getFragmentManager().findFragmentByTag(PlaceholderBizCardsFragment.TAG);
-        if (fragment != null && fragment instanceof PlaceholderBizCardsFragment)
+        if (fragment != null && fragment instanceof PlaceholderBizCardsFragment) {
             return (PlaceholderBizCardsFragment) fragment;
-
-        return null;
+        }
+        else {
+            return null;
+        }
     }
 
     @Override
@@ -179,15 +181,10 @@ public class BusinessCardsActivity extends BaseActivity implements BizCardAdapte
             Toast.makeText(this, "Coming soon. Show search", Toast.LENGTH_SHORT).show();
             return true;
         } else if (id == R.id.action_add_card) {
-            NewBusinessCardActivity.launch(this);
+            NewBusinessCardActivity.launch(this, REQUEST_CODE_NEW_BCARD);
             return true;
-        } else if (id == R.id.action_OCR_cam) {
-            captureImageFromCamera();
-            return true;
-        } else if (id == R.id.action_OCR_file) {
-            captureImageFromSdCard();
-            return true;
-        } else if (id == R.id.action_sync) {
+        }
+         else if (id == R.id.action_sync) {
             PlaceholderBizCardsFragment fragment = getFragment();
             if (fragment == null)
                 return true;
@@ -196,7 +193,7 @@ public class BusinessCardsActivity extends BaseActivity implements BizCardAdapte
                 fragment.hideProgress();
                 fragment.setData(null);
             }
-            DBManager.getInstance().deleteObject(Constants.Prefs.PREF_PARAM_BUSINESS_CARDS, BizCardListLoader.class);
+            DBManager.getInstance().deleteObject(Constants.Prefs.PREF_PARAM_BUSINESS_CARDS_POPULATED, BizCardPopulatedListLoader.class);
             return true;
         }
 
@@ -229,83 +226,25 @@ public class BusinessCardsActivity extends BaseActivity implements BizCardAdapte
     }
 
     @Override
-    public void onClickItem(BusinessCard itemShopCard) {
+    public void onClickItem(BusinessCardPopulated itemShopCard) {
         BusinessCardDetailActivity.launch(this, itemShopCard);
-    }
-    public void captureImageFromSdCard() {
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType("image/*");
-
-        startActivityForResult(intent, SELECT_FILE);
-    }
-
-    public static final int MEDIA_TYPE_IMAGE = 1;
-
-    private static Uri getOutputMediaFileUri(){
-        return Uri.fromFile(getOutputMediaFile());
-    }
-
-    /** Create a File for saving an image or video */
-    private static File getOutputMediaFile(){
-        // To be safe, you should check that the SDCard is mounted
-        // using Environment.getExternalStorageState() before doing this.
-
-        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES), "ABBYY Cloud OCR SDK Demo App");
-        // This location works best if you want the created images to be shared
-        // between applications and persist after your app has been uninstalled.
-
-        // Create the storage directory if it does not exist
-        if (! mediaStorageDir.exists()){
-            if (! mediaStorageDir.mkdirs()){
-                return null;
-            }
-        }
-
-        // Create a media file name
-        File mediaFile = new File(mediaStorageDir.getPath() + File.separator + "image.jpg" );
-
-        return mediaFile;
-    }
-
-    public void captureImageFromCamera( ) {
-        Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-        Uri fileUri = getOutputMediaFileUri(); // create a file to save the image
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri); // set the image file name
-
-        startActivityForResult(intent, TAKE_PICTURE);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode != Activity.RESULT_OK)
-            return;
 
-        String imageFilePath = null;
+        if ( requestCode == REQUEST_CODE_NEW_BCARD) {
+            PlaceholderBizCardsFragment fragment = getFragment();
+            if (fragment == null)
+                return;
 
-        switch (requestCode) {
-            case TAKE_PICTURE:
-                imageFilePath = getOutputMediaFileUri().getPath();
-                break;
-            case SELECT_FILE: {
-                Uri imageUri = data.getData();
-
-                String[] projection = { MediaStore.Images.Media.DATA };
-                Cursor cur = managedQuery(imageUri, projection, null, null, null);
-                cur.moveToFirst();
-                imageFilePath = cur.getString(cur.getColumnIndex(MediaStore.Images.Media.DATA));
+            if (fragment != null) {
+                fragment.hideProgress();
+                fragment.setData(null);
             }
-            break;
+            DBManager.getInstance().deleteObject(Constants.Prefs.PREF_PARAM_BUSINESS_CARDS_POPULATED, BizCardPopulatedListLoader.class);
         }
-
-        //Remove output file
-        deleteFile(resultUrl);
-
-        Intent results = new Intent( this, ResultsActivity.class);
-        results.putExtra("IMAGE_PATH", imageFilePath);
-        results.putExtra("RESULT_PATH", resultUrl);
-        startActivity(results);
     }
 
 }
