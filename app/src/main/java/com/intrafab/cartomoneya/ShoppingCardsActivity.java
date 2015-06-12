@@ -260,7 +260,7 @@ public class ShoppingCardsActivity extends BaseActivity
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnOffers:
-                OffersActivity.launch(this);
+                ShopOffersActivity.launch(this);
                 break;
             case R.id.btnShoppingList:
                 ShoppingListActivity.launch(this);

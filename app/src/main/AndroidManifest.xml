@@ -40,7 +40,10 @@
             android:name=".ShopCardDetailActivity"
             android:screenOrientation="sensorPortrait"></activity>
         <activity
-            android:name=".OffersActivity"
+            android:name=".ShopOffersActivity"
+            android:screenOrientation="sensorPortrait"></activity>
+        <activity
+            android:name=".ShopOfferDetailActivity"
             android:screenOrientation="sensorPortrait"></activity>
         <activity
             android:name=".ShoppingListActivity"
