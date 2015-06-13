@@ -405,6 +405,8 @@ public class NewBusinessCardActivity extends BaseActivity
                         Intent results = new Intent( this, ResultsActivity.class);
                         results.putExtra("IMAGE_PATH", imageUri.getPath());
                         results.putExtra("RESULT_PATH", resultUrl);
+                        results.putExtra("APP_NAME", getString(R.string.applicationId));
+                        results.putExtra("APP_PASSWORD", getString(R.string.password));
                         startActivityForResult(results, BUSINESS_CARD_OCR);
 
                     } else {
@@ -432,7 +434,9 @@ public class NewBusinessCardActivity extends BaseActivity
                 Intent results = new Intent( this, ResultsActivity.class);
                 results.putExtra("IMAGE_PATH", imageFilePath);
                 results.putExtra("RESULT_PATH", resultUrl);
-                    startActivityForResult(results, BUSINESS_CARD_OCR);}
+                results.putExtra("APP_NAME", getString(R.string.applicationId));
+                results.putExtra("APP_PASSWORD", getString(R.string.password));
+                startActivityForResult(results, BUSINESS_CARD_OCR);}
                 break;
             case SELECT_FILE: {
                 Uri imageUri = data.getData();
@@ -447,6 +451,8 @@ public class NewBusinessCardActivity extends BaseActivity
                 Intent results = new Intent( this, ResultsActivity.class);
                 results.putExtra("IMAGE_PATH", imageFilePath);
                 results.putExtra("RESULT_PATH", resultUrl);
+                results.putExtra("APP_NAME", getString(R.string.applicationId));
+                results.putExtra("APP_PASSWORD", getString(R.string.password));
                 startActivityForResult(results, BUSINESS_CARD_OCR);
             }
             break;

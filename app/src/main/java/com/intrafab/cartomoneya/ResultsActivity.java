@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 public class ResultsActivity extends Activity {
 
+	String app_name ="";
+	String app_password = "";
 	String outputPath;
 	TextView tv;
 	
@@ -28,10 +30,12 @@ public class ResultsActivity extends Activity {
 		if( extras != null) {
 			imageUrl = extras.getString("IMAGE_PATH" );
 			outputPath = extras.getString( "RESULT_PATH" );
+			app_name = extras.getString( "APP_NAME" );
+			app_password = extras.getString( "APP_PASSWORD" );
 		}
 		
 		// Starting recognition process
-		new AsyncProcessTask(this).execute(imageUrl, outputPath);
+		new AsyncProcessTask(this).execute(imageUrl, outputPath,app_name,app_password);
 	}
 
 	public void updateResults(Boolean success) {

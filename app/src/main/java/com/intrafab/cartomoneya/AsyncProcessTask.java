@@ -7,6 +7,7 @@ import com.abbyy.ocrsdk.*;
 import android.app.*;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.os.AsyncTask;
 
 public class AsyncProcessTask extends AsyncTask<String, String, Boolean> {
@@ -50,10 +51,10 @@ public class AsyncProcessTask extends AsyncTask<String, String, Boolean> {
 			// http://ocrsdk.com/documentation/faq/#faq3
 			
 			// Name of application you created
-			restClient.applicationId = "ACardStore";
+			restClient.applicationId = args[2];
 			// You should get e-mail from ABBYY Cloud OCR SDK service with the application password
-			restClient.password = "YYd08NnvBTQGOaWWsYfabKC2";
-			
+			restClient.password =  args[3];
+
 			// Obtain installation id when running the application for the first time
 			SharedPreferences settings = activity.getPreferences(Activity.MODE_PRIVATE);
 			String instIdName = "installationId";

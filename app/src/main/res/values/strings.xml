@@ -1,6 +1,11 @@
 <resources>
     <string name="app_name">Cartomoneya</string>
 
+    <!-- Abbyy OCR Cloud application name and password -->
+    <string name="applicationId">Intrafab Card</string>
+    <string name="password">rs8DFeVgFt7sCALXO529Ma6O</string>
+    <!-- Abbyy OCR Cloud application name and password -->
+
     <string name="hello_world">Hello world!</string>
     <string name="action_OCR_cam">OCR from CAM </string>
     <string name="action_OCR_file">OCR from file</string>
