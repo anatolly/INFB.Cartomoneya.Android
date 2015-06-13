@@ -154,13 +154,13 @@ public class NewBusinessCardActivity extends BaseActivity
             hideKeyboard();
             saveCard();
             return true;
-        } else if (id == R.id.action_OCR_cam) {
+        } /*else if (id == R.id.action_OCR_cam) {
             captureImageFromCamera();
             return true;
         } else if (id == R.id.action_OCR_file) {
             captureImageFromSdCard();
             return true;
-        }
+        }*/
         return super.onOptionsItemSelected(item);
     }
 
@@ -402,6 +402,11 @@ public class NewBusinessCardActivity extends BaseActivity
 
                     if (mCurrentPosition == 0) {
                         mFrontImageUri = imageUri;
+                        Intent results = new Intent( this, ResultsActivity.class);
+                        results.putExtra("IMAGE_PATH", imageUri.getPath());
+                        results.putExtra("RESULT_PATH", resultUrl);
+                        startActivityForResult(results, BUSINESS_CARD_OCR);
+
                     } else {
                         mBackImageUri = imageUri;
                     }
@@ -995,28 +1000,6 @@ public class NewBusinessCardActivity extends BaseActivity
     private static final String ns = null;
 
     public void process_ocr_xml() {
-
-        /*StringBuffer contents = new StringBuffer();
-      try {
-        FileInputStream fis = openFileInput(resultUrl);
-        try {
-            Reader reader = new InputStreamReader(fis, "UTF-8");
-            BufferedReader bufReader = new BufferedReader(reader);
-            String text = null;
-            while ((text = bufReader.readLine()) != null) {
-                contents.append(text).append(System.getProperty("line.separator"));
-            }
-        } finally {
-            fis.close();
-        }
-    }
- catch (FileNotFoundException e) {
-          e.printStackTrace();
-      } catch (UnsupportedEncodingException e) {
-          e.printStackTrace();
-      } catch (IOException e) {
-          e.printStackTrace();
-      }*/
         try {
             FileInputStream stream = openFileInput(resultUrl);
             try {
@@ -1024,6 +1007,7 @@ public class NewBusinessCardActivity extends BaseActivity
                 XmlPullParser myparser = xmlFactoryObject.newPullParser();
                 myparser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
                 myparser.setInput(stream, null);
+                clear_values();
                 parseXMLAndStoreIt(myparser);
             } finally {
                 stream.close();
@@ -1051,35 +1035,15 @@ public class NewBusinessCardActivity extends BaseActivity
                              readField(myParser);
                          }
                          break;
-
                      case XmlPullParser.TEXT:
-                         text = myParser.getText();
                          break;
-
                      case XmlPullParser.END_TAG:
-
-                         /*
-                         else if(name.equals("humidity")){
-                             humidity = myParser.getAttributeValue(null,"value");
-                         }
-
-                         else if(name.equals("pressure")){
-                             pressure = myParser.getAttributeValue(null,"value");
-                         }
-
-                         else if(name.equals("temperature")){
-                             temperature = myParser.getAttributeValue(null,"value");
-                         }
-
-                         else{
-                         }*/
                          break;
                  }
                  event = myParser.next();
              }
              parsingComplete = false;
          }
-
          catch (Exception e) {
              e.printStackTrace();
          }
@@ -1102,6 +1066,29 @@ public class NewBusinessCardActivity extends BaseActivity
             myParser.require(XmlPullParser.END_TAG, ns, "field");
 
             return;
+    }
+
+    public void  clear_values()
+    {
+        mEditContactName.setText("");
+
+        mEditContactPhone.setText("");
+
+        mEditContactMobile .setText("");
+
+        mEditContactFax .setText( "");
+
+        mEditContactCompany.setText("");
+
+        mEditContactJobTitle.setText("");
+
+        mEditContactCompanyAddress.setText("");
+
+        mEditContactEMail.setText("");
+
+        mEditContactSite.setText("");
+
+        mEditNotes.setText("");
     }
 
      public void  set_value(String type, String text)
@@ -1155,9 +1142,9 @@ public class NewBusinessCardActivity extends BaseActivity
                 mEditContactSite.setText(tempVal);
             }
             else if(type.equals("Text")){
-                tempVal = mEditNotes.getText().toString();
-                tempVal = tempVal.length() > 0 ? tempVal + " " + text: text;
-                mEditNotes.setText(tempVal);
+               // tempVal = mEditNotes.getText().toString();
+               // tempVal = tempVal.length() > 0 ? tempVal + " " + text: text;
+              //  mEditNotes.setText(tempVal);
             }
 
             return;
