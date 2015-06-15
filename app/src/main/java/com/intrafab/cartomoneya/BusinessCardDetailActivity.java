@@ -34,11 +34,19 @@ public class BusinessCardDetailActivity extends BaseActivity {
     private TextView mTvName;
     private TextView mTvJobTitle;
     private TextView mTvCompany;
+    private TextView mTvEMail;
+    private TextView mTvAddress;
+    private TextView mTvWebSite;
     private TextView mTvWorkPhone;
     private TextView mTvCellPhone;
+    private TextView mTvFAX;
     private TextView mTvSkype;
+    private TextView mTvEMailLable;
+    private TextView mTvAddressLable;
+    private TextView mTvWebSiteLable;
     private TextView mTvWorkPhoneLabel;
     private TextView mTvCellPhoneLabel;
+    private TextView mTvFAXLable;
     private TextView mTvSkypeLabel;
 
 
@@ -62,11 +70,18 @@ public class BusinessCardDetailActivity extends BaseActivity {
         mTvName = (TextView) findViewById(R.id.tvName);
         mTvCompany = (TextView) findViewById(R.id.tvCompany);
         mTvJobTitle = (TextView) findViewById(R.id.tvJobTitle);
-
+        mTvEMail = (TextView) findViewById(R.id.tvContactEMailAddress);
+        mTvEMailLable = (TextView) findViewById(R.id.tvContactEMailAddressLabel);
+        mTvAddress = (TextView) findViewById(R.id.tvContactCompanyAddress);
+        mTvAddressLable  = (TextView) findViewById(R.id.tvContactCompanyAddressLabel);
+        mTvWebSite  = (TextView) findViewById(R.id.tvContactCompanyWebsiteName);
+        mTvWebSiteLable  = (TextView) findViewById(R.id.tvContactCompanyWebsiteNameLabel);
         mTvWorkPhoneLabel = (TextView) findViewById(R.id.tvWorkPhoneLabel);
         mTvWorkPhone = (TextView) findViewById(R.id.tvWorkPhone);
         mTvCellPhoneLabel = (TextView) findViewById(R.id.tvCellPhoneLabel);
         mTvCellPhone = (TextView) findViewById(R.id.tvCellPhone);
+        mTvFAX = (TextView) findViewById(R.id.tvFAX);
+        mTvFAXLable = (TextView) findViewById(R.id.tvFAXLabel);
         mTvSkypeLabel = (TextView) findViewById(R.id.tvSkypeLabel);
         mTvSkype = (TextView) findViewById(R.id.tvSkype);
 
@@ -96,9 +111,12 @@ public class BusinessCardDetailActivity extends BaseActivity {
             fillDescriptionIfExists(mTvName, personage.getName());
             fillDescriptionIfExists(mTvCompany, personage.getCompany());
             fillDescriptionIfExists(mTvJobTitle, personage.getJobTitle());
-
+            fillContactIfExists(mTvEMailLable, mTvEMail, personage.getEmail());
+            fillContactIfExists(mTvAddressLable, mTvAddress, personage.getCompanyAddress());
+            fillContactIfExists(mTvWebSiteLable, mTvWebSite, personage.getCompanySiteAddress());
             fillContactIfExists(mTvWorkPhoneLabel, mTvWorkPhone, personage.getWorkPhone());
             fillContactIfExists(mTvCellPhoneLabel, mTvCellPhone, personage.getCellPhone());
+            fillContactIfExists(mTvFAXLable, mTvFAX, personage.getFax());
             fillContactIfExists(mTvSkypeLabel, mTvSkype, personage.getSkype());
         } else {
             mTvName.setVisibility(View.GONE);

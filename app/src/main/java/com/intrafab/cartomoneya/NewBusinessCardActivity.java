@@ -708,7 +708,7 @@ public class NewBusinessCardActivity extends BaseActivity
         BusinessCardPopulated newCard = new BusinessCardPopulated();
         Personage newPersonage = new Personage();
 
-        newCard.setName(cardName + "Business Card");
+        newCard.setName(cardName + " Business Card");
 
         String contactName     = mEditContactName.getText().toString();
         String contactJobTitle = mEditContactJobTitle.getText().toString();

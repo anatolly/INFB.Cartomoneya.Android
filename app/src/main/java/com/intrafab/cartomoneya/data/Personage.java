@@ -52,7 +52,7 @@ public class Personage implements Parcelable {
     }
 
     public void setCompanyAddress(String address) {
-        this.company = address;
+        this.address = address;
     }
 
     public String getCompanySiteAddress() {
@@ -137,9 +137,12 @@ public class Personage implements Parcelable {
         dest.writeInt(this.id);
         dest.writeString(this.name);
         dest.writeString(this.company);
+        dest.writeString(this.website);
+        dest.writeString(this.address);
         dest.writeString(this.jobTitle);
         dest.writeString(this.workPhone);
         dest.writeString(this.cellPhone);
+        dest.writeString(this.fax);
         dest.writeString(this.email);
         dest.writeString(this.skype);
         dest.writeLong(createdAt != null ? createdAt.getTime() : -1);
@@ -153,9 +156,12 @@ public class Personage implements Parcelable {
         this.id = in.readInt();
         this.name = in.readString();
         this.company = in.readString();
+        this.website = in.readString();
+        this.address = in.readString();
         this.jobTitle = in.readString();
         this.workPhone = in.readString();
         this.cellPhone = in.readString();
+        this.fax = in.readString();
         this.email = in.readString();
         this.skype = in.readString();
         long tmpCreatedAt = in.readLong();

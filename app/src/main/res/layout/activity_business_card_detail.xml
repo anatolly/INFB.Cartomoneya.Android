@@ -89,7 +89,78 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_marginLeft="16dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/contact_company_email_label_det"
+                android:id="@+id/tvContactEMailAddressLabel"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/colorLightTextMain"
+                android:textSize="24sp"
+                android:layout_below="@+id/layoutSlider"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginLeft="16dp"/>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="E-Mail Address"
+                android:id="@+id/tvContactEMailAddress"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/colorLightTextMain"
+                android:textSize="24sp"
+                android:layout_below="@+id/layoutSlider"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="16dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/contact_company_address_label_det"
+                android:id="@+id/tvContactCompanyAddressLabel"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/colorLightTextMain"
+                android:textSize="24sp"
+                android:layout_below="@+id/tvContactEMailAddressLabel"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginLeft="16dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Address"
+                android:id="@+id/tvContactCompanyAddress"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/colorLightTextMain"
+                android:textSize="24sp"
+                android:layout_below="@+id/tvContactEMailAddress"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="16dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/contact_company_website_label_det"
+                android:id="@+id/tvContactCompanyWebsiteNameLabel"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/colorLightTextMain"
+                android:textSize="24sp"
+                android:layout_below="@+id/tvContactCompanyAddressLabel"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginLeft="16dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Web Site"
+                android:id="@+id/tvContactCompanyWebsiteName"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/colorLightTextMain"
+                android:textSize="24sp"
+                android:layout_below="@+id/tvContactCompanyAddress"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="16dp"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -98,7 +169,7 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/colorLightTextMain"
                 android:textSize="24sp"
-                android:layout_below="@+id/layoutSlider"
+                android:layout_below="@+id/tvContactCompanyWebsiteNameLabel"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_marginLeft="16dp"/>
@@ -111,7 +182,7 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/colorLightTextMain"
                 android:textSize="24sp"
-                android:layout_below="@+id/layoutSlider"
+                android:layout_below="@+id/tvContactCompanyWebsiteName"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="16dp"/>
 
@@ -138,6 +209,29 @@
                 android:layout_below="@+id/tvWorkPhoneLabel"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="16dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/contact_company_Fax_label_det"
+                android:id="@+id/tvFAXLabel"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/colorLightTextMain"
+                android:textSize="24sp"
+                android:layout_below="@+id/tvCellPhoneLabel"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="16dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="FAX number"
+                android:id="@+id/tvFAX"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/colorLightTextMain"
+                android:textSize="24sp"
+                android:layout_below="@+id/tvCellPhone"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="16dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -147,7 +241,7 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/colorLightTextMain"
                 android:textSize="24sp"
-                android:layout_below="@+id/tvCellPhoneLabel"
+                android:layout_below="@+id/tvFAXLabel"
                 android:layout_alignParentLeft="true"
                 android:layout_marginLeft="16dp"/>
 
@@ -159,7 +253,7 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/colorLightTextMain"
                 android:textSize="24sp"
-                android:layout_below="@+id/tvCellPhoneLabel"
+                android:layout_below="@+id/tvFAX"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="16dp"/>
 
