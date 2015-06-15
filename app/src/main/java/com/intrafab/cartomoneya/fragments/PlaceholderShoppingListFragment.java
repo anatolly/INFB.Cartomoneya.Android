@@ -127,14 +127,18 @@ public class PlaceholderShoppingListFragment extends Fragment implements View.On
                 item.setBelongsToUser(AppApplication.getApplication(view.getContext()).getUserInfo().getId());
                 item.setDone(false);
 
-                InputMethodManager imm = (InputMethodManager)view.getContext().getSystemService(
-                        Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(mEtNewItem.getWindowToken(), 0);
+                hideKeyboard();
 
                 mEtNewItem.setText("");
 
                 mListener.onNewItemCreated(item);
             }
         }
+    }
+
+    private void hideKeyboard() {
+        InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(
+                Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(mEtNewItem.getWindowToken(), 0);
     }
 }

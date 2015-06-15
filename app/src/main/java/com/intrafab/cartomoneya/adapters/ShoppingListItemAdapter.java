@@ -26,8 +26,10 @@ public class ShoppingListItemAdapter extends RecyclerView.Adapter<ItemShoppingLi
 
 
     public interface OnClickListener {
-        public void onClickItem(ShoppingListItem itemShopCard);
-        public void onNewItemCreated(ShoppingListItem itemShopCard);
+        public void onNewItemCreated(ShoppingListItem itemShopItem);
+        public void onItemDelete(ShoppingListItem itemShopItem);
+        public void onItemEdit(ShoppingListItem itemShopItem);
+        public void onCheckChange(ShoppingListItem itemShopItem, boolean value);
     }
 
     @Override

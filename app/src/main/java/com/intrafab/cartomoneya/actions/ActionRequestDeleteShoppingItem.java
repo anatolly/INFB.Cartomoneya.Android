@@ -16,9 +16,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Created by Vasily Laushkin <vaslinux@gmail.com> on 12/06/15.
+ * Created by Vasily Laushkin <vaslinux@gmail.com> on 14/06/15.
  */
-public class ActionRequestCreateShoppingItem extends GroundyTask {
+public class ActionRequestDeleteShoppingItem extends GroundyTask {
     public static final String ARG_SHOPPING_ITEM = "arg_shopping_item";
 
     @Override
@@ -31,24 +31,19 @@ public class ActionRequestCreateShoppingItem extends GroundyTask {
         Bundle inputBundle = getArgs();
         ShoppingListItem item = inputBundle.getParcelable(ARG_SHOPPING_ITEM);
 
-        if (item == null) {
-            return failed()
-                    .add(Constants.Extras.PARAM_INTERNET_AVAILABLE, true);
-        }
-
         try {
             HttpRestService service = RestApiConfig.getRestService("Basic d3FlcXdlOnF3ZXF3ZQ==");
-            ShoppingListItem createdItem = service.createShopListItem(item);
-
-            if (createdItem == null) {
-                return failed()
-                        .add(Constants.Extras.PARAM_INTERNET_AVAILABLE, true);
-            }
+            ShoppingListItem deletedItem = service.deleteShopListItem(String.valueOf(item.getId()));
 
             List<ShoppingListItem> dbItems = DBManager.getInstance().readArrayToList(getContext(), Constants.Prefs.PREF_PARAM_SHOPPING_LIST, ShoppingListItem[].class);
             List<ShoppingListItem> items = new LinkedList<ShoppingListItem>(dbItems);
 
-            items.add(createdItem);
+            for (int i = 0; i < items.size(); i++) {
+                if (items.get(i).getId() == deletedItem.getId()) {
+                    items.remove(i);
+                    break;
+                }
+            }
 
             if (items.size() > 0)
                 DBManager.getInstance().insertArrayObject(getContext(), ShoppingListLoader.class, Constants.Prefs.PREF_PARAM_SHOPPING_LIST, items, ShoppingListItem.class);

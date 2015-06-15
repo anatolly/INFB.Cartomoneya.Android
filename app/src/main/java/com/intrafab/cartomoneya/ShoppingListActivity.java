@@ -7,12 +7,16 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.WindowManager;
 
 import com.intrafab.cartomoneya.actions.ActionRequestCreateShoppingItem;
+import com.intrafab.cartomoneya.actions.ActionRequestDeleteShoppingItem;
 import com.intrafab.cartomoneya.actions.ActionRequestShoppingListTask;
+import com.intrafab.cartomoneya.actions.ActionRequestUpdateShoppingItem;
 import com.intrafab.cartomoneya.adapters.ShoppingListItemAdapter;
 import com.intrafab.cartomoneya.data.ShoppingListItem;
 import com.intrafab.cartomoneya.db.DBManager;
+import com.intrafab.cartomoneya.fragments.EditShoppingListItemDialogFragment;
 import com.intrafab.cartomoneya.fragments.PlaceholderShoppingListFragment;
 import com.intrafab.cartomoneya.fragments.ProgressDialogFragment;
 import com.intrafab.cartomoneya.loaders.ShoppingListLoader;
@@ -31,7 +35,9 @@ import java.util.List;
 /**
  * Created by Artemiy Terekhov on 07.05.2015.
  */
-public class ShoppingListActivity extends BaseActivity implements ShoppingListItemAdapter.OnClickListener {
+public class ShoppingListActivity extends BaseActivity
+        implements ShoppingListItemAdapter.OnClickListener,
+        EditShoppingListItemDialogFragment.EditShoppingListItemDialogListener {
 
     public static final String TAG = ShoppingListActivity.class.getName();
 
@@ -39,6 +45,7 @@ public class ShoppingListActivity extends BaseActivity implements ShoppingListIt
 
     private CallbacksManager mCallbacksManager;
     private ProgressDialogFragment mProgressDialogFragment;
+    private EditShoppingListItemDialogFragment mEditDialog;
 
     private android.app.LoaderManager.LoaderCallbacks<List<ShoppingListItem>> mLoaderCallback = new android.app.LoaderManager.LoaderCallbacks<List<ShoppingListItem>>() {
         @Override
@@ -127,6 +134,7 @@ public class ShoppingListActivity extends BaseActivity implements ShoppingListIt
         super.onCreate(savedInstanceState);
 
         getSupportActionBar().getThemedContext();
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         getSupportActionBar().setTitle(R.string.shopping_list_title);
         showActionBar();
@@ -215,11 +223,6 @@ public class ShoppingListActivity extends BaseActivity implements ShoppingListIt
     }
 
     @Override
-    public void onClickItem(ShoppingListItem itemShopList) {
-
-    }
-
-    @Override
     public void onNewItemCreated(ShoppingListItem itemShopList) {
         showProgress();
 
@@ -230,35 +233,56 @@ public class ShoppingListActivity extends BaseActivity implements ShoppingListIt
                 .queueUsing(ShoppingListActivity.this);
     }
 
+    @Override
+    public void onItemDelete(ShoppingListItem itemShopItem) {
+        showProgress();
+
+        Groundy.create(ActionRequestDeleteShoppingItem.class)
+                .callback(ShoppingListActivity.this)
+                .callbackManager(mCallbacksManager)
+                .arg(ActionRequestDeleteShoppingItem.ARG_SHOPPING_ITEM, itemShopItem)
+                .queueUsing(ShoppingListActivity.this);
+    }
+
+    @Override
+    public void onItemEdit(ShoppingListItem itemShopItem) {
+        mEditDialog = new EditShoppingListItemDialogFragment();
+        Bundle arguments = new Bundle();
+        arguments.putParcelable(EditShoppingListItemDialogFragment.ARG_SHOPPING_ITEM, itemShopItem);
+        mEditDialog.setArguments(arguments);
+        mEditDialog.show(getSupportFragmentManager(), mEditDialog.toString());
+    }
+
+    @Override
+    public void onCheckChange(ShoppingListItem itemShopItem, boolean value) {
+        itemShopItem.setDone(value);
+
+        showProgress();
+
+        Groundy.create(ActionRequestUpdateShoppingItem.class)
+                .callback(ShoppingListActivity.this)
+                .callbackManager(mCallbacksManager)
+                .arg(ActionRequestUpdateShoppingItem.ARG_SHOPPING_ITEM, itemShopItem)
+                .queueUsing(ShoppingListActivity.this);
+    }
+
+    @Override
+    public void onItemEdited(ShoppingListItem item) {
+        showProgress();
+
+        Groundy.create(ActionRequestUpdateShoppingItem.class)
+                .callback(ShoppingListActivity.this)
+                .callbackManager(mCallbacksManager)
+                .arg(ActionRequestUpdateShoppingItem.ARG_SHOPPING_ITEM, item)
+                .queueUsing(ShoppingListActivity.this);
+    }
+
     private void showProgress() {
         mProgressDialogFragment.show(getSupportFragmentManager(), mProgressDialogFragment.toString());
     }
 
     private void hideProgress() {
         mProgressDialogFragment.dismiss();
-    }
-
-    @OnSuccess(ActionRequestCreateShoppingItem.class)
-    public void onSuccessRequestCreateShoppingList() {
-        hideProgress();
-
-        toolbar.post(new Runnable() {
-            @Override
-            public void run() {
-                startShoppingListLoading();
-            }
-        });
-    }
-
-    @OnFailure(ActionRequestCreateShoppingItem.class)
-    public void onFailureRequestCreateShoppingList(@Param(Constants.Extras.PARAM_INTERNET_AVAILABLE) boolean isAvailable) {
-        hideProgress();
-
-        if (!isAvailable) {
-            showSnackBarError(getResources().getString(R.string.error_internet_not_available));
-        } else {
-            showSnackBarError(getResources().getString(R.string.error_occurred));
-        }
     }
 
     private void showSnackBarError(String error) {
@@ -272,4 +296,54 @@ public class ShoppingListActivity extends BaseActivity implements ShoppingListIt
                         .duration(Snackbar.SnackbarDuration.LENGTH_INDEFINITE)
                 , ShoppingListActivity.this); // activity where it is displayed
     }
+
+    @OnSuccess(ActionRequestCreateShoppingItem.class)
+    public void onSuccessRequestCreateShoppingList() {
+        hideProgress();
+    }
+
+    @OnFailure(ActionRequestCreateShoppingItem.class)
+    public void onFailureRequestCreateShoppingList(@Param(Constants.Extras.PARAM_INTERNET_AVAILABLE) boolean isAvailable) {
+        hideProgress();
+
+        if (!isAvailable) {
+            showSnackBarError(getResources().getString(R.string.error_internet_not_available));
+        } else {
+            showSnackBarError(getResources().getString(R.string.error_occurred));
+        }
+    }
+
+    @OnSuccess(ActionRequestDeleteShoppingItem.class)
+    public void onSuccessRequestDeleteShoppingList() {
+        hideProgress();
+    }
+
+    @OnFailure(ActionRequestDeleteShoppingItem.class)
+    public void onFailureRequestDeleteShoppingList(@Param(Constants.Extras.PARAM_INTERNET_AVAILABLE) boolean isAvailable) {
+        hideProgress();
+
+        if (!isAvailable) {
+            showSnackBarError(getResources().getString(R.string.error_internet_not_available));
+        } else {
+            showSnackBarError(getResources().getString(R.string.error_occurred));
+        }
+    }
+
+    @OnSuccess(ActionRequestUpdateShoppingItem.class)
+    public void onSuccessRequestUpdateShoppingList() {
+        hideProgress();
+    }
+
+    @OnFailure(ActionRequestUpdateShoppingItem.class)
+    public void onFailureRequestUpdateShoppingList(@Param(Constants.Extras.PARAM_INTERNET_AVAILABLE) boolean isAvailable) {
+        hideProgress();
+
+        if (!isAvailable) {
+            showSnackBarError(getResources().getString(R.string.error_internet_not_available));
+        } else {
+            showSnackBarError(getResources().getString(R.string.error_occurred));
+        }
+    }
+
+
 }

@@ -9,6 +9,7 @@ import com.intrafab.cartomoneya.data.User;
 import java.util.List;
 
 import retrofit.http.Body;
+import retrofit.http.DELETE;
 import retrofit.http.GET;
 import retrofit.http.Multipart;
 import retrofit.http.POST;
@@ -52,6 +53,12 @@ public interface HttpRestService {
     @GET("/shoppingListItem")
     public List<ShoppingListItem> getShoppingList();
 
-    @PUT("/shoppingListItem")
+    @POST("/shoppingListItem")
     public ShoppingListItem createShopListItem(@Body ShoppingListItem item);
+
+    @DELETE("/shoppingListItem/{id}")
+    public ShoppingListItem deleteShopListItem(@Path("id") String id);
+
+    @PUT("/shoppingListItem/{id}")
+    ShoppingListItem updateShopListItem(@Path("id") String id, @Body ShoppingListItem item);
 }
