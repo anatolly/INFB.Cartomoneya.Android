@@ -694,23 +694,29 @@ public class NewBusinessCardActivity extends BaseActivity
     }
 
     private void createNewCard() {
-        String cardName = validateCardName();
-        if (TextUtils.isEmpty(cardName)) {
-            showSnackBarError(getString(R.string.error_need_input_name));
+
+        if (TextUtils.isEmpty(validateContactName())) {
+            showSnackBarError(getString(R.string.error_need_input_contact_name));
             return;
         }
 
         SnackbarManager.dismiss();
 
-        //String barcode = mBarcodeNumber.getText().toString();
-       // String barcodeFormat = (String) mBarcodeNumber.getTag();
+        String contactName     = mEditContactName.getText().toString();
 
         BusinessCardPopulated newCard = new BusinessCardPopulated();
         Personage newPersonage = new Personage();
 
-        newCard.setName(cardName + " Business Card");
+        String cardName = validateCardName();
 
-        String contactName     = mEditContactName.getText().toString();
+        if (TextUtils.isEmpty(cardName)) {
+            newCard.setName(contactName + " " + "Business Card");
+        }
+        else
+        {
+            newCard.setName(cardName);
+        }
+
         String contactJobTitle = mEditContactJobTitle.getText().toString();
         String contactCompany  = mEditContactCompany.getText().toString();
         String contactCompanyAddress = mEditContactCompanyAddress.getText().toString();
@@ -753,13 +759,15 @@ public class NewBusinessCardActivity extends BaseActivity
     }
 
     private void saveCard() {
-        String cardName = validateCardName();
-        if (TextUtils.isEmpty(cardName)) {
-            showSnackBarError(getString(R.string.error_need_input_name));
+
+        if (TextUtils.isEmpty(validateContactName())) {
+            showSnackBarError(getString(R.string.error_need_input_contact_name));
             return;
         }
 
         SnackbarManager.dismiss();
+
+        String contactName     = mEditContactName.getText().toString();
 
         BusinessCardPopulated newCard = null;
         if (mIsEditMode) {
@@ -770,9 +778,14 @@ public class NewBusinessCardActivity extends BaseActivity
 
         Personage newPersonage = new Personage();
 
-        newCard.setName(cardName + "Business Card");
+        String cardName = validateCardName();
 
-        String contactName     = mEditContactName.getText().toString();
+        if (TextUtils.isEmpty(cardName)) {
+            newCard.setName(contactName + " " + "Business Card");
+        } else {
+            newCard.setName(cardName);
+        }
+
         String contactJobTitle = mEditContactJobTitle.getText().toString();
         String contactCompany  = mEditContactCompany.getText().toString();
         String contactCompanyAddress = mEditContactCompanyAddress.getText().toString();
@@ -816,6 +829,14 @@ public class NewBusinessCardActivity extends BaseActivity
     }
 
     private String validateCardName() {
+        String contactName = mEditCardName.getText().toString();
+        if (TextUtils.isEmpty(contactName))
+            return null;
+
+        return contactName;
+    }
+
+    private String validateContactName() {
         String contactName = mEditContactName.getText().toString();
         if (TextUtils.isEmpty(contactName))
             return null;
