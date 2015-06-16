@@ -3,12 +3,13 @@ package com.intrafab.cartomoneya.http;
 import com.intrafab.cartomoneya.data.BizCard;
 import com.intrafab.cartomoneya.data.ShopBrand;
 import com.intrafab.cartomoneya.data.ShopCard;
-import com.intrafab.cartomoneya.data.ShopOffer;
+import com.intrafab.cartomoneya.data.ShoppingListItem;
 import com.intrafab.cartomoneya.data.User;
 
 import java.util.List;
 
 import retrofit.http.Body;
+import retrofit.http.DELETE;
 import retrofit.http.GET;
 import retrofit.http.Multipart;
 import retrofit.http.POST;
@@ -41,9 +42,6 @@ public interface HttpRestService {
     @GET("/bizcard?populate=[personage]")
     public List<BizCard> getBizCards();
 
-    @GET("/shopOffer")
-    public List<ShopOffer> getShopOffers();
-
     // Порядок важен. Файл должен быть последним параметром
     @Multipart
     @POST("/shopcard/storeImageByFormData")
@@ -51,4 +49,16 @@ public interface HttpRestService {
             @Part("shopCardImageType") TypedString imageType,
             @Part("shopCardID") TypedString cardID,
             @Part("_data") TypedFile file);
+
+    @GET("/shoppingListItem")
+    public List<ShoppingListItem> getShoppingList();
+
+    @POST("/shoppingListItem")
+    public ShoppingListItem createShopListItem(@Body ShoppingListItem item);
+
+    @DELETE("/shoppingListItem/{id}")
+    public ShoppingListItem deleteShopListItem(@Path("id") String id);
+
+    @PUT("/shoppingListItem/{id}")
+    ShoppingListItem updateShopListItem(@Path("id") String id, @Body ShoppingListItem item);
 }
