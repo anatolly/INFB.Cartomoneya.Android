@@ -65,4 +65,10 @@
     <string name="work_phone_label">Work phone:</string>
     <string name="cell_phone_label">Cell phone:</string>
     <string name="skype_label">Skype:</string>
+
+    <!-- Shop offers -->
+    <string name="empty_state_shop_offers_list">List is empty.</string>
+    <string name="shop_offer_title_unknown">Unknown offer</string>
+    <string name="shop_offer_screen_header">Shop Offers</string>
+
 </resources>

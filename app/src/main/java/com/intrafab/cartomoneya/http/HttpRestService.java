@@ -1,10 +1,9 @@
 package com.intrafab.cartomoneya.http;
 
-import com.intrafab.cartomoneya.data.BusinessCard;
-import com.intrafab.cartomoneya.data.BusinessCardPopulated;
-import com.intrafab.cartomoneya.data.Personage;
+import com.intrafab.cartomoneya.data.BizCard;
 import com.intrafab.cartomoneya.data.ShopBrand;
 import com.intrafab.cartomoneya.data.ShopCard;
+import com.intrafab.cartomoneya.data.ShopOffer;
 import com.intrafab.cartomoneya.data.User;
 
 import java.util.List;
@@ -39,6 +38,12 @@ public interface HttpRestService {
     @PUT("/shopcard/{id}")
     public ShopCard updateShopCard(@Path("id") String id, @Body ShopCard card);
 
+    @GET("/bizcard?populate=[personage]")
+    public List<BizCard> getBizCards();
+
+    @GET("/shopOffer")
+    public List<ShopOffer> getShopOffers();
+
     // Порядок важен. Файл должен быть последним параметром
     @Multipart
     @POST("/shopcard/storeImageByFormData")
@@ -46,33 +51,4 @@ public interface HttpRestService {
             @Part("shopCardImageType") TypedString imageType,
             @Part("shopCardID") TypedString cardID,
             @Part("_data") TypedFile file);
-
-    @POST("/bizcard")
-    public BusinessCard createBusinessCard(@Body BusinessCard card);
-
-    @PUT("/bizcard/{id}")
-    public BusinessCard updateBusinessCard(@Path("id") String id, @Body BusinessCard card);
-
-    @GET("/bizcard")
-    public List<BusinessCard> getBusinessCards();
-
-    @GET("/bizcard?populate=[personage]")
-    public List<BusinessCardPopulated> getBusinessCardsPopulated();
-
-    // Порядок важен. Файл должен быть последним параметром
-    @Multipart
-    @POST("/bizcard/storeImageByFormData")
-    public BusinessCard uploadImageBusinessCard(
-            @Part("bizCardImageType") TypedString imageType,
-            @Part("bizCardID") TypedString cardID,
-            @Part("_data") TypedFile file);
-
-    @GET("/shopcard/{id}")
-    public Personage getPersonage(@Path("id") String id);
-
-    @POST("/bizcardpersonage")
-    public Personage createPersonage(@Body Personage card);
-
-    @PUT("/bizcardpersonage/{id}")
-    public Personage updatePersonage(@Path("id") String id, @Body Personage personage);
 }
