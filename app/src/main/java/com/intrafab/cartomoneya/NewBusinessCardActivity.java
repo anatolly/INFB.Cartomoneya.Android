@@ -402,12 +402,9 @@ public class NewBusinessCardActivity extends BaseActivity
 
                     if (mCurrentPosition == 0) {
                         mFrontImageUri = imageUri;
-                        Intent results = new Intent( this, ResultsActivity.class);
-                        results.putExtra("IMAGE_PATH", imageUri.getPath());
-                        results.putExtra("RESULT_PATH", resultUrl);
-                        results.putExtra("APP_NAME", getString(R.string.applicationId));
-                        results.putExtra("APP_PASSWORD", getString(R.string.password));
-                        startActivityForResult(results, BUSINESS_CARD_OCR);
+                        String app_name = getString(R.string.applicationId);
+                        String app_password =  getString(R.string.password);
+                        new AsyncProcessTask(this).execute( imageUri.getPath(), resultUrl, app_name, app_password);
 
                     } else {
                         mBackImageUri = imageUri;
@@ -844,12 +841,24 @@ public class NewBusinessCardActivity extends BaseActivity
         return contactName;
     }
 
-    private void showSnackBarError(String error) {
+    protected void showSnackBarError(String error) {
         SnackbarManager.show(
                 Snackbar.with(NewBusinessCardActivity.this) // context
                         .type(SnackbarType.MULTI_LINE)
                         .text(error)
                         .color(getResources().getColor(R.color.colorLightError))
+                        .textColor(getResources().getColor(R.color.colorLightEditTextHint))
+                        .swipeToDismiss(true)
+                        .duration(Snackbar.SnackbarDuration.LENGTH_INDEFINITE)
+                , NewBusinessCardActivity.this); // activity where it is displayed
+    }
+
+    protected void showSnackBarMessage(String error) {
+        SnackbarManager.show(
+                Snackbar.with(NewBusinessCardActivity.this) // context
+                        .type(SnackbarType.MULTI_LINE)
+                        .text(error)
+                        .color(getResources().getColor(R.color.colorLightStatusMessage))
                         .textColor(getResources().getColor(R.color.colorLightEditTextHint))
                         .swipeToDismiss(true)
                         .duration(Snackbar.SnackbarDuration.LENGTH_INDEFINITE)
@@ -1045,11 +1054,10 @@ public class NewBusinessCardActivity extends BaseActivity
 
     }
 
-     public void parseXMLAndStoreIt(XmlPullParser myParser) {
+     public void parseXMLAndStoreIt(XmlPullParser myParser) throws XmlPullParserException, IOException {
          int event;
          String text=null;
          int count = 0;
-         try {
              event = myParser.getEventType();
 
              while (event != XmlPullParser.END_DOCUMENT) {
@@ -1070,10 +1078,7 @@ public class NewBusinessCardActivity extends BaseActivity
                  event = myParser.next();
              }
              parsingComplete = false;
-         }
-         catch (Exception e) {
-             e.printStackTrace();
-         }
+
      }
 
     public void readField(XmlPullParser myParser)  throws IOException, XmlPullParserException {
@@ -1103,7 +1108,7 @@ public class NewBusinessCardActivity extends BaseActivity
 
         mEditContactMobile .setText("");
 
-        mEditContactFax .setText( "");
+        mEditContactFax .setText("");
 
         mEditContactCompany.setText("");
 
@@ -1176,6 +1181,33 @@ public class NewBusinessCardActivity extends BaseActivity
 
             return;
         }
+    public void updateResults(Boolean success) {
+        //hideProgress();
+
+        if (!success) {
+            showSnackBarMessage("Error during OCR ...");
+            return;
+        }
+
+        try {
+            showSnackBarMessage("Parsing result...");
+            process_ocr_xml();
+            SnackbarManager.show(
+                    Snackbar.with(NewBusinessCardActivity.this) // context
+                            .type(SnackbarType.MULTI_LINE)
+                            .text("Finished ...")
+                            .color(getResources().getColor(R.color.colorLightStatusMessage))
+                            .textColor(getResources().getColor(R.color.colorLightEditTextHint))
+                            .swipeToDismiss(true)
+                            .duration(Snackbar.SnackbarDuration.LENGTH_SHORT)
+                    , NewBusinessCardActivity.this); // activity where it is displayed
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }
 /*
 private MaterialEditText mEditCardName;

@@ -17,23 +17,42 @@ public class AsyncProcessTask extends AsyncTask<String, String, Boolean> {
 		dialog = new ProgressDialog(activity);
 	}
 
+	public AsyncProcessTask(NewBusinessCardActivity activity) {
+		this.activity = activity;
+	}
+
 	private ProgressDialog dialog;
 	/** application context. */
-	private final ResultsActivity activity;
+	private final Activity activity;
 
 	protected void onPreExecute() {
-		dialog.setMessage("Processing");
-		dialog.setCancelable(false);
-		dialog.setCanceledOnTouchOutside(false);
-		dialog.show();
+		if (activity instanceof ResultsActivity ) {
+			dialog.setMessage("Processing");
+			dialog.setCancelable(false);
+			dialog.setCanceledOnTouchOutside(false);
+			dialog.show();
+		}
+		else if (activity instanceof NewBusinessCardActivity )
+		{  // ((NewBusinessCardActivity)activity).showProgress();
+			((NewBusinessCardActivity)activity).showSnackBarMessage("Processing");
+		}
 	}
 
 	protected void onPostExecute(Boolean result) {
-		if (dialog.isShowing()) {
-			dialog.dismiss();
+
+		if (activity instanceof ResultsActivity ) {
+			((ResultsActivity)activity).updateResults(result);
+
+			if (dialog.isShowing()) {
+				dialog.dismiss();
+			}
 		}
-		
-		activity.updateResults(result);
+		else if (activity instanceof NewBusinessCardActivity )
+		{
+
+
+			((NewBusinessCardActivity)activity).updateResults(result);
+		}
 	}
 
 	@Override
@@ -129,18 +148,29 @@ public class AsyncProcessTask extends AsyncTask<String, String, Boolean> {
 			return true;
 		} catch (Exception e) {
 			final String message = "Error: " + e.getMessage();
-			publishProgress( message);
-			activity.displayMessage(message);
+			publishProgress(message);
+
+			if ( activity instanceof NewBusinessCardActivity  ) {
+				((NewBusinessCardActivity) activity).showSnackBarMessage(message);
+			}
+			else if (activity instanceof ResultsActivity) {
+				((ResultsActivity)activity).displayMessage(message);
+			}
+
 			return false;
 		}
 	}
 
 	@Override
 	protected void onProgressUpdate(String... values) {
-		// TODO Auto-generated method stub
 		String stage = values[0];
-		dialog.setMessage(stage);
-		// dialog.setProgress(values[0]);
+
+		if ( activity instanceof NewBusinessCardActivity  ) {
+			((NewBusinessCardActivity) activity).showSnackBarMessage(stage);
+		}
+		else if (activity instanceof ResultsActivity) {
+			dialog.setMessage(stage);
+		}
 	}
 
 }
