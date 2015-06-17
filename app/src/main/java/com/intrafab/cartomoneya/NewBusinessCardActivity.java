@@ -286,7 +286,15 @@ public class NewBusinessCardActivity extends BaseActivity
         mPager.setCurrentItem(0);
         mCurrentPosition = 0;
 
-        //process_ocr_xml();
+        if (mIsEditMode) {
+            mTabHost.post(new Runnable() {
+                @Override
+                public void run() {
+                    fillData();
+                }
+            });
+
+        }
 
     }
 
@@ -313,9 +321,51 @@ public class NewBusinessCardActivity extends BaseActivity
         fillPagerImages();
 
         if (mIsEditMode) {
-           String cardName = mBusinessCardEdit.getName();
-            if (!TextUtils.isEmpty(cardName)) {
-                mEditCardName.setText(cardName);
+           String tmpVal = mBusinessCardEdit.getName();
+            if (!TextUtils.isEmpty(tmpVal)) {
+                mEditCardName.setText(tmpVal);
+            }
+
+            tmpVal = mBusinessCardEdit.getPersonage().getName();
+            if (!TextUtils.isEmpty(tmpVal)) {
+                mEditContactName.setText(tmpVal);
+            }
+
+            tmpVal = mBusinessCardEdit.getPersonage().getJobTitle();
+            if (!TextUtils.isEmpty(tmpVal)) {
+                mEditContactJobTitle.setText(tmpVal);
+            }
+            tmpVal = mBusinessCardEdit.getPersonage().getCompany();
+            if (!TextUtils.isEmpty(tmpVal)) {
+                mEditContactCompany.setText(tmpVal);
+            }
+            tmpVal = mBusinessCardEdit.getPersonage().getCompanyAddress();
+            if (!TextUtils.isEmpty(tmpVal)) {
+                mEditContactCompanyAddress.setText(tmpVal);
+            }
+            tmpVal = mBusinessCardEdit.getPersonage().getCompanySiteAddress();
+            if (!TextUtils.isEmpty(tmpVal)) {
+                mEditContactSite.setText(tmpVal);
+            }
+            tmpVal = mBusinessCardEdit.getPersonage().getEmail();
+            if (!TextUtils.isEmpty(tmpVal)) {
+                mEditContactEMail.setText(tmpVal);
+            }
+            tmpVal = mBusinessCardEdit.getPersonage().getCellPhone();
+            if (!TextUtils.isEmpty(tmpVal)) {
+                mEditContactMobile.setText(tmpVal);
+            }
+            tmpVal = mBusinessCardEdit.getPersonage().getWorkPhone();
+            if (!TextUtils.isEmpty(tmpVal)) {
+                mEditContactPhone.setText(tmpVal);
+            }
+            tmpVal = mBusinessCardEdit.getPersonage().getFax();
+            if (!TextUtils.isEmpty(tmpVal)) {
+                mEditContactFax.setText(tmpVal);
+            }
+            tmpVal = mBusinessCardEdit.getPersonage().getSkype();
+            if (!TextUtils.isEmpty(tmpVal)) {
+                mEditContactSkype.setText(tmpVal);
             }
 
             String cardNotes = mBusinessCardEdit.getNotes();
@@ -377,7 +427,7 @@ public class NewBusinessCardActivity extends BaseActivity
         ActivityCompat.startActivity(activity, intent, options);
     }
 
-    public static void launchEdit(BaseActivity activity, BusinessCard businessCard,  int requestCode) {
+    public static void launchEdit(BaseActivity activity,  BusinessCardPopulated businessCard,  int requestCode) {
         Intent intent = new Intent(activity, NewBusinessCardActivity.class);
         intent.putExtra(ARG_BUSINESS_CARD_POPULATED, businessCard);
        // intent.putExtra(ARG_SHOP_BRAND, shopBrand);
@@ -767,13 +817,14 @@ public class NewBusinessCardActivity extends BaseActivity
         String contactName     = mEditContactName.getText().toString();
 
         BusinessCardPopulated newCard = null;
+
         if (mIsEditMode) {
             newCard = mBusinessCardEdit;
         } else {
             newCard = new BusinessCardPopulated();
+            Personage newPersonage =  new Personage();
+            newCard.setPersonage(newPersonage);
         }
-
-        Personage newPersonage = new Personage();
 
         String cardName = validateCardName();
 
@@ -793,18 +844,18 @@ public class NewBusinessCardActivity extends BaseActivity
         String contactFax    = mEditContactFax.getText().toString();
         String contactSkype  = mEditContactSkype.getText().toString();
 
-        newPersonage.setName(contactName);
-        newPersonage.setJobTitle(contactJobTitle);
-        newPersonage.setCompany(contactCompany);
-        newPersonage.setCompanyAddress(contactCompanyAddress);
-        newPersonage.setCompanySiteAddress(contactSite);
-        newPersonage.setCellPhone(contactMobile);
-        newPersonage.setWorkPhone(contactPhone);
-        newPersonage.setFax(contactFax);
-        newPersonage.setEmail(contactEMail);
-        newPersonage.setSkype(contactSkype);
+        newCard.getPersonage().setName(contactName);
+        newCard.getPersonage().setJobTitle(contactJobTitle);
+        newCard.getPersonage().setCompany(contactCompany);
+        newCard.getPersonage().setCompanyAddress(contactCompanyAddress);
+        newCard.getPersonage().setCompanySiteAddress(contactSite);
+        newCard.getPersonage().setCellPhone(contactMobile);
+        newCard.getPersonage().setWorkPhone(contactPhone);
+        newCard.getPersonage().setFax(contactFax);
+        newCard.getPersonage().setEmail(contactEMail);
+        newCard.getPersonage().setSkype(contactSkype);
 
-        newCard.setPersonage(newPersonage);
+
 
         String notes = mEditNotes.getText().toString();
         newCard.setNotes(notes);

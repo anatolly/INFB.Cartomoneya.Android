@@ -1,11 +1,14 @@
 package com.intrafab.cartomoneya;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -14,6 +17,7 @@ import com.intrafab.cartomoneya.data.BusinessCard;
 import com.intrafab.cartomoneya.data.BusinessCardPopulated;
 import com.intrafab.cartomoneya.data.Personage;
 import com.intrafab.cartomoneya.fragments.PlaceholderCardPageFragment;
+import com.intrafab.cartomoneya.utils.Logger;
 
 import me.relex.circleindicator.CircleIndicator;
 
@@ -25,6 +29,7 @@ public class BusinessCardDetailActivity extends BaseActivity {
     public static final String TAG = ShopCardDetailActivity.class.getName();
     public static final String EXTRA_PARAM_BIZ_CARD = "param_biz_card";
     private static final int NUM_PAGES = 2;
+    public static final int REQUEST_CODE_EDIT_BCARD = 700;
 
     private BusinessCardPopulated mBusinessCard;
     private ViewPager mViewpager;
@@ -176,5 +181,46 @@ public class BusinessCardDetailActivity extends BaseActivity {
         Bundle options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity).toBundle();
 
         ActivityCompat.startActivity(activity, intent, options);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_CODE_EDIT_BCARD) {
+            if (resultCode == Activity.RESULT_OK) {
+                if (data != null) {
+                    Logger.e(TAG, "onActivityResult update");
+                    mBusinessCard = data.getParcelableExtra(NewBusinessCardActivity.ARG_BUSINESS_CARD_POPULATED);
+
+                    fillData();
+
+                   // mBarcodeImage.post(new Runnable() {
+                  //      @Override
+                  //      public void run() {
+                   //         fillData();
+                    //    }
+                   // });
+                }
+            }
+        }
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_edit_shop_card, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_edit) {
+            editCard();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void editCard() {
+        NewBusinessCardActivity.launchEdit(this, mBusinessCard, REQUEST_CODE_EDIT_BCARD);
     }
 }

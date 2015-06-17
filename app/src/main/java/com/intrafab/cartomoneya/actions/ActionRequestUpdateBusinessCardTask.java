@@ -123,6 +123,6 @@ public class ActionRequestUpdateBusinessCardTask extends GroundyTask {
         }
 
         return succeeded()
-                .add(Constants.Extras.PARAM_BUSINESS_CARD, createdCard);
+                .add(Constants.Extras.PARAM_BUSINESS_CARD, newCard);
     }
 }
