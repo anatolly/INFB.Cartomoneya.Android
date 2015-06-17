@@ -14,6 +14,8 @@ public class Constants {
         public static final String PREF_PARAM_BUSINESS_CARDS_POPULATED = "pref_business_card_populated";
         public static final String PREF_PARAM_SHOPPING_CARDS = "pref_param_shopping_cards";
         public static final String PREF_PARAM_SHOP_BRANDS = "pref_param_shop_brands";
+        public static final String PREF_PARAM_SHOPPING_LIST = "pref_param_shopping_list";
+        public static final String PREF_PARAM_SHOP_OFFERS = "pref_param_shop_offers";
     }
 
     public static class Extras {

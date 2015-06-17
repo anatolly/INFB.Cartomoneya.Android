@@ -5,11 +5,14 @@ import com.intrafab.cartomoneya.data.BusinessCardPopulated;
 import com.intrafab.cartomoneya.data.Personage;
 import com.intrafab.cartomoneya.data.ShopBrand;
 import com.intrafab.cartomoneya.data.ShopCard;
+import com.intrafab.cartomoneya.data.ShopOffer;
+import com.intrafab.cartomoneya.data.ShoppingListItem;
 import com.intrafab.cartomoneya.data.User;
 
 import java.util.List;
 
 import retrofit.http.Body;
+import retrofit.http.DELETE;
 import retrofit.http.GET;
 import retrofit.http.Multipart;
 import retrofit.http.POST;
@@ -47,6 +50,7 @@ public interface HttpRestService {
             @Part("shopCardID") TypedString cardID,
             @Part("_data") TypedFile file);
 
+
     @POST("/bizcard")
     public BusinessCard createBusinessCard(@Body BusinessCard card);
 
@@ -58,6 +62,9 @@ public interface HttpRestService {
 
     @GET("/bizcard?populate=[personage]")
     public List<BusinessCardPopulated> getBusinessCardsPopulated();
+
+    @GET("/shopOffer")
+    public List<ShopOffer> getShopOffers();
 
     // Порядок важен. Файл должен быть последним параметром
     @Multipart
@@ -75,4 +82,17 @@ public interface HttpRestService {
 
     @PUT("/bizcardpersonage/{id}")
     public Personage updatePersonage(@Path("id") String id, @Body Personage personage);
+
+
+    @GET("/shoppingListItem")
+    public List<ShoppingListItem> getShoppingList();
+
+    @POST("/shoppingListItem")
+    public ShoppingListItem createShopListItem(@Body ShoppingListItem item);
+
+    @DELETE("/shoppingListItem/{id}")
+    public ShoppingListItem deleteShopListItem(@Path("id") String id);
+
+    @PUT("/shoppingListItem/{id}")
+    ShoppingListItem updateShopListItem(@Path("id") String id, @Body ShoppingListItem item);
 }

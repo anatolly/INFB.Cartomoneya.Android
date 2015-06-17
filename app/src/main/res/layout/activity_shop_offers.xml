@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorLightWindowBackground"
-    android:orientation="vertical">
+    tools:context=".BusinessCardsActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -16,8 +15,7 @@
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ShoppingListActivity"
+        tools:context=".ShoppingCardsActivity"
         android:layout_below="@+id/toolbar"
         tools:ignore="MergeRootFrame" />
-
-</LinearLayout>
+</RelativeLayout>

@@ -6,6 +6,7 @@
     <string name="password">rs8DFeVgFt7sCALXO529Ma6O</string>
     <!-- Abbyy OCR Cloud application name and password -->
 
+
     <string name="hello_world">Hello world!</string>
     <string name="action_OCR_cam">OCR from CAM </string>
     <string name="action_OCR_file">OCR from file</string>
@@ -35,8 +36,8 @@
     <string name="contact_name">Name</string>
     <string name="contact_job_title">JobTitle:</string>
     <string name="contact_company_name">Company</string>
-    <string name="contact_company_address_label">Address</string>
     <string name="contact_company_address_label_det">Address:</string>
+    <string name="contact_company_address_label">Address</string>
     <string name="contact_company_website_label">Web</string>
     <string name="contact_company_website_label_det">Web:</string>
     <string name="contact_company_email_label">E-Mail</string>
@@ -46,6 +47,7 @@
     <string name="contact_company_Fax_label">Fax</string>
     <string name="contact_company_Fax_label_det">Fax:</string>
     <string name="contact_company_Skype_label">Skype</string>
+
     <string name="barcode">Barcode</string>
     <string name="brand">Brand</string>
     <string name="notes">Notes</string>
@@ -65,4 +67,14 @@
     <string name="work_phone_label">Work phone:</string>
     <string name="cell_phone_label">Cell phone:</string>
     <string name="skype_label">Skype:</string>
+
+    <!-- Shopping list item -->
+    <string name="shopping_list_item_empty">EMPTY</string>
+    <string name="shopping_list_title">Shopping List</string>
+    <string name="loaging">Loading</string>
+
+    <!-- Shop offers -->
+    <string name="empty_state_shop_offers_list">List is empty.</string>
+    <string name="shop_offer_title_unknown">Unknown offer</string>
+    <string name="shop_offer_screen_header">Shop Offers</string>
 </resources>
