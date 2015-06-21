@@ -32,7 +32,8 @@
                 android:layout_marginRight="16dp"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentRight="true"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_alignParentLeft="true">
 
                 <android.support.v4.view.ViewPager
                     android:id="@+id/pager"
@@ -56,13 +57,15 @@
                 android:layout_height="wrap_content"
                 android:text="Name"
                 android:id="@+id/tvName"
-                android:layout_alignTop="@+id/layoutSlider"
+                android:layout_below="@+id/layoutSlider"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/colorLightTextMain"
                 android:textSize="24sp"
-                android:layout_marginLeft="16dp"/>
+                android:layout_marginLeft="16dp"
+                android:inputType="textMultiLine"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -74,8 +77,10 @@
                 android:layout_alignParentStart="true"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/colorLightTextMain"
-                android:textSize="24sp"
-                android:layout_marginLeft="16dp"/>
+                android:textSize="20sp"
+                android:layout_marginLeft="16dp"
+                android:inputType="textMultiLine"
+                android:textStyle="italic" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -84,11 +89,13 @@
                 android:id="@+id/tvJobTitle"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/colorLightTextMain"
-                android:textSize="24sp"
+                android:textSize="20sp"
                 android:layout_below="@+id/tvCompany"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_marginLeft="16dp"/>
+                android:layout_marginLeft="16dp"
+                android:inputType="textMultiLine"
+                android:textStyle="italic" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -97,22 +104,28 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/colorLightTextMain"
                 android:textSize="24sp"
-                android:layout_below="@+id/layoutSlider"
+                android:layout_below="@+id/tvJobTitle"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_marginLeft="16dp"/>
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="10dp"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="E-Mail Address"
+                android:text=""
+                android:hint="E-Mail Address"
                 android:id="@+id/tvContactEMailAddress"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/colorLightTextMain"
                 android:textSize="24sp"
-                android:layout_below="@+id/layoutSlider"
+                android:layout_below="@+id/tvContactEMailAddressLabel"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="16dp"/>
+                android:layout_marginRight="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_alignParentLeft="true"
+                android:inputType="textMultiLine" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -121,22 +134,29 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/colorLightTextMain"
                 android:textSize="24sp"
-                android:layout_below="@+id/tvContactEMailAddressLabel"
+                android:layout_below="@+id/tvContactEMailAddress"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_marginLeft="16dp"/>
+                android:layout_marginLeft="16dp"
+                android:inputType="textMultiLine"
+                android:textStyle="bold"
+                android:layout_marginTop="5dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Address"
+                android:text=""
+                android:hint="Address"
                 android:id="@+id/tvContactCompanyAddress"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/colorLightTextMain"
                 android:textSize="24sp"
-                android:layout_below="@+id/tvContactEMailAddress"
+                android:layout_below="@+id/tvContactCompanyAddressLabel"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="16dp"/>
+                android:layout_marginRight="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_alignParentLeft="true"
+                android:inputType="textMultiLine" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -145,22 +165,28 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/colorLightTextMain"
                 android:textSize="24sp"
-                android:layout_below="@+id/tvContactCompanyAddressLabel"
+                android:layout_below="@+id/tvContactCompanyAddress"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_marginLeft="16dp"/>
+                android:layout_marginLeft="16dp"
+                android:layout_alignParentEnd="false"
+                android:textStyle="bold"
+                android:layout_marginTop="5dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Web Site"
+                android:hint="Web Site"
                 android:id="@+id/tvContactCompanyWebsiteName"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/colorLightTextMain"
                 android:textSize="24sp"
-                android:layout_below="@+id/tvContactCompanyAddress"
+                android:layout_below="@+id/tvContactCompanyWebsiteNameLabel"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="16dp"/>
+                android:layout_marginRight="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_alignParentLeft="true"
+                android:inputType="textMultiLine" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -169,22 +195,27 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/colorLightTextMain"
                 android:textSize="24sp"
-                android:layout_below="@+id/tvContactCompanyWebsiteNameLabel"
+                android:layout_below="@+id/tvContactCompanyWebsiteName"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_marginLeft="16dp"/>
+                android:layout_marginLeft="16dp"
+                android:textStyle="bold"
+                android:layout_marginTop="5dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Work phone"
+                android:hint="Work phone"
                 android:id="@+id/tvWorkPhone"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/colorLightTextMain"
                 android:textSize="24sp"
-                android:layout_below="@+id/tvContactCompanyWebsiteName"
+                android:layout_below="@+id/tvWorkPhoneLabel"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="16dp"/>
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_alignParentLeft="true"
+                android:inputType="textMultiLine" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -194,21 +225,26 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/colorLightTextMain"
                 android:textSize="24sp"
-                android:layout_below="@+id/tvWorkPhoneLabel"
+                android:layout_below="@+id/tvWorkPhone"
                 android:layout_alignParentLeft="true"
-                android:layout_marginLeft="16dp"/>
+                android:layout_marginLeft="16dp"
+                android:textStyle="bold"
+                android:layout_marginTop="5dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Cell phone"
+                android:hint="Cell phone"
                 android:id="@+id/tvCellPhone"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/colorLightTextMain"
                 android:textSize="24sp"
-                android:layout_below="@+id/tvWorkPhoneLabel"
+                android:layout_below="@+id/tvCellPhoneLabel"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="16dp"/>
+                android:layout_marginRight="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_alignParentLeft="true"
+                android:inputType="textMultiLine" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -217,21 +253,26 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/colorLightTextMain"
                 android:textSize="24sp"
-                android:layout_below="@+id/tvCellPhoneLabel"
+                android:layout_below="@+id/tvCellPhone"
                 android:layout_alignParentLeft="true"
-                android:layout_marginLeft="16dp"/>
+                android:layout_marginLeft="16dp"
+                android:textStyle="bold"
+                android:layout_marginTop="5dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="FAX number"
+                android:hint="FAX number"
                 android:id="@+id/tvFAX"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/colorLightTextMain"
                 android:textSize="24sp"
-                android:layout_below="@+id/tvCellPhone"
+                android:layout_below="@+id/tvFAXLabel"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="16dp"/>
+                android:layout_marginRight="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_alignParentLeft="true"
+                android:inputType="textMultiLine" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -241,36 +282,44 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/colorLightTextMain"
                 android:textSize="24sp"
-                android:layout_below="@+id/tvFAXLabel"
+                android:layout_below="@+id/tvFAX"
                 android:layout_alignParentLeft="true"
-                android:layout_marginLeft="16dp"/>
+                android:layout_marginLeft="16dp"
+                android:layout_alignRight="@+id/tvWorkPhoneLabel"
+                android:layout_alignEnd="@+id/tvWorkPhoneLabel"
+                android:textStyle="bold"
+                android:layout_marginTop="5dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="skype"
+                android:hint="skype"
                 android:id="@+id/tvSkype"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/colorLightTextMain"
                 android:textSize="24sp"
-                android:layout_below="@+id/tvFAX"
+                android:layout_below="@+id/tvSkypeLabel"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="16dp"/>
+                android:layout_marginRight="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_alignParentLeft="true"
+                android:inputType="textMultiLine" />
 
             <TextView
                 android:id="@+id/tvNotes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tvSkypeLabel"
+                android:layout_below="@+id/tvSkype"
                 android:layout_marginLeft="32dp"
                 android:layout_marginRight="32dp"
-                android:layout_marginTop="64dp"
+                android:layout_marginTop="10dp"
                 android:ellipsize="end"
                 android:singleLine="true"
                 android:text="Notes"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/colorLightTextMain"
-                android:textSize="24sp" />
+                android:textSize="24sp"
+                android:textStyle="bold" />
 
             <View
                 android:id="@+id/delim"
