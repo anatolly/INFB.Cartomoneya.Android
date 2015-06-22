@@ -50,7 +50,7 @@ public class ActionRequestCreateBusinessCardTask extends GroundyTask {
         }
 
         try {
-            HttpRestService service = RestApiConfig.getRestService("Basic d3FlcXdlOnF3ZXF3ZQ==");
+            HttpRestService service = RestApiConfig.getRestService();
 
             Personage personage = service.createPersonage(newCard.getPersonage());
 

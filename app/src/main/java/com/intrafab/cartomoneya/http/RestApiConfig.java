@@ -1,5 +1,6 @@
 package com.intrafab.cartomoneya.http;
 
+import com.intrafab.cartomoneya.AppApplication;
 import com.intrafab.cartomoneya.Constants;
 
 /**
@@ -11,7 +12,7 @@ public class RestApiConfig {
     public static final String VERSION_API = "v1.0";
     public static final String BASE_HOST_URL = "http://" + BASE_HOST_NAME + "/" + VERSION_API;
 
-    public static HttpRestService getRestService(String token) {
-        return ServiceGenerator.createService(HttpRestService.class, RestApiConfig.BASE_HOST_URL, token);
+    public static HttpRestService getRestService() {
+        return ServiceGenerator.createService(HttpRestService.class, RestApiConfig.BASE_HOST_URL, AppApplication.getToken());
     }
 }

@@ -53,7 +53,7 @@ public class ActionRequestUpdateShopCardTask extends GroundyTask {
         ShopCard createdCard = null;
 
         try {
-            HttpRestService service = RestApiConfig.getRestService("Basic d3FlcXdlOnF3ZXF3ZQ==");
+            HttpRestService service = RestApiConfig.getRestService();
 
             createdCard = service.updateShopCard(String.valueOf(newCard.getId()), newCard);
             //ShopCard createdCard = newCard;

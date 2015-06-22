@@ -1,10 +1,14 @@
 package com.intrafab.cartomoneya;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.ImageView;
 
 import com.intrafab.cartomoneya.actions.ActionRequestUsers;
 import com.intrafab.cartomoneya.data.User;
@@ -18,8 +22,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     public static final String TAG = MainActivity.class.getName();
 
-    private TextView mButtonBusinessCards;
-    private TextView mButtonShoppingCards;
+    private ImageView mButtonBusinessCards;
+    private ImageView mButtonShoppingCards;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,11 +31,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         getSupportActionBar().getThemedContext();
 
-        getSupportActionBar().setTitle(R.string.app_name);
-        showActionBar();
+        getSupportActionBar().setTitle("");
+        showTransparentActionBar();
 
-        mButtonBusinessCards = (TextView) findViewById(R.id.btnBusinessCards);
-        mButtonShoppingCards = (TextView) findViewById(R.id.btnShoppingCards);
+        mButtonBusinessCards = (ImageView) findViewById(R.id.btnBusinessCards);
+        mButtonShoppingCards = (ImageView) findViewById(R.id.btnShoppingCards);
 
         mButtonBusinessCards.setOnClickListener(this);
         mButtonShoppingCards.setOnClickListener(this);
@@ -87,5 +91,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     public void onFailureRequestUsers(
             @Param(Constants.Extras.PARAM_INTERNET_AVAILABLE) boolean isAvailable) {
 
+    }
+
+    public static void launch(Activity activity) {
+        Intent intent = new Intent(activity, MainActivity.class);
+
+        ActivityOptionsCompat options =
+                ActivityOptionsCompat.makeSceneTransitionAnimation(activity);
+
+        ActivityCompat.startActivity(activity, intent, options.toBundle());
     }
 }

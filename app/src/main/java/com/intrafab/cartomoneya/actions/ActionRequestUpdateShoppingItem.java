@@ -32,7 +32,7 @@ public class ActionRequestUpdateShoppingItem extends GroundyTask {
         ShoppingListItem item = inputBundle.getParcelable(ARG_SHOPPING_ITEM);
 
         try {
-            HttpRestService service = RestApiConfig.getRestService("Basic d3FlcXdlOnF3ZXF3ZQ==");
+            HttpRestService service = RestApiConfig.getRestService();
             ShoppingListItem updatedItem = service.updateShopListItem(String.valueOf(item.getId()), item);
 
             List<ShoppingListItem> dbItems = DBManager.getInstance().readArrayToList(getContext(), Constants.Prefs.PREF_PARAM_SHOPPING_LIST, ShoppingListItem[].class);

@@ -32,7 +32,7 @@ public class ActionRequestDeleteShoppingItem extends GroundyTask {
         ShoppingListItem item = inputBundle.getParcelable(ARG_SHOPPING_ITEM);
 
         try {
-            HttpRestService service = RestApiConfig.getRestService("Basic d3FlcXdlOnF3ZXF3ZQ==");
+            HttpRestService service = RestApiConfig.getRestService();
             ShoppingListItem deletedItem = service.deleteShopListItem(String.valueOf(item.getId()));
 
             List<ShoppingListItem> dbItems = DBManager.getInstance().readArrayToList(getContext(), Constants.Prefs.PREF_PARAM_SHOPPING_LIST, ShoppingListItem[].class);

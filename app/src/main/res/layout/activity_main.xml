@@ -3,59 +3,120 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg_main"
     tools:context=".MainActivity">
 
-    <LinearLayout
+    <TableLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar"
-        android:gravity="center"
-        android:orientation="vertical">
+        android:layout_below="@+id/toolbar">
 
-        <com.balysv.materialripple.MaterialRippleLayout
-            android:id="@+id/layoutBusinessCards"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:padding="8dp"
-            app:mrl_rippleAlpha="0.5"
-            app:mrl_rippleColor="@color/colorLightPrimary"
-            app:mrl_rippleHover="true"
-            app:mrl_rippleOverlay="true">
+        <LinearLayout
+            android:id="@+id/layoutLogo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_weight="0.5"
+            android:gravity="center"
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/btnBusinessCards"
+            <ImageView
+                android:id="@+id/ivLogo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Business cards"
-                android:textAlignment="gravity"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/colorLightTextMain"
-                android:textSize="24sp" />
-        </com.balysv.materialripple.MaterialRippleLayout>
+                android:src="@mipmap/ic_logo" />
+        </LinearLayout>
 
-        <com.balysv.materialripple.MaterialRippleLayout
-            android:id="@+id/layoutShoppingCards"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:padding="8dp"
-            app:mrl_rippleAlpha="0.5"
-            app:mrl_rippleColor="@color/colorLightPrimary"
-            app:mrl_rippleHover="true"
-            app:mrl_rippleOverlay="true">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:gravity="center"
+            android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/btnShoppingCards"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Shopping cards"
-                android:textAlignment="gravity"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/colorLightTextMain"
-                android:textSize="24sp" />
-        </com.balysv.materialripple.MaterialRippleLayout>
-    </LinearLayout>
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center">
+
+                <LinearLayout
+                    android:id="@+id/layoutBusinessCards"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="8dp"
+                    android:layout_weight="0.5"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <com.balysv.materialripple.MaterialRippleLayout
+                        android:id="@+id/layoutBizCards"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="16dp"
+                        app:mrl_rippleAlpha="0.5"
+                        app:mrl_rippleColor="#f74623"
+                        app:mrl_rippleHover="true"
+                        app:mrl_rippleOverlay="true"
+                        app:mrl_rippleRoundedCorners="52dp">
+
+                        <ImageView
+                            android:id="@+id/btnBusinessCards"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@mipmap/ic_business" />
+                    </com.balysv.materialripple.MaterialRippleLayout>
+
+                    <TextView
+                        android:id="@+id/tvBusiness"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:text="business\ncards"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:textColor="#fff" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layoutShoppingCards"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="8dp"
+                    android:layout_weight="0.5"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <com.balysv.materialripple.MaterialRippleLayout
+                        android:id="@+id/layoutShopCards"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="16dp"
+                        app:mrl_rippleAlpha="0.5"
+                        app:mrl_rippleColor="#f5b92f"
+                        app:mrl_rippleHover="true"
+                        app:mrl_rippleOverlay="true"
+                        app:mrl_rippleRoundedCorners="52dp">
+
+                        <ImageView
+                            android:id="@+id/btnShoppingCards"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@mipmap/ic_shopping" />
+                    </com.balysv.materialripple.MaterialRippleLayout>
+
+                    <TextView
+                        android:id="@+id/tvShopping"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:text="shopping\ncards"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:textColor="#fff" />
+                </LinearLayout>
+            </TableRow>
+        </LinearLayout>
+    </TableLayout>
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"

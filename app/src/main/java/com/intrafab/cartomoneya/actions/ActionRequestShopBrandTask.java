@@ -26,7 +26,7 @@ public class ActionRequestShopBrandTask extends GroundyTask {
         }
 
         try {
-            HttpRestService service = RestApiConfig.getRestService("");
+            HttpRestService service = RestApiConfig.getRestService();
             List<ShopBrand> list = service.getShopBrands();
 
             if (list == null)

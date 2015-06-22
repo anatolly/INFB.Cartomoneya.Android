@@ -35,7 +35,7 @@ public class ActionRequestShoppingCardsTask extends GroundyTask {
         User user = inputBundle.getParcelable(ARG_USER);
 
         try {
-            HttpRestService service = RestApiConfig.getRestService("");
+            HttpRestService service = RestApiConfig.getRestService();
             List<ShopCard> list = service.getShopCards();
 
             if (list == null)

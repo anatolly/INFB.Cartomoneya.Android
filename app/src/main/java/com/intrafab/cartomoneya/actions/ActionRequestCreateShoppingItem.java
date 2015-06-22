@@ -37,7 +37,7 @@ public class ActionRequestCreateShoppingItem extends GroundyTask {
         }
 
         try {
-            HttpRestService service = RestApiConfig.getRestService("Basic d3FlcXdlOnF3ZXF3ZQ==");
+            HttpRestService service = RestApiConfig.getRestService();
             ShoppingListItem createdItem = service.createShopListItem(item);
 
             if (createdItem == null) {

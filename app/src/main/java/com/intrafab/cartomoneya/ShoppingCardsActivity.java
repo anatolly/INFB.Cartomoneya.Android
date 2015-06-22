@@ -236,6 +236,11 @@ public class ShoppingCardsActivity extends BaseActivity
         return R.layout.activity_shopping_cards;
     }
 
+    @Override
+    protected int getActivityTheme() {
+        return R.style.AppShopTheme;
+    }
+
     public static void launch(BaseActivity activity) {
         Intent intent = new Intent(activity, ShoppingCardsActivity.class);
 

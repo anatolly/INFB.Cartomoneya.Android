@@ -77,4 +77,11 @@
     <string name="empty_state_shop_offers_list">List is empty.</string>
     <string name="shop_offer_title_unknown">Unknown offer</string>
     <string name="shop_offer_screen_header">Shop Offers</string>
+
+    <string name="please_wait">Please, wait&#8230;</string>
+    <string name="dialog_progress_login">Check Account</string>
+    <string name="error_login">Ошибка. Не удалось авторизоваться. Проверьте правильность введенных данных.</string>
+    <string name="error_empty_login">Необходимо ввести Email</string>
+    <string name="error_email_format">Введенный email имеет неправильный формат</string>
+    <string name="error_password_format">Может содержать строчные и заглавные буквы, цифры. От 6 до 20 символов.</string>
 </resources>

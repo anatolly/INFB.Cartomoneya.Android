@@ -23,4 +23,16 @@
     <color name="colorLightSuccess">#4CAF50</color>
     <color name="colorLightEditTextHint">@android:color/white</color>
 
+    <color name="colorShopPrimary">#f74623</color>
+    <color name="colorShopPrimaryDark">#822c19</color>
+    <color name="colorShopStatusBarColor">#822c19</color>
+    <color name="colorShopTextColorPrimary">@android:color/white</color>
+    <color name="colorShopTextColor">#999999</color>
+    <color name="colorShopTextColorHint">#42ffffff</color>
+    <color name="colorShopWindowBackground">#ffffff</color>
+    <color name="colorShopColorAccent">#999999</color>
+
+    <color name="colorShopTextMain">#3a3b38</color>
+    <color name="colorShopTextExtra">#d4d4d4</color>
+
 </resources>

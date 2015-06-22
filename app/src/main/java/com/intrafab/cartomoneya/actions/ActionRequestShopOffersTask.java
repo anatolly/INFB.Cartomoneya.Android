@@ -24,7 +24,7 @@ public class ActionRequestShopOffersTask extends GroundyTask {
         }
 
         try {
-            HttpRestService service = RestApiConfig.getRestService("");
+            HttpRestService service = RestApiConfig.getRestService();
             List<ShopOffer> list = service.getShopOffers();
 
             if (list == null)

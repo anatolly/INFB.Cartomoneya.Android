@@ -26,7 +26,7 @@ public class ActionRequestUsers extends GroundyTask {
         User userData = null;
 
         try {
-            HttpRestService service = RestApiConfig.getRestService("");
+            HttpRestService service = RestApiConfig.getRestService();
             List<User> listUsers = service.getUsers();
 
             if (listUsers == null)

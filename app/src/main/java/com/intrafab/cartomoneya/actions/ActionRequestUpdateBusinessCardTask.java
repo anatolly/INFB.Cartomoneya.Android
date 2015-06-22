@@ -54,7 +54,7 @@ public class ActionRequestUpdateBusinessCardTask extends GroundyTask {
         BusinessCard createdCard = null;
 
         try {
-            HttpRestService service = RestApiConfig.getRestService("Basic d3FlcXdlOnF3ZXF3ZQ==");
+            HttpRestService service = RestApiConfig.getRestService();
 
             Personage personage = service.updatePersonage(String.valueOf(newCard.getPersonage().getId()), newCard.getPersonage());
 

@@ -1,7 +1,6 @@
 package com.intrafab.cartomoneya.actions;
 
 import com.intrafab.cartomoneya.Constants;
-import com.intrafab.cartomoneya.data.BusinessCard;
 import com.intrafab.cartomoneya.data.BusinessCardPopulated;
 import com.intrafab.cartomoneya.db.DBManager;
 import com.intrafab.cartomoneya.http.HttpRestService;
@@ -25,7 +24,7 @@ public class ActionRequestBusinessCardsTask extends GroundyTask {
         }
 
         try {
-            HttpRestService service = RestApiConfig.getRestService("");
+            HttpRestService service = RestApiConfig.getRestService();
             List<BusinessCardPopulated> list = service.getBusinessCardsPopulated();
 
             if (list == null) {

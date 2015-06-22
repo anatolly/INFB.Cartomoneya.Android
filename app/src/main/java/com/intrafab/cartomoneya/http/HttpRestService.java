@@ -8,12 +8,15 @@ import com.intrafab.cartomoneya.data.ShopCard;
 import com.intrafab.cartomoneya.data.ShopOffer;
 import com.intrafab.cartomoneya.data.ShoppingListItem;
 import com.intrafab.cartomoneya.data.User;
+import com.intrafab.cartomoneya.data.WrapperLogin;
 
 import java.util.List;
 
+import retrofit.client.Response;
 import retrofit.http.Body;
 import retrofit.http.DELETE;
 import retrofit.http.GET;
+import retrofit.http.Headers;
 import retrofit.http.Multipart;
 import retrofit.http.POST;
 import retrofit.http.PUT;
@@ -95,4 +98,8 @@ public interface HttpRestService {
 
     @PUT("/shoppingListItem/{id}")
     ShoppingListItem updateShopListItem(@Path("id") String id, @Body ShoppingListItem item);
+
+    @POST("/user/login")
+    @Headers({"Content-Type: application/json"})
+    public Response login(@Body WrapperLogin data);
 }

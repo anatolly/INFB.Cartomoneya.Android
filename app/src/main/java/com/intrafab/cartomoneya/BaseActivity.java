@@ -35,6 +35,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(getActivityTheme());
         setContentView(getLayoutResource());
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -69,6 +70,9 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     protected abstract int getLayoutResource();
+    protected int getActivityTheme() {
+        return R.style.AppShopTheme;
+    }
 
     protected void setActionBarIcon(int iconRes) {
         if (toolbar != null)

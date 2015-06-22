@@ -5,6 +5,8 @@ import android.os.Parcelable;
 
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -22,8 +24,6 @@ public class User implements Parcelable {
             return new User[size];
         }
     };
-
-
 
     private int id;
     private String name;
@@ -87,6 +87,38 @@ public class User implements Parcelable {
     public User(JSONObject object) {
         if (object == null)
             return;
+
+        if (object.has("id")) {
+            id = object.optInt("id");
+        }
+
+        if (object.has("name")) {
+            name = object.optString("name");
+        }
+
+        if (object.has("login")) {
+            login = object.optString("login");
+        }
+
+        if (object.has("createdAt")) {
+            String createdAtDateString = object.optString("createdAt");
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+            try {
+                createdAt = format.parse(createdAtDateString);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (object.has("updatedAt")) {
+            String updatedAtDateString = object.optString("updatedAt");
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+            try {
+                updatedAt = format.parse(updatedAtDateString);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
