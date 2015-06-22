@@ -30,9 +30,21 @@
     <color name="colorShopTextColor">#999999</color>
     <color name="colorShopTextColorHint">#42ffffff</color>
     <color name="colorShopWindowBackground">#ffffff</color>
-    <color name="colorShopColorAccent">#999999</color>
+    <color name="colorShopColorAccent">#575757</color>
 
     <color name="colorShopTextMain">#3a3b38</color>
     <color name="colorShopTextExtra">#d4d4d4</color>
+
+    <color name="colorBizPrimary">#f5b92f</color>
+    <color name="colorBizPrimaryDark">#80621d</color>
+    <color name="colorBizStatusBarColor">#80621d</color>
+    <color name="colorBizTextColorPrimary">@android:color/white</color>
+    <color name="colorBizTextColor">#999999</color>
+    <color name="colorBizTextColorHint">#42ffffff</color>
+    <color name="colorBizWindowBackground">#ffffff</color>
+    <color name="colorBizColorAccent">#575757</color>
+
+    <color name="colorBizTextMain">#3a3b38</color>
+    <color name="colorBizTextExtra">#d4d4d4</color>
 
 </resources>

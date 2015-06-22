@@ -10,6 +10,7 @@ import android.widget.ImageView;
 
 import com.intrafab.cartomoneya.R;
 import com.intrafab.cartomoneya.utils.Logger;
+import com.intrafab.cartomoneya.utils.RoundedTransformation;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
@@ -79,6 +80,7 @@ public class PlaceholderCardPageFragment extends Fragment {
                 mCardImageView.setImageDrawable(null);
                 Picasso.with(getActivity())
                         .load(mCurrentResUri)
+                        .transform(new RoundedTransformation(6, 0))
                         .placeholder(R.mipmap.ic_default_card)
                         .error(R.mipmap.ic_default_card)
                         .memoryPolicy(MemoryPolicy.NO_CACHE)
@@ -87,7 +89,10 @@ public class PlaceholderCardPageFragment extends Fragment {
 
             } else {
                 Logger.e(TAG, "setUri set: ic_default_card");
-                mCardImageView.setImageResource(R.mipmap.ic_default_card);
+                Picasso.with(getActivity())
+                        .load(R.mipmap.ic_default_card)
+                        .transform(new RoundedTransformation(6, 0))
+                        .into(mCardImageView);
             }
 
         } catch (Exception e) {

@@ -21,13 +21,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.RelativeLayout;
+
 import com.intrafab.cartomoneya.actions.ActionRequestCreateBusinessCardTask;
 import com.intrafab.cartomoneya.actions.ActionRequestUpdateBusinessCardTask;
 import com.intrafab.cartomoneya.adapters.CardImagePagerAdapter;
 import com.intrafab.cartomoneya.data.BusinessCardPopulated;
 import com.intrafab.cartomoneya.data.Personage;
 import com.intrafab.cartomoneya.data.ShopBrand;
-import com.intrafab.cartomoneya.data.BusinessCard;
 import com.intrafab.cartomoneya.data.User;
 import com.intrafab.cartomoneya.utils.Logger;
 import com.nispok.snackbar.Snackbar;
@@ -45,19 +45,12 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.ganfra.materialspinner.MaterialSpinner;
 import it.neokree.materialtabs.MaterialTab;
 import it.neokree.materialtabs.MaterialTabHost;
 import it.neokree.materialtabs.MaterialTabListener;
@@ -409,6 +402,11 @@ public class NewBusinessCardActivity extends BaseActivity
     @Override
     protected int getLayoutResource() {
         return R.layout.activity_new_bcard;
+    }
+
+    @Override
+    protected int getActivityTheme() {
+        return R.style.AppBizTheme;
     }
 
     public static void launch(BaseActivity activity, int requestCode) {

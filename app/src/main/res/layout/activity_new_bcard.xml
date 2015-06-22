@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:material="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -14,6 +15,9 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         android:minHeight="?attr/actionBarSize" />
 
     <RelativeLayout
@@ -52,7 +56,7 @@
                 android:background="?attr/colorPrimaryDark"
                 android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
                 material:accentColor="@android:color/white"
-                material:materialTabsPrimaryColor="@color/colorLightPrimary" />
+                material:materialTabsPrimaryColor="?attr/colorPrimary" />
 
             <android.support.v4.view.ViewPager
                 android:id="@+id/tabPager"
@@ -84,7 +88,7 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginTop="4dp"
-                android:background="@color/colorLightPrimary" />
+                android:background="?attr/colorPrimary" />
 
             <LinearLayout
                 android:id="@+id/layoutCardName"
@@ -136,7 +140,7 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginTop="4dp"
-                android:background="@color/colorLightPrimary" />
+                android:background="?attr/colorPrimary" />
 
             <LinearLayout
                 android:id="@+id/layoutContactName"
@@ -187,7 +191,7 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginTop="4dp"
-                android:background="@color/colorLightPrimary" />
+                android:background="?attr/colorPrimary" />
 
             <LinearLayout
                 android:id="@+id/layoutContactJobTitle"
@@ -239,7 +243,7 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginTop="4dp"
-                android:background="@color/colorLightPrimary" />
+                android:background="?attr/colorPrimary" />
 
             <LinearLayout
                 android:id="@+id/layoutContactCompanyName"
@@ -290,7 +294,7 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginTop="4dp"
-                android:background="@color/colorLightPrimary" />
+                android:background="?attr/colorPrimary" />
 
             <LinearLayout
                 android:id="@+id/layoutContactCompanyAddress"
@@ -341,7 +345,7 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginTop="4dp"
-                android:background="@color/colorLightPrimary" />
+                android:background="?attr/colorPrimary" />
 
             <LinearLayout
                 android:id="@+id/layoutContactCompanyWebsiteName"
@@ -392,7 +396,7 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginTop="4dp"
-                android:background="@color/colorLightPrimary" />
+                android:background="?attr/colorPrimary" />
 
             <LinearLayout
                 android:id="@+id/layoutContactCompanyEMailAddress"
@@ -443,7 +447,7 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginTop="4dp"
-                android:background="@color/colorLightPrimary" />
+                android:background="?attr/colorPrimary" />
 
             <LinearLayout
                 android:id="@+id/layoutContactCompanyMobile"
@@ -494,7 +498,7 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginTop="4dp"
-                android:background="@color/colorLightPrimary" />
+                android:background="?attr/colorPrimary" />
 
             <LinearLayout
                 android:id="@+id/layoutContactCompanyPhone"
@@ -545,7 +549,7 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginTop="4dp"
-                android:background="@color/colorLightPrimary" />
+                android:background="?attr/colorPrimary" />
 
             <LinearLayout
                 android:id="@+id/layoutContactCompanyFAX"
@@ -596,7 +600,7 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginTop="4dp"
-                android:background="@color/colorLightPrimary" />
+                android:background="?attr/colorPrimary" />
 
             <LinearLayout
                 android:id="@+id/layoutContactCompanySkype"

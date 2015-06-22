@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:mrl_rippleOverlay="true"
-    app:mrl_rippleColor="@color/colorLightPrimary"
+    app:mrl_rippleColor="?attr/colorPrimary"
     app:mrl_rippleAlpha="0.5"
     app:mrl_rippleHover="true"
     android:layout_margin="14dp"

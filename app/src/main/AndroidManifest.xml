@@ -14,8 +14,7 @@
         android:name=".AppApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:theme="@style/AppShopTheme">
+        android:label="@string/app_name">
         <activity
             android:name=".LaunchActivity"
             android:theme="@android:style/Theme.NoDisplay"
@@ -34,17 +33,21 @@
         </activity>
         <activity
             android:name=".LoginActivity"
+            android:theme="@style/AppShopTheme"
             android:windowSoftInputMode="stateHidden"
             android:screenOrientation="sensorPortrait">
         </activity>
         <activity
             android:name=".BusinessCardsActivity"
+            android:theme="@style/AppBizTheme"
             android:screenOrientation="sensorPortrait"></activity>
         <activity
             android:name=".ResultsActivity"
+            android:theme="@style/AppBizTheme"
             android:screenOrientation="sensorPortrait"></activity>
         <activity
             android:name=".BusinessCardDetailActivity"
+            android:theme="@style/AppBizTheme"
             android:screenOrientation="sensorPortrait"></activity>
         <activity
             android:name=".ShoppingCardsActivity"
@@ -56,22 +59,28 @@
             android:screenOrientation="sensorPortrait"></activity>
         <activity
             android:name=".ShopOffersActivity"
+            android:theme="@style/AppShopTheme"
             android:screenOrientation="sensorPortrait"></activity>
         <activity
             android:name=".ShopOfferDetailActivity"
+            android:theme="@style/AppShopTheme"
             android:screenOrientation="sensorPortrait"></activity>
         <activity
             android:name=".ShoppingListActivity"
+            android:theme="@style/AppShopTheme"
             android:screenOrientation="sensorPortrait"></activity>
         <activity
             android:name=".NewCardActivity"
+            android:theme="@style/AppShopTheme"
             android:windowSoftInputMode="stateHidden"
             android:screenOrientation="sensorPortrait"></activity>
         <activity
             android:name=".NewBusinessCardActivity"
+            android:theme="@style/AppBizTheme"
             android:windowSoftInputMode="stateHidden"
             android:screenOrientation="sensorPortrait"></activity>
         <activity
+            android:theme="@style/AppShopTheme"
             android:name=".CropActivity"></activity>
 
         <service android:name="com.telly.groundy.GroundyService" />

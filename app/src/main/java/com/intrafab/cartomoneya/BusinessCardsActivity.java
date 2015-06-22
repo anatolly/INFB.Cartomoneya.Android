@@ -1,13 +1,8 @@
 package com.intrafab.cartomoneya;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.view.Menu;
@@ -19,14 +14,11 @@ import com.intrafab.cartomoneya.adapters.BizCardAdapter;
 import com.intrafab.cartomoneya.data.BusinessCardPopulated;
 import com.intrafab.cartomoneya.db.DBManager;
 import com.intrafab.cartomoneya.fragments.PlaceholderBizCardsFragment;
-import com.intrafab.cartomoneya.fragments.PlaceholderShoppingCardsFragment;
 import com.intrafab.cartomoneya.loaders.BizCardPopulatedListLoader;
-import com.intrafab.cartomoneya.loaders.ShopCardListLoader;
 import com.intrafab.cartomoneya.utils.Logger;
 import com.telly.groundy.CallbacksManager;
 import com.telly.groundy.Groundy;
 
-import java.io.File;
 import java.util.List;
 
 /**
@@ -203,6 +195,11 @@ public class BusinessCardsActivity extends BaseActivity implements BizCardAdapte
     @Override
     protected int getLayoutResource() {
         return R.layout.activity_business_cards;
+    }
+
+    @Override
+    protected int getActivityTheme() {
+        return R.style.AppBizTheme;
     }
 
     public static void launch(BaseActivity activity) {

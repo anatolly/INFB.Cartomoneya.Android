@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.intrafab.cartomoneya.R;
 import com.intrafab.cartomoneya.adapters.ShopCardAdapter;
 import com.intrafab.cartomoneya.data.ShopCard;
+import com.intrafab.cartomoneya.utils.RoundedTransformation;
 import com.squareup.picasso.Picasso;
 
 /**
@@ -84,11 +85,15 @@ public class ItemShopCardView extends RecyclerView.ViewHolder
         if (!TextUtils.isEmpty(item.getFrontImagePath())) {
             Picasso.with(getContext())
                     .load(item.getFrontImagePath())
+                    .transform(new RoundedTransformation(6, 0))
                     .placeholder(R.mipmap.ic_default_card)
                     .error(R.mipmap.ic_default_card)
                     .into(mImageThumbnail);
         } else {
-            mImageThumbnail.setImageResource(R.mipmap.ic_default_card);
+            Picasso.with(getContext())
+                    .load(R.mipmap.ic_default_card)
+                    .transform(new RoundedTransformation(6, 0))
+                    .into(mImageThumbnail);
         }
 
     }

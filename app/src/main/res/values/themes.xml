@@ -33,29 +33,29 @@
         <!--<item name="android:actionBarStyle">@style/LightToolbarStyle</item>-->
     <!--</style>-->
 
-    <style name="AppShopTheme" parent="AppShopTheme.Base" />
+    <!--<style name="AppShopTheme" parent="AppShopTheme.Base" />-->
 
-    <style name="AppShopTheme.Base" parent="Theme.AppCompat.NoActionBar">
-        <item name="colorPrimary">@color/colorShopPrimary</item>
-        <item name="colorPrimaryDark">@color/colorShopPrimary</item>
-        <item name="android:windowBackground">@color/colorShopWindowBackground</item>
-        <item name="colorAccent">@color/colorShopColorAccent</item>
-        <item name="android:textColorPrimary">@color/colorShopTextColorPrimary</item>
-        <item name="android:textColor">@color/colorShopTextColor</item>
-        <item name="android:textColorHint">@color/colorShopTextColorHint</item>
-        <item name="android:windowNoTitle">true</item>
+    <!--<style name="AppShopTheme.Base" parent="Theme.AppCompat.NoActionBar">-->
+        <!--<item name="colorPrimary">@color/colorShopPrimary</item>-->
+        <!--<item name="colorPrimaryDark">@color/colorShopPrimary</item>-->
+        <!--<item name="android:windowBackground">@color/colorShopWindowBackground</item>-->
+        <!--<item name="colorAccent">@color/colorShopColorAccent</item>-->
+        <!--<item name="android:textColorPrimary">@color/colorShopTextColorPrimary</item>-->
+        <!--<item name="android:textColor">@color/colorShopTextColor</item>-->
+        <!--<item name="android:textColorHint">@color/colorShopTextColorHint</item>-->
+        <!--<item name="android:windowNoTitle">true</item>-->
+        <!--&lt;!&ndash;<item name="windowActionBar">false</item>&ndash;&gt;-->
+        <!--&lt;!&ndash;<item name="colorControlNormal">@color/colorShopTextColorHint</item>&ndash;&gt;-->
+
+        <!--<item name="windowActionBarOverlay">true</item>-->
+
+        <!--<item name="actionBarStyle">@style/ShopToolbarStyle</item>-->
+
         <!--<item name="windowActionBar">false</item>-->
-        <!--<item name="colorControlNormal">@color/colorShopTextColorHint</item>-->
-
-        <item name="windowActionBarOverlay">true</item>
-
-        <item name="actionBarStyle">@style/ShopToolbarStyle</item>
-
-        <item name="windowActionBar">false</item>
-        <item name="colorControlNormal">#fff</item>
-        <item name="android:textColorSecondary">#000</item>
-        <item name="actionMenuTextColor">#fff</item>
-        <item name="android:actionMenuTextColor">#fff</item>
-    </style>
+        <!--<item name="colorControlNormal">#fff</item>-->
+        <!--<item name="android:textColorSecondary">#000</item>-->
+        <!--<item name="actionMenuTextColor">#fff</item>-->
+        <!--<item name="android:actionMenuTextColor">#fff</item>-->
+    <!--</style>-->
 
 </resources>

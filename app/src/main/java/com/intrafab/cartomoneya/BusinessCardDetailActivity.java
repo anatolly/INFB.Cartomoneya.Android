@@ -13,7 +13,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.intrafab.cartomoneya.adapters.CardPageAdapter;
-import com.intrafab.cartomoneya.data.BusinessCard;
 import com.intrafab.cartomoneya.data.BusinessCardPopulated;
 import com.intrafab.cartomoneya.data.Personage;
 import com.intrafab.cartomoneya.fragments.PlaceholderCardPageFragment;
@@ -172,6 +171,11 @@ public class BusinessCardDetailActivity extends BaseActivity {
     @Override
     protected int getLayoutResource() {
         return R.layout.activity_business_card_detail;
+    }
+
+    @Override
+    protected int getActivityTheme() {
+        return R.style.AppBizTheme;
     }
 
     public static void launch(BaseActivity activity, BusinessCardPopulated item) {

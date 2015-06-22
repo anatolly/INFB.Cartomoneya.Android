@@ -3,6 +3,7 @@ package com.intrafab.cartomoneya.fragments;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import android.widget.LinearLayout;
 import com.intrafab.cartomoneya.R;
 import com.intrafab.cartomoneya.adapters.ShopCardAdapter;
 import com.intrafab.cartomoneya.data.ShopCard;
+import com.intrafab.cartomoneya.views.DividerItemDecoration;
 import com.intrafab.cartomoneya.widgets.EmptyRecyclerView;
 import com.pnikosis.materialishprogress.ProgressWheel;
 
@@ -75,6 +77,12 @@ public class PlaceholderShoppingCardsFragment extends Fragment {
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setHasFixedSize(true);
+
+        RecyclerView.ItemDecoration itemDecoration =
+                new DividerItemDecoration(getActivity());
+        mRecyclerView.addItemDecoration(itemDecoration);
+
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setEmptyView(mEmptyLayout);

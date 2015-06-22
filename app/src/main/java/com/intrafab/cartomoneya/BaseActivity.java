@@ -88,7 +88,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void showActionBar() {
         if (toolbar != null) {
             toolbar.setVisibility(View.VISIBLE);
-            bar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorLightPrimary)));
+//            bar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorLightPrimary)));
         }
     }
 

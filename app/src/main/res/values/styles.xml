@@ -1,0 +1,131 @@
+<resources>
+
+    <!--&lt;!&ndash; Base application theme. &ndash;&gt;-->
+    <!--<style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">-->
+        <!--&lt;!&ndash; Customize your theme here. &ndash;&gt;-->
+    <!--</style>-->
+
+    <!--<style name="LightToolbarStyle" parent="Widget.AppCompat.Toolbar">-->
+        <!--<item name="android:background">@color/colorLightPrimaryDark</item>-->
+        <!--<item name="background">@color/colorLightPrimaryDark</item>-->
+        <!--<item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>-->
+        <!--<item name="android:textColorSecondary">#fff</item>-->
+        <!--<item name="colorControlNormal">#fff</item>-->
+        <!--<item name="theme">@style/ThemeOverlay.AppCompat.Light</item>-->
+    <!--</style>-->
+
+    <!--<style name="AppShopTheme" parent="AppShopTheme.Base">-->
+
+    <!--</style>-->
+
+    <!--<style name="AppShopTheme.Base" parent="Theme.AppCompat.Light.DarkActionBar">-->
+        <!--<item name="android:windowNoTitle">true</item>-->
+        <!--<item name="windowNoTitle">true</item>-->
+        <!--<item name="windowActionBar">false</item>-->
+        <!--<item name="colorPrimary">@color/colorShopPrimary</item>-->
+        <!--<item name="colorPrimaryDark">@color/colorShopPrimaryDark</item>-->
+        <!--<item name="colorAccent">@color/colorShopColorAccent</item>-->
+    <!--</style>-->
+
+    <style name="AppShopTheme" parent="AppShopTheme.Base">
+    <!-- Customize your theme here. -->
+    </style>
+
+    <style name="AppShopTheme.Base" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/colorShopPrimary</item>
+        <item name="colorPrimaryDark">@color/colorShopPrimaryDark</item>
+        <item name="android:windowBackground">@color/colorShopWindowBackground</item>
+        <item name="colorAccent">@color/colorShopColorAccent</item>
+        <item name="android:textColorPrimary">@color/colorShopTextColorPrimary</item>
+        <item name="android:textColor">@color/colorShopTextColor</item>
+        <item name="android:textColorHint">@color/colorShopTextColorHint</item>
+        <item name="android:windowNoTitle">true</item>
+        <!--<item name="windowActionBar">false</item>-->
+        <!--<item name="colorControlNormal">@color/colorShopTextColorHint</item>-->
+
+        <item name="windowActionBarOverlay">true</item>
+
+        <!--<item name="android:actionBarStyle">@style/ShopToolbarStyle</item>-->
+        <!--<item name="actionBarPopupTheme">@style/ThemeOverlay.AppCompat.Light</item>-->
+
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorControlNormal">#fff</item>
+        <item name="android:textColorSecondary">#000</item>
+        <item name="actionMenuTextColor">#fff</item>
+        <item name="android:actionMenuTextColor">#fff</item>
+    </style>
+
+
+    <style name="AppBizTheme" parent="AppBizTheme.Base">
+        <!-- Customize your theme here. -->
+    </style>
+
+    <style name="AppBizTheme.Base" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/colorBizPrimary</item>
+        <item name="colorPrimaryDark">@color/colorBizPrimaryDark</item>
+        <item name="android:windowBackground">@color/colorBizWindowBackground</item>
+        <item name="colorAccent">@color/colorBizColorAccent</item>
+        <item name="android:textColorPrimary">@color/colorBizTextColorPrimary</item>
+        <item name="android:textColor">@color/colorBizTextColor</item>
+        <item name="android:textColorHint">@color/colorBizTextColorHint</item>
+        <item name="android:windowNoTitle">true</item>
+        <!--<item name="windowActionBar">false</item>-->
+        <!--<item name="colorControlNormal">@color/colorShopTextColorHint</item>-->
+
+        <item name="windowActionBarOverlay">true</item>
+
+        <!--<item name="android:actionBarStyle">@style/ShopToolbarStyle</item>-->
+        <!--<item name="actionBarPopupTheme">@style/ThemeOverlay.AppCompat.Light</item>-->
+
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorControlNormal">#fff</item>
+        <item name="android:textColorSecondary">#000</item>
+        <item name="actionMenuTextColor">#fff</item>
+        <item name="android:actionMenuTextColor">#fff</item>
+    </style>
+
+    <!--<style name="ShopToolbarStyle" parent="Widget.AppCompat.Toolbar">-->
+        <!--<item name="android:textColorPrimary">#fff</item>-->
+        <!--&lt;!&ndash;<item name="android:background">@color/colorShopPrimary</item>&ndash;&gt;-->
+        <!--&lt;!&ndash;<item name="background">@color/colorShopPrimary</item>&ndash;&gt;-->
+        <!--<item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>-->
+        <!--<item name="android:textColorSecondary">#fff</item>-->
+        <!--<item name="actionButtonStyle">@style/Widget.AppCompat.ActionButton</item>-->
+        <!--<item name="colorControlNormal">#fff</item>-->
+        <!--<item name="colorControlHighlight">#fff</item>-->
+        <!--<item name="selectableItemBackground">?android:selectableItemBackground</item>-->
+        <!--&lt;!&ndash;<item name="theme">@style/ThemeOverlay.AppCompat.Light</item>&ndash;&gt;-->
+    <!--</style>-->
+
+    <!--<style name="ActionBarTheme" parent="Widget.AppCompat.Toolbar">-->
+        <!--<item name="android:textColorPrimary">@color/white</item>-->
+        <!--<item name="colorControlNormal">?actionBarIconColor</item>-->
+        <!--<item name="actionButtonStyle">@style/ActionBar.ActionButton</item>-->
+        <!--<item name="selectableItemBackground">?android:selectableItemBackground</item>-->
+        <!--<item name="selectableItemBackgroundBorderless">?android:selectableItemBackground</item>-->
+        <!--<item name="colorControlHighlight">@color/colorSecondary</item>-->
+    <!--</style>-->
+
+    <style name="menu_labels_style">
+        <!--<item name="android:background">@drawable/fab_label_background</item>-->
+        <item name="android:textColor">@color/colorLightTextMain</item>
+    </style>
+
+
+
+    <!--<style name="Toolbar" parent="Base.ThemeOverlay.AppCompat.ActionBar">-->
+        <!--<item name="android:textColorPrimary">#fff</item>-->
+        <!--<item name="android:background">@color/colorLightPrimaryDark</item>-->
+    <!--</style>-->
+
+    <!--<style name="Toolbar_Popup" parent="Base.ThemeOverlay.AppCompat.ActionBar">-->
+        <!--<item name="android:textColorPrimary">#fff</item>-->
+        <!--<item name="android:textColorSecondary">#fff</item>-->
+        <!--<item name="android:background">@color/colorLightPrimary</item>-->
+        <!--<item name="android:colorBackground">@color/colorLightPrimary</item>-->
+        <!--<item name="android:textColor">#fff</item>-->
+    <!--</style>-->
+
+</resources>
