@@ -122,7 +122,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     return;
                 }
 
-                if (!TextUtils.isEmpty(userName) && userName.contains("@")) {
+                if (!TextUtils.isEmpty(userName) /*&& userName.contains("@")*/) {
                     if (!mEditUserName.validate()) {
                         mEditUserName.setError(getString(R.string.error_email_format));
                         return;

@@ -48,13 +48,15 @@
             android:hint="Email"
             android:inputType="text"
             android:singleLine="true"
-            android:textColor="#f4f4f4"
+            android:textColor="#fff"
             android:textSize="18sp"
-            app:met_baseColor="#f4f4f4"
+            app:met_baseColor="#fff"
             app:met_floatingLabel="highlight"
             app:met_floatingLabelAlwaysShown="true"
-            app:met_floatingLabelText="Login"
+            app:met_floatingLabelText="Email"
             app:met_primaryColor="#fff"
+            app:met_helperTextColor="#fff"
+            app:met_errorColor="#f5b92f"
             app:met_singleLineEllipsis="true" />
 
         <com.rengwuxian.materialedittext.MaterialEditText
@@ -72,9 +74,11 @@
             app:met_floatingLabel="highlight"
             app:met_floatingLabelAlwaysShown="true"
             app:met_floatingLabelText="Password"
+            app:met_primaryColor="#fff"
+            app:met_helperTextColor="#fff"
+            app:met_errorColor="#f5b92f"
             app:met_minCharacters="6"
             app:met_maxCharacters="20"
-            app:met_primaryColor="#fff"
             app:met_singleLineEllipsis="true" />
     </LinearLayout>
 
