@@ -7,7 +7,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.intrafab.cartomoneya.actions.ActionRequestBusinessCardsTask;
 import com.intrafab.cartomoneya.adapters.BizCardAdapter;
@@ -166,13 +165,14 @@ public class BusinessCardsActivity extends BaseActivity implements BizCardAdapte
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            Toast.makeText(this, "Coming soon. Show settings screen", Toast.LENGTH_SHORT).show();
-            return true;
-        } else if (id == R.id.action_search_card) {
-            Toast.makeText(this, "Coming soon. Show search", Toast.LENGTH_SHORT).show();
-            return true;
-        } else if (id == R.id.action_add_card) {
+//        if (id == R.id.action_settings) {
+//            Toast.makeText(this, "Coming soon. Show settings screen", Toast.LENGTH_SHORT).show();
+//            return true;
+//        } else if (id == R.id.action_search_card) {
+//            Toast.makeText(this, "Coming soon. Show search", Toast.LENGTH_SHORT).show();
+//            return true;
+//        } else
+        if (id == R.id.action_add_card) {
             NewBusinessCardActivity.launch(this, REQUEST_CODE_NEW_BCARD);
             return true;
         }

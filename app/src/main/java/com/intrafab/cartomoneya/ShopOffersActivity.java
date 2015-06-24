@@ -8,7 +8,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.intrafab.cartomoneya.actions.ActionRequestShopOffersTask;
 import com.intrafab.cartomoneya.adapters.ShopOfferAdapter;
@@ -151,10 +150,11 @@ public class ShopOffersActivity extends BaseActivity implements ShopOfferAdapter
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_search_card) {
-            Toast.makeText(this, "Coming soon. Show search", Toast.LENGTH_SHORT).show();
-            return true;
-        }else if (id == R.id.action_sync) {
+//        if (id == R.id.action_search_card) {
+//            Toast.makeText(this, "Coming soon. Show search", Toast.LENGTH_SHORT).show();
+//            return true;
+//        }else
+        if (id == R.id.action_sync) {
             PlaceholderShopOffersFragment fragment = getFragment();
             if (fragment == null)
                 return true;
