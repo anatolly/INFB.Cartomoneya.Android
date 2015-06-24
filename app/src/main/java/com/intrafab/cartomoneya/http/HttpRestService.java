@@ -22,6 +22,7 @@ import retrofit.http.POST;
 import retrofit.http.PUT;
 import retrofit.http.Part;
 import retrofit.http.Path;
+import retrofit.http.Query;
 import retrofit.mime.TypedFile;
 import retrofit.mime.TypedString;
 
@@ -102,4 +103,7 @@ public interface HttpRestService {
     @POST("/user/login")
     @Headers({"Content-Type: application/json"})
     public Response login(@Body WrapperLogin data);
+
+    @GET("/user")
+    public Response loginCheck(@Query("login") String login, @Query("password") String password);
 }

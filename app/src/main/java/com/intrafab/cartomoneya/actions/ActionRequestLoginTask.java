@@ -13,7 +13,12 @@ import com.intrafab.cartomoneya.utils.Logger;
 import com.telly.groundy.GroundyTask;
 import com.telly.groundy.TaskResult;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
+
+import retrofit.client.Response;
+import retrofit.mime.TypedByteArray;
+import retrofit.mime.TypedInput;
 
 /**
  * Created by Artemiy Terekhov on 22.06.2015.
@@ -28,7 +33,8 @@ public class ActionRequestLoginTask extends GroundyTask {
     protected TaskResult doInBackground() {
 
         if (!Connectivity.isNetworkConnected()) {
-            return failed().add(Constants.Extras.PARAM_INTERNET_AVAILABLE, false);
+            return failed()
+                    .add(Constants.Extras.PARAM_INTERNET_AVAILABLE, false);
         }
 
         Bundle inputBundle = getArgs();
@@ -42,51 +48,72 @@ public class ActionRequestLoginTask extends GroundyTask {
         try {
             HttpRestService service = RestApiConfig.getRestService();
 //            Response result = service.login(login);
+            Response result = service.loginCheck(userName, "123");
 
-//            if (result != null) {
-//                TypedInput body = result.getBody();
-//
-//                if (body != null) {
-                    String resultString = createTestUser();//new String(((TypedByteArray) body).getBytes());
+            if (result != null) {
+                TypedInput body = result.getBody();
+
+                if (body != null) {
+                    String resultString = new String(((TypedByteArray) body).getBytes()); //createTestUser();//
                     Logger.e(TAG, "ActionRequestLoginTask result: " + resultString);
 
-                    JSONObject bodyJson = new JSONObject(resultString);
-                    if (bodyJson != null) {
-                        String sessid = null;
-                        if (bodyJson.has("sessid")) {
-                            sessid = bodyJson.optString("sessid");
-                        }
+                    User userAccount = parseUser(resultString);
+                    String token = "vsagsarbafvasgwRBBwvsvwevwev";
 
-                        String sessionName = null;
-                        if (bodyJson.has("session_name")) {
-                            sessionName = bodyJson.optString("session_name");
-                        }
-
-                        String token = null;
-                        if (bodyJson.has("token")) {
-                            token = bodyJson.optString("token");
-                        }
-
-                        User userAccount = null;
-                        if (bodyJson.has("user")) {
-                            userAccount = new User(bodyJson.optJSONObject("user"));
-                        }
-
-                        if (userAccount != null && !TextUtils.isEmpty(token)) {
-                            return succeeded()
-                                    .add(Constants.Extras.PARAM_TOKEN, token)
-                                    .add(Constants.Extras.PARAM_USER_DATA, userAccount);
-                        }
+                    if (userAccount != null && !TextUtils.isEmpty(token)) {
+                        return succeeded()
+                                .add(Constants.Extras.PARAM_TOKEN, token)
+                                .add(Constants.Extras.PARAM_USER_DATA, userAccount);
                     }
-//                }
-//            }
+
+//                    JSONObject bodyJson = new JSONObject(resultString);
+//                    if (bodyJson != null) {
+//                        String sessid = null;
+//                        if (bodyJson.has("sessid")) {
+//                            sessid = bodyJson.optString("sessid");
+//                        }
+//
+//                        String sessionName = null;
+//                        if (bodyJson.has("session_name")) {
+//                            sessionName = bodyJson.optString("session_name");
+//                        }
+//
+//                        String token = null;
+//                        if (bodyJson.has("token")) {
+//                            token = bodyJson.optString("token");
+//                        }
+//
+//                        User userAccount = null;
+//                        if (bodyJson.has("user")) {
+//                            userAccount = new User(bodyJson.optJSONObject("user"));
+//                        }
+//
+//                        if (userAccount != null && !TextUtils.isEmpty(token)) {
+//                            return succeeded()
+//                                    .add(Constants.Extras.PARAM_TOKEN, token)
+//                                    .add(Constants.Extras.PARAM_USER_DATA, userAccount);
+//                        }
+//                    }
+                }
+            }
         } catch (Exception e) {
             e.printStackTrace();
-
-            return failed().add(Constants.Extras.PARAM_INTERNET_AVAILABLE, true);
         }
 
-        return failed().add(Constants.Extras.PARAM_INTERNET_AVAILABLE, true);
+        return failed()
+                .add(Constants.Extras.PARAM_INTERNET_AVAILABLE, true);
+    }
+
+    private static User parseUser(String resultString) {
+        try {
+            JSONArray listUsers = new JSONArray(resultString);
+            JSONObject userObject = listUsers.getJSONObject(0);
+            return new User(userObject);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     private static String createTestUser() {
