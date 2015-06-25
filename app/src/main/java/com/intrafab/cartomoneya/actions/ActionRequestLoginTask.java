@@ -48,7 +48,7 @@ public class ActionRequestLoginTask extends GroundyTask {
         try {
             HttpRestService service = RestApiConfig.getRestService();
 //            Response result = service.login(login);
-            Response result = service.loginCheck(userName, "123");
+            Response result = service.loginCheck(userName, userPassword);
 
             if (result != null) {
                 TypedInput body = result.getBody();
