@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string-array name="strings_sources">
+		<item>From resources</item>
+		<item>From gallery</item>
+		<item>From camera</item>
+	</string-array>
+	<bool name="enableOfflineOCR">true</bool>
+</resources>
