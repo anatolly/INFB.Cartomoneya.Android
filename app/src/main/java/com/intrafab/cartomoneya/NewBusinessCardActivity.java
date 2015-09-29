@@ -31,6 +31,7 @@ import com.intrafab.cartomoneya.data.ShopBrand;
 import com.intrafab.cartomoneya.data.User;
 import com.intrafab.cartomoneya.ocr.RecognitionActivity;
 import com.intrafab.cartomoneya.ocr.RecognitionContext;
+import com.intrafab.cartomoneya.ocr.RecognitionService;
 import com.intrafab.cartomoneya.utils.Logger;
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
@@ -51,7 +52,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import it.neokree.materialtabs.MaterialTab;
 import it.neokree.materialtabs.MaterialTabHost;
@@ -79,7 +82,7 @@ public class NewBusinessCardActivity extends BaseActivity
 
     public static final String ARG_BUSINESS_CARD_POPULATED = "arg_business_card_populated";
     public static final int  BUSINESS_CARD_OCR =  700;
-    public static final int  BUSINESS_CARD_OFFLINE_OCR =  720;
+    public static final int  BUSINESS_CARD_OFFLINE_OCR = 720;
     public static final String ARG_SAVE_FRONT_IMAGE = "arg_save_front_image";
     public static final String ARG_SAVE_BACK_IMAGE = "arg_save_back_image";
     public static final String ARG_SAVE_CURRENT_POSITION = "arg_save_current_position";
@@ -455,11 +458,17 @@ public class NewBusinessCardActivity extends BaseActivity
 
                     if (mCurrentPosition == 0) {
                         mFrontImageUri = imageUri;
-                        String app_name = getString(R.string.applicationId);
-                        String app_password =  getString(R.string.password);
-                        new AsyncProcessTask(this).execute( imageUri.getPath(), resultUrl, app_name, app_password);
-//                        RecognitionContext.setRecognitionTarget(RecognitionTarget.BUSINESS_CARD);
-//                        RecognitionActivity.start(this, imageUri);
+                       // String app_name = getString(R.string.applicationId);
+                       // String app_password =  getString(R.string.password);
+                       // new AsyncProcessTask(this).execute( imageUri.getPath(), resultUrl, app_name, app_password);
+                        RecognitionContext.setRecognitionTarget(RecognitionTarget.BUSINESS_CARD);
+
+                        Intent results = new Intent( this, RecognitionActivity.class );
+
+                        results.putExtra(RecognitionActivity.KEY_IMAGE_URI, imageUri);
+
+                        startActivityForResult(results,BUSINESS_CARD_OFFLINE_OCR);
+
                     } else {
                         mBackImageUri = imageUri;
                     }
@@ -522,9 +531,21 @@ public class NewBusinessCardActivity extends BaseActivity
                 catch (Exception e) {
                     e.printStackTrace();
             }
+
             }
             break;
-
+            case BUSINESS_CARD_OFFLINE_OCR:
+            {
+                try {
+                   // process_ocr_xml();
+                    final String result = data.getStringExtra( RecognitionService.EXTRA_RECOGNITION_RESULT );
+                    process_offline_ocr(result);
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            break;
         }
 
 
@@ -1159,6 +1180,22 @@ public class NewBusinessCardActivity extends BaseActivity
             myParser.require(XmlPullParser.END_TAG, ns, "field");
 
             return;
+    }
+
+    void process_offline_ocr(String data)
+    {   String values[];
+
+        values =data.split("\n");
+
+        for(String record: values )
+        {
+            String pair[] = record.split(":");
+            if (pair.length == 2) {
+                set_value(pair[0],pair[1]);
+            }
+        }
+
+        return;
     }
 
     public void  clear_values()

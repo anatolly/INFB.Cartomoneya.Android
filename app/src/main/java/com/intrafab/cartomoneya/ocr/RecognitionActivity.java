@@ -25,12 +25,13 @@ import java.lang.reflect.InvocationTargetException;
 
 import com.abbyy.mobile.ocr4.layout.MocrPrebuiltLayoutInfo;
 import com.intrafab.cartomoneya.BaseActivity;
+import com.intrafab.cartomoneya.NewBusinessCardActivity;
 import com.intrafab.cartomoneya.R;
 
 public final class RecognitionActivity extends BaseActivity {
 	private static final String TAG = "RecognitionActivity";
 
-	private static final String KEY_IMAGE_URI = "com.abbyy.mobile.ocr4.IMAGE_URI";
+	public static final String KEY_IMAGE_URI = "com.abbyy.mobile.ocr4.IMAGE_URI";
 
 	private static final String KEY_IS_RECOGNIZING = "com.abbyy.mobile.ocr4.IS_RECOGNIZING";
 	private static final String KEY_RECOGNITION_PROGRESS = "com.abbyy.mobile.ocr4.RECOGNITION_PROGRESS";
@@ -58,7 +59,7 @@ public final class RecognitionActivity extends BaseActivity {
 		final Intent intent =
 				new Intent( context, RecognitionActivity.class ).putExtra( RecognitionActivity.KEY_IMAGE_URI,
 						imageUri );
-		context.startActivity( intent );
+		context.startActivity(intent);
 	}
 
 	@Override
@@ -190,8 +191,11 @@ public final class RecognitionActivity extends BaseActivity {
 			case REQUEST_CODE_RECOGNITION_FINISHED:
 				RecognitionService.stop( getApplicationContext() );
 				if( resultCode == Activity.RESULT_OK ) {
-					final String result = data.getStringExtra( RecognitionService.EXTRA_RECOGNITION_RESULT );
-					dispatchRecognitionSucceeded( result );
+					//final String result = data.getStringExtra( RecognitionService.EXTRA_RECOGNITION_RESULT );
+					//dispatchRecognitionSucceeded( result );
+                    _image = null;
+                    setResult(RESULT_OK,data);
+                    finish();
 				} else {
 					if( data.hasExtra( RecognitionService.EXTRA_THROWABLE_PROXY ) ) {
 						final String throwableClassName =
@@ -329,7 +333,7 @@ public final class RecognitionActivity extends BaseActivity {
 
 		if( result != null ) {
 			ProcessResultsActivity.start( this, result );
-		} else {
+        } else {
 			Toast.makeText( this, "No result.", Toast.LENGTH_LONG ).show();
 		}
 
