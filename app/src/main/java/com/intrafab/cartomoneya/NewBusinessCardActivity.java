@@ -29,6 +29,8 @@ import com.intrafab.cartomoneya.data.BusinessCardPopulated;
 import com.intrafab.cartomoneya.data.Personage;
 import com.intrafab.cartomoneya.data.ShopBrand;
 import com.intrafab.cartomoneya.data.User;
+import com.intrafab.cartomoneya.ocr.RecognitionActivity;
+import com.intrafab.cartomoneya.ocr.RecognitionContext;
 import com.intrafab.cartomoneya.utils.Logger;
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
@@ -54,6 +56,8 @@ import java.util.List;
 import it.neokree.materialtabs.MaterialTab;
 import it.neokree.materialtabs.MaterialTabHost;
 import it.neokree.materialtabs.MaterialTabListener;
+
+import com.intrafab.cartomoneya.ocr.RecognitionContext.RecognitionTarget;
 /**
  * Created by mikhailzubov on 04.06.15.
  */
@@ -75,6 +79,7 @@ public class NewBusinessCardActivity extends BaseActivity
 
     public static final String ARG_BUSINESS_CARD_POPULATED = "arg_business_card_populated";
     public static final int  BUSINESS_CARD_OCR =  700;
+    public static final int  BUSINESS_CARD_OFFLINE_OCR =  720;
     public static final String ARG_SAVE_FRONT_IMAGE = "arg_save_front_image";
     public static final String ARG_SAVE_BACK_IMAGE = "arg_save_back_image";
     public static final String ARG_SAVE_CURRENT_POSITION = "arg_save_current_position";
@@ -453,7 +458,8 @@ public class NewBusinessCardActivity extends BaseActivity
                         String app_name = getString(R.string.applicationId);
                         String app_password =  getString(R.string.password);
                         new AsyncProcessTask(this).execute( imageUri.getPath(), resultUrl, app_name, app_password);
-
+//                        RecognitionContext.setRecognitionTarget(RecognitionTarget.BUSINESS_CARD);
+//                        RecognitionActivity.start(this, imageUri);
                     } else {
                         mBackImageUri = imageUri;
                     }
@@ -481,7 +487,7 @@ public class NewBusinessCardActivity extends BaseActivity
                 results.putExtra("RESULT_PATH", resultUrl);
                 results.putExtra("APP_NAME", getString(R.string.applicationId));
                 results.putExtra("APP_PASSWORD", getString(R.string.password));
-                startActivityForResult(results, BUSINESS_CARD_OCR);}
+                startActivityForResult(results, BUSINESS_CARD_OCR); }
                 break;
             case SELECT_FILE: {
                 Uri imageUri = data.getData();
@@ -498,7 +504,13 @@ public class NewBusinessCardActivity extends BaseActivity
                 results.putExtra("RESULT_PATH", resultUrl);
                 results.putExtra("APP_NAME", getString(R.string.applicationId));
                 results.putExtra("APP_PASSWORD", getString(R.string.password));
-                startActivityForResult(results, BUSINESS_CARD_OCR);
+
+
+                 startActivityForResult(results, BUSINESS_CARD_OCR);
+
+                //RecognitionActivity.start(this, Uri.parse(imageFilePath));
+
+
             }
             break;
             case BUSINESS_CARD_OCR:

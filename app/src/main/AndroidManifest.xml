@@ -84,9 +84,16 @@
         <activity
             android:theme="@style/AppShopTheme"
             android:name=".CropActivity"></activity>
-
+        <activity
+            android:name=".ocr.RecognitionActivity"
+            android:theme="@style/AppBizTheme"
+            android:screenOrientation="sensorPortrait"></activity>
+        <activity
+            android:name=".ocr.ProcessResultsActivity"
+            android:theme="@style/AppBizTheme"
+            android:screenOrientation="sensorPortrait"></activity>
         <service android:name="com.telly.groundy.GroundyService" />
-        <service android:name=".RecognitionService" />
+        <service android:name=".ocr.RecognitionService" />
     </application>
 
 </manifest>
