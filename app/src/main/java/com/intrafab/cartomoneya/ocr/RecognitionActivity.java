@@ -193,7 +193,9 @@ public final class RecognitionActivity extends BaseActivity {
 				if( resultCode == Activity.RESULT_OK ) {
 					//final String result = data.getStringExtra( RecognitionService.EXTRA_RECOGNITION_RESULT );
 					//dispatchRecognitionSucceeded( result );
+					data.putExtra(RecognitionActivity.KEY_IMAGE_URI, _imageUri.toString());
                     _image = null;
+					//_imageUri = null;
                     setResult(RESULT_OK,data);
                     finish();
 				} else {
@@ -295,15 +297,22 @@ public final class RecognitionActivity extends BaseActivity {
 		if( image == null ) {
 			showDialog( RecognitionActivity.DIALOG_ERROR_LOADING_IMAGE );
 		} else {
+			_image = null;
+			_imagePreview.setImageBitmap(null);
+
 			_image = image;
-			_imagePreview.setImageBitmap( image );
+			_imagePreview.setImageBitmap(image);
+
 			startRecognition();
 		}
 	}
 
 	private void startRecognition() {
 		if( !_isRecognizing ) {
+			_imagePreview.setImageBitmap( _image );
+
 			final Intent resultIntent = new Intent().putExtra( RecognitionActivity.KEY_IMAGE_URI, _imageUri );
+
 			final PendingIntent pendingResult =
 					createPendingResult( RecognitionActivity.REQUEST_CODE_RECOGNITION_FINISHED, resultIntent,
 							PendingIntent.FLAG_ONE_SHOT );

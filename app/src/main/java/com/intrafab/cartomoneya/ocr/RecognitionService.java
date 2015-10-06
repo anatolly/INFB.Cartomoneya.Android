@@ -236,6 +236,8 @@ public class RecognitionService extends IntentService implements RecognitionCall
 
         final Bitmap image = RecognitionContext.getImage( this._imageUri );
 
+        Log.v( RecognitionService.TAG, this._imageUri.toString() );
+
         RecognitionContext.setRotationType( RotationType.NO_ROTATION ); // Reset the stored rotation type value
 
         try {
