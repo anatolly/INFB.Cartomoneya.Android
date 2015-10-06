@@ -52,9 +52,11 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import it.neokree.materialtabs.MaterialTab;
 import it.neokree.materialtabs.MaterialTabHost;
@@ -453,10 +455,16 @@ public class NewBusinessCardActivity extends BaseActivity
             if (resultCode == Activity.RESULT_OK) {
                 if (data != null) {
                     String path = data.getStringExtra(CropActivity.EXTRA_ARG_URI);
-                    final Uri imageUri = Uri.parse(path);
+                    Uri imageUri = Uri.parse(path);
                     Logger.e(TAG, "onActivityResult path: " + imageUri.getPath());
 
                     if (mCurrentPosition == 0) {
+                        /*File file = new File("" + imageUri);
+                        String fname = getUniqueFileName("","jpeg");
+                        File newfile = new File( fname );
+                        file.renameTo( newfile);
+                        imageUri = Uri.parse(fname);*/
+
                         mFrontImageUri = imageUri;
                        // String app_name = getString(R.string.applicationId);
                        // String app_password =  getString(R.string.password);
@@ -508,17 +516,23 @@ public class NewBusinessCardActivity extends BaseActivity
                 //Remove output file
                 deleteFile(resultUrl);
 
-                Intent results = new Intent( this, ResultsActivity.class);
-                results.putExtra("IMAGE_PATH", imageFilePath);
-                results.putExtra("RESULT_PATH", resultUrl);
-                results.putExtra("APP_NAME", getString(R.string.applicationId));
-                results.putExtra("APP_PASSWORD", getString(R.string.password));
+                //Intent results = new Intent( this, ResultsActivity.class);
+                //results.putExtra("IMAGE_PATH", imageFilePath);
+                //results.putExtra("RESULT_PATH", resultUrl);
+                //results.putExtra("APP_NAME", getString(R.string.applicationId));
+                //results.putExtra("APP_PASSWORD", getString(R.string.password));
 
 
-                 startActivityForResult(results, BUSINESS_CARD_OCR);
+                // startActivityForResult(results, BUSINESS_CARD_OCR);
 
                 //RecognitionActivity.start(this, Uri.parse(imageFilePath));
+                RecognitionContext.setRecognitionTarget(RecognitionTarget.BUSINESS_CARD);
 
+                Intent results = new Intent( this, RecognitionActivity.class );
+
+                results.putExtra(RecognitionActivity.KEY_IMAGE_URI, imageUri);
+
+                startActivityForResult(results,BUSINESS_CARD_OFFLINE_OCR);
 
             }
             break;
@@ -538,8 +552,11 @@ public class NewBusinessCardActivity extends BaseActivity
             {
                 try {
                    // process_ocr_xml();
-                    final String result = data.getStringExtra( RecognitionService.EXTRA_RECOGNITION_RESULT );
-                    process_offline_ocr(result);
+                    final String result = data.getStringExtra(RecognitionService.EXTRA_RECOGNITION_RESULT);
+                    final Uri uri =  Uri.parse(data.getStringExtra(RecognitionActivity.KEY_IMAGE_URI));
+                     process_offline_ocr(result);
+                    File file = new File("" + uri);
+                    file.delete();
                 }
                 catch (Exception e) {
                     e.printStackTrace();
@@ -1186,7 +1203,7 @@ public class NewBusinessCardActivity extends BaseActivity
     {   String values[];
 
         values =data.split("\n");
-
+        clear_values();
         for(String record: values )
         {
             String pair[] = record.split(":");
@@ -1229,7 +1246,7 @@ public class NewBusinessCardActivity extends BaseActivity
             {
                 tempVal = mEditContactName.getText().toString();
                 tempVal = tempVal.length() > 0 ? tempVal + " " + text: text;
-                mEditContactName.setText(tempVal);
+                mEditContactName.setText(text);
             }
             else if(type.equals("Phone")){
                 tempVal = mEditContactPhone.getText().toString();
@@ -1305,7 +1322,12 @@ public class NewBusinessCardActivity extends BaseActivity
         }
     }
 
-
+    public String getUniqueFileName(String directory, String extension) {
+        Date date = new Date();
+        return new File(directory, new StringBuilder().append("prefix")
+                .append(date.getTime()).append(UUID.randomUUID())
+                .append(".").append(extension).toString()).getAbsolutePath();
+    }
 }
 /*
 private MaterialEditText mEditCardName;

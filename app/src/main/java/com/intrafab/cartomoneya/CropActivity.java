@@ -177,6 +177,7 @@ public class CropActivity extends BaseActivity {
 
     private Uri getCaptureImageOutputUri(boolean isFront) {
         Uri outputFileUri = null;
+        String fileName = null;
         File getImage = getExternalCacheDir();
         if (getImage != null) {
             if (!getImage.exists()) {
@@ -184,8 +185,10 @@ public class CropActivity extends BaseActivity {
             }
             getImage.setWritable(true);
             getImage.setReadable(true);
-
-            File newFile = new File(getImage.getPath(), isFront ? "pickFrontImageCropResult.jpeg" : "pickBackImageCropResult.jpeg");
+            String url =  mImageUri.getPath();
+            fileName = "" + url.substring( url.lastIndexOf('/')+1, url.length() );
+            fileName = isFront ? "pickFrontImg" +  fileName + ".jpeg": "pickBackImg" + fileName + ".jpeg";
+                    File newFile = new File(getImage.getPath(), fileName);
             newFile.setWritable(true);
             newFile.setReadable(true);
             outputFileUri = Uri.fromFile(newFile);
