@@ -24,6 +24,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     private ImageView mButtonBusinessCards;
     private ImageView mButtonShoppingCards;
+    private ImageView mButtonNFCCards;
+    private ImageView mButtonFavoritesCards;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,10 +38,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         mButtonBusinessCards = (ImageView) findViewById(R.id.btnBusinessCards);
         mButtonShoppingCards = (ImageView) findViewById(R.id.btnShoppingCards);
+        mButtonNFCCards = (ImageView) findViewById(R.id.btnNfcCards);
+        mButtonFavoritesCards = (ImageView) findViewById(R.id.btnFavoriteCards);
 
         mButtonBusinessCards.setOnClickListener(this);
         mButtonShoppingCards.setOnClickListener(this);
-
+        mButtonNFCCards.setOnClickListener(this);
+        mButtonFavoritesCards.setOnClickListener(this);
         // test
         Groundy.create(ActionRequestUsers.class)
                 .callback(MainActivity.this)
@@ -77,6 +82,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.btnShoppingCards:
                 ShoppingCardsActivity.launch(MainActivity.this);
+                break;
+            case R.id.btnNfcCards:
+                NfcCardsActivity.launch(MainActivity.this);
+                break;
+            case R.id.btnFavoriteCards:
+                FavoriteCardsActivity.launch(MainActivity.this);
                 break;
         }
     }

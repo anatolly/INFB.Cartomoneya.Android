@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -466,16 +467,24 @@ public class NewBusinessCardActivity extends BaseActivity
                         imageUri = Uri.parse(fname);*/
 
                         mFrontImageUri = imageUri;
-                       // String app_name = getString(R.string.applicationId);
-                       // String app_password =  getString(R.string.password);
-                       // new AsyncProcessTask(this).execute( imageUri.getPath(), resultUrl, app_name, app_password);
-                        RecognitionContext.setRecognitionTarget(RecognitionTarget.BUSINESS_CARD);
 
-                        Intent results = new Intent( this, RecognitionActivity.class );
+                        Resources res = getResources();
 
-                        results.putExtra(RecognitionActivity.KEY_IMAGE_URI, imageUri);
+                        boolean enableOfflineOCR = res.getBoolean(R.bool.enableOfflineOCR);
+                        if (!enableOfflineOCR) {
+                            String app_name = getString(R.string.applicationId);
+                            String app_password =  getString(R.string.password);
+                            new AsyncProcessTask(this).execute( imageUri.getPath(), resultUrl, app_name, app_password);
+                        }
+                         else {
+                            RecognitionContext.setRecognitionTarget(RecognitionTarget.BUSINESS_CARD);
 
-                        startActivityForResult(results,BUSINESS_CARD_OFFLINE_OCR);
+                            Intent results = new Intent(this, RecognitionActivity.class);
+
+                            results.putExtra(RecognitionActivity.KEY_IMAGE_URI, imageUri);
+
+                            startActivityForResult(results, BUSINESS_CARD_OFFLINE_OCR);
+                        }
 
                     } else {
                         mBackImageUri = imageUri;

@@ -81,6 +81,16 @@
             android:theme="@style/AppBizTheme"
             android:windowSoftInputMode="stateHidden"
             android:screenOrientation="sensorPortrait"></activity>
+    <!--    <activity
+            android:name=".NfcCardsActivity"
+            android:theme="@style/AppBizTheme"
+            android:windowSoftInputMode="stateHidden"
+            android:screenOrientation="sensorPortrait"></activity>
+        <activity
+            android:name=".FavoriteCardsActivity"
+            android:theme="@style/AppBizTheme"
+            android:windowSoftInputMode="stateHidden"
+            android:screenOrientation="sensorPortrait"></activity> -->
         <activity
             android:theme="@style/AppShopTheme"
             android:name=".CropActivity"></activity>

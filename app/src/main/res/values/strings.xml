@@ -85,6 +85,10 @@
     <string name="error_email_format">Введенный email имеет неправильный формат</string>
     <string name="error_password_format">Может содержать строчные и заглавные буквы, цифры. От 6 до 20 символов.</string>
 
+    <!-- NFC -->
+    <string name="nfc_main">nfc</string>
+    <!-- favorites -->
+    <string name="favorites_main">favorites</string>
     <!-- ABBYY OCR -->
 
     <!-- Preferences labels -->

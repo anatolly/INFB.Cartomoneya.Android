@@ -5,5 +5,5 @@
 		<item>From gallery</item>
 		<item>From camera</item>
 	</string-array>
-	<bool name="enableOfflineOCR">true</bool>
+	<bool name="enableOfflineOCR">false</bool>
 </resources>
