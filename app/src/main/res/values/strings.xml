@@ -85,7 +85,11 @@
     <string name="error_email_format">Введенный email имеет неправильный формат</string>
     <string name="error_password_format">Может содержать строчные и заглавные буквы, цифры. От 6 до 20 символов.</string>
 
+    <!-- Favorites -->
+     <string name="favorites_card_screen_header">Favorites Cards</string>
+
     <!-- NFC -->
+    <string name="nfc_card_screen_header">NFC Cards</string>
     <string name="nfc_main">nfc</string>
     <!-- favorites -->
     <string name="favorites_main">favorites</string>
@@ -130,4 +134,8 @@
     <string name="radio_from_resources">From resources</string>
     <string name="radio_from_gallery">From gallery</string>
     <string name="radio_from_camera">From camera</string>
+    <!--                 -->
+    <string name="service_name">CardEmulation Sample</string>
+    <string name="card_title">Sample Access Card</string>
+    <string name="account_number">Access code</string>
 </resources>

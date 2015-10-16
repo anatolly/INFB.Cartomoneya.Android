@@ -123,7 +123,7 @@ public class FavoriteCardsActivity extends BaseActivity implements BizCardAdapte
 
         getSupportActionBar().getThemedContext();
 
-        getSupportActionBar().setTitle(R.string.business_card_screen_header);
+        getSupportActionBar().setTitle(R.string.favorites_card_screen_header);
         showActionBar();
 
         mCallbacksManager = CallbacksManager.init(savedInstanceState);

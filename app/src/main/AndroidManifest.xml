@@ -81,7 +81,7 @@
             android:theme="@style/AppBizTheme"
             android:windowSoftInputMode="stateHidden"
             android:screenOrientation="sensorPortrait"></activity>
-    <!--    <activity
+        <activity
             android:name=".NfcCardsActivity"
             android:theme="@style/AppBizTheme"
             android:windowSoftInputMode="stateHidden"
@@ -90,7 +90,7 @@
             android:name=".FavoriteCardsActivity"
             android:theme="@style/AppBizTheme"
             android:windowSoftInputMode="stateHidden"
-            android:screenOrientation="sensorPortrait"></activity> -->
+            android:screenOrientation="sensorPortrait"></activity>
         <activity
             android:theme="@style/AppShopTheme"
             android:name=".CropActivity"></activity>
@@ -104,6 +104,22 @@
             android:screenOrientation="sensorPortrait"></activity>
         <service android:name="com.telly.groundy.GroundyService" />
         <service android:name=".ocr.RecognitionService" />
+        <!-- BEGIN_INCLUDE(CardEmulationManifest) -->
+        <!-- Service for handling communication with NFC terminal. -->
+        <service android:name="nfc.CardService"
+                 android:exported="true"
+                 android:permission="android.permission.BIND_NFC_SERVICE">
+            <!-- Intent filter indicating that we support card emulation. -->
+            <intent-filter>
+                <action android:name="android.nfc.cardemulation.action.HOST_APDU_SERVICE"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+            <!-- Required XML configuration file, listing the AIDs that we are emulating cards
+                 for. This defines what protocols our card emulation service supports. -->
+            <meta-data android:name="android.nfc.cardemulation.host_apdu_service"
+                       android:resource="@xml/aid_list"/>
+        </service>
+        <!-- END_INCLUDE(CardEmulationManifest) -->
     </application>
 
 </manifest>
