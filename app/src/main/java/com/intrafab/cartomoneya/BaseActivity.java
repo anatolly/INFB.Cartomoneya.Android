@@ -49,12 +49,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         Resources res = getResources();
         boolean enableOfflineOCR =  res.getBoolean(R.bool.enableOfflineOCR);
 
-        if (! enableOfflineOCR) return;
-
-        if( enableOfflineOCR && !License.isLoaded() ) {
-            dispatchBadLicense();
-        }
-
         setTheme(getActivityTheme());
         setContentView(getLayoutResource());
 
@@ -64,6 +58,10 @@ public abstract class BaseActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);
             getSupportActionBar().setHomeButtonEnabled(false);
             bar = getSupportActionBar();
+        }
+
+        if( enableOfflineOCR && !License.isLoaded() ) {
+            dispatchBadLicense();
         }
     }
 
