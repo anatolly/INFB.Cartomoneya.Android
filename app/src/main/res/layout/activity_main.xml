@@ -144,7 +144,8 @@
                         android:id="@+id/btnNfcCards"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@mipmap/ic_nfc" />
+                        android:src="@mipmap/ic_nfc"
+                        android:contentDescription="NFC" />
                 </com.balysv.materialripple.MaterialRippleLayout>
 
                 <TextView
@@ -182,7 +183,8 @@
                         android:id="@+id/btnFavoriteCards"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@mipmap/ic_business" />
+                        android:src="@mipmap/ic_shopping"
+                        android:contentDescription="Fav" />
                 </com.balysv.materialripple.MaterialRippleLayout>
 
                 <TextView

@@ -2,6 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.intrafab.cartomoneya">
 
+    <!-- Card emulation was introduced in API 19. -->
+    <!-- Min/target SDK versions (<uses-sdk>) managed by build.gradle -->
+    <uses-feature android:name="android.hardware.nfc.hce" android:required="true" />
+    <uses-permission android:name="android.permission.NFC" />
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -106,7 +111,7 @@
         <service android:name=".ocr.RecognitionService" />
         <!-- BEGIN_INCLUDE(CardEmulationManifest) -->
         <!-- Service for handling communication with NFC terminal. -->
-        <service android:name="nfc.CardService"
+        <service android:name=".nfc.CardService"
                  android:exported="true"
                  android:permission="android.permission.BIND_NFC_SERVICE">
             <!-- Intent filter indicating that we support card emulation. -->
