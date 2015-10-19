@@ -144,7 +144,7 @@
                         android:id="@+id/btnNfcCards"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@mipmap/ic_business" />
+                        android:src="@mipmap/ic_nfc" />
                 </com.balysv.materialripple.MaterialRippleLayout>
 
                 <TextView
