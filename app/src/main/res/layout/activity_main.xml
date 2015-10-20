@@ -183,7 +183,7 @@
                         android:id="@+id/btnFavoriteCards"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@mipmap/ic_shopping"
+                        android:src="@mipmap/ic_fav"
                         android:contentDescription="Fav" />
                 </com.balysv.materialripple.MaterialRippleLayout>
 
